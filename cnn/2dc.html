@@ -540,47 +540,7 @@
 			  //console.log('friendCount = ' + friendCount);
 		      } else if (layerNum[interID]==2) {
 			  // down1
-			  for (j=1; j<=nConvNodes_1; j++){
-			      ind_below = nPixels+j-1;								
-			      temp_below = allNodeNums[ind_below]-1;
-			      filterNum_below = math.floor((ind_below-nPixels)/(28*28));
-			      var row_below = temp_below % 28;
-			      var col_below = math.floor(temp_below/28);
-			      if (filterNum_below==filterNum) {
-				  if (math.floor(row_below/2) == row && math.floor(col_below/2)==col) {
-				      var ro=row_below - row;
-				      var co=col_below - col;
-				      
-				      if (conv1_hide)
-					  vertAdjust = 0;
-				      
-				      lineGeom.vertices.push(new THREE.Vector3(posX[ind_below], posY[ind_below]+vertAdjust, posZ[ind_below]+zAdjust));
-				      lineGeom.vertices.push(new THREE.Vector3(posX[ind], posY[ind]-3, posZ[ind]+zAdjust));
-				      
-				      if (isComputed){
-					  v = allNodeOutputs[ind_below];
-					  colorNum = math.round(v*99);
-					  r = redLookup[colorNum];
-					  g = greenLookup[colorNum];
-					  b = blueLookup[colorNum];
-				      } else {
-					  r=0.7; 
-					  g=0.7; 
-					  b=0.7;
-				      }
-				      v=1;
-				      colorNum = math.round(v*99);
-				      rw = 0;										
-				      gw = greenLookup[colorNum];
-				      bw = blueLookup[colorNum];
-				      
-				      colors[ vertCount ] = new THREE.Color( rw,gw,bw );
-				      vertCount++;
-				      colors[ vertCount ] = new THREE.Color( rw,gw,bw );
-				      vertCount++;
-				  }
-			      }
-			  }
+				updateDown1(ind, nodePos);
 		      } else if (layerNum[interID]==3) {
 			  // conv2
 			  for (j=1; j<=nConvNodes_1_down; j++){
@@ -789,6 +749,60 @@
 	      }
 	  }
       }
+	
+	function updateDown1(ind, nodePos) {
+	  for (j=1; j<=nConvNodes_1; j++){
+			      ind_below = nPixels+j-1;								
+			      temp_below = allNodeNums[ind_below]-1;
+			      filterNum_below = math.floor((ind_below-nPixels)/(28*28));
+			      var row_below = temp_below % 28;
+			      var col_below = math.floor(temp_below/28);
+			      if (filterNum_below==filterNum) {
+				  if (math.floor(row_below/2) == row && math.floor(col_below/2)==col) {
+				      var ro=row_below - row;
+				      var co=col_below - col;
+				      
+				      if (conv1_hide)
+					  vertAdjust = 0;
+				      
+				      lineGeom.vertices.push(new THREE.Vector3(posX[ind_below], posY[ind_below]+vertAdjust, posZ[ind_below]+zAdjust));
+				      lineGeom.vertices.push(new THREE.Vector3(posX[ind], posY[ind]-3, posZ[ind]+zAdjust));
+				      
+				      if (isComputed){
+					  v = allNodeOutputs[ind_below];
+					  colorNum = math.round(v*99);
+					  r = redLookup[colorNum];
+					  g = greenLookup[colorNum];
+					  b = blueLookup[colorNum];
+				      } else {
+					  r=0.7; 
+					  g=0.7; 
+					  b=0.7;
+				      }
+				      v=1;
+				      colorNum = math.round(v*99);
+				      rw = 0;										
+				      gw = greenLookup[colorNum];
+				      bw = blueLookup[colorNum];
+				      
+				      colors[ vertCount ] = new THREE.Color( rw,gw,bw );
+				      vertCount++;
+				      colors[ vertCount ] = new THREE.Color( rw,gw,bw );
+				      vertCount++;
+				  }
+			    }
+			}
+		}
+
+
+	function drawEdge(startNodeIndex, endNodeIndex, lineGeom, vertAdjust, zAdjust) {
+		var startPos = new THREE.Vector3(posX[startNodeIndex], posY[startNodeIndex] + vertAdjust, posZ[startNodeIndex] + zAdjust);
+		var endPos = new THREE.Vector3(posX[endNodeIndex], posY[endNodeIndex] - 3, posZ[endNodeIndex] + zAdjust);
+		
+		lineGeom.vertices.push(startPos);
+		lineGeom.vertices.push(endPos);
+	}
+
       
       function onWindowResize( e ) {
 	  //camera.aspect = window.innerWidth / window.innerHeight;
@@ -950,6 +964,8 @@
 	      createText(nums, 0, 100);
 	      drawCubes();
 	      drawEdges();
+		  //open a popup window
+		  window.open('http://www.google.com','name','height=200,width=150');
 	      uncheckAll();
 	  });
       }
