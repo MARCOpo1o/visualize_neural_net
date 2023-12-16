@@ -481,11 +481,11 @@
 	  vertCount = 0;
 	  for ( var c = 0; c<numChildren; c++) {
 	      if ( scene.children[c].name == 'edges' ){
-		  var object = scene.children[c];
-		  object.geometry.dispose();
+			var object = scene.children[c];
+			object.geometry.dispose();
 
-		  var lineGeom = new THREE.Geometry();
-		  lineGeom.dynamic = true;						
+			var lineGeom = new THREE.Geometry();
+			lineGeom.dynamic = true;						
 		  
 		  if (highlightBox.visible) {
 		      ind = interID;
@@ -710,6 +710,11 @@
 	function updateDown1(ind, nodePos) {
 		var lineGeom = new THREE.Geometry(); // Define lineGeom here
     	lineGeom.dynamic = true;
+		var colors = [];
+		var vertCount = 0;
+		var vertAdjust = 0;
+		var zAdjust = 5;
+		var r, g, b, rw, gw, bw, v, colorNum;
 
 	  	for (j=1; j<=nConvNodes_1; j++){
 			ind_below = nPixels+j-1;								
@@ -758,16 +763,24 @@
 					};
 					// Call updateConv1 with the nodePos object
 					updateConv1(ind_below, connectedNodePos);
-
 				}
+			}
 		}
+		// After adding vertices and colors
+		var lineMat = new THREE.LineBasicMaterial({ color: 0xffffff, opacity: 1, linewidth: 1, vertexColors: THREE.VertexColors });
+		var lineMesh = new THREE.Line(lineGeom, lineMat); // Create a line mesh
+		scene.add(lineMesh); // Add the line mesh to the scene
 	}
-		}
 
 	 // conv1
 	 function updateConv1(ind, nodePos) {
 		var lineGeom = new THREE.Geometry(); // Define lineGeom here
     	lineGeom.dynamic = true;
+		var colors = [];
+		var vertCount = 0;
+		var vertAdjust = 0;
+		var zAdjust = 5;
+		var r, g, b, rw, gw, bw, v, colorNum;
 
 			  //var friendCount = 0;
 			  //console.log('row,col = ' + row + ', ' + col);
@@ -812,6 +825,10 @@
 				  vertCount++;
 			      }
 			  }
+			  // After adding vertices and colors
+				var lineMat = new THREE.LineBasicMaterial({ color: 0xffffff, opacity: 1, linewidth: 1, vertexColors: THREE.VertexColors });
+				var lineMesh = new THREE.Line(lineGeom, lineMat); // Create a line mesh
+				scene.add(lineMesh); // Add the line mesh to the scene
 			}
 
 
