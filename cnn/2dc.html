@@ -708,61 +708,67 @@
       }
 	
 	function updateDown1(ind, nodePos) {
-	  for (j=1; j<=nConvNodes_1; j++){
-			      ind_below = nPixels+j-1;								
-			      temp_below = allNodeNums[ind_below]-1;
-			      filterNum_below = math.floor((ind_below-nPixels)/(28*28));
-			      var row_below = temp_below % 28;
-			      var col_below = math.floor(temp_below/28);
-			      if (filterNum_below==filterNum) {
-				  if (math.floor(row_below/2) == row && math.floor(col_below/2)==col) {
-				      var ro=row_below - row;
-				      var co=col_below - col;
-				      
-				      if (conv1_hide)
-					  vertAdjust = 0;
-				      
-				      lineGeom.vertices.push(new THREE.Vector3(posX[ind_below], posY[ind_below]+vertAdjust, posZ[ind_below]+zAdjust));
-				      lineGeom.vertices.push(new THREE.Vector3(posX[ind], posY[ind]-3, posZ[ind]+zAdjust));
-				      
-				      if (isComputed){
-					  v = allNodeOutputs[ind_below];
-					  colorNum = math.round(v*99);
-					  r = redLookup[colorNum];
-					  g = greenLookup[colorNum];
-					  b = blueLookup[colorNum];
-				      } else {
-					  r=0.7; 
-					  g=0.7; 
-					  b=0.7;
-				      }
-				      v=1;
-				      colorNum = math.round(v*99);
-				      rw = 0;										
-				      gw = greenLookup[colorNum];
-				      bw = blueLookup[colorNum];
-				      
-				      colors[ vertCount ] = new THREE.Color( rw,gw,bw );
-				      vertCount++;
-				      colors[ vertCount ] = new THREE.Color( rw,gw,bw );
-				      vertCount++;
+		var lineGeom = new THREE.Geometry(); // Define lineGeom here
+    	lineGeom.dynamic = true;
 
-					  // Create a nodePos object from the coordinates
-					  var connectedNodePos = {
-                    	x: posX[ind_below],
-                    	y: posY[ind_below],
-                    	z: posZ[ind_below]
-                	  };
-					  // Call updateConv1 with the nodePos object
-					  updateConv1(ind_below, connectedNodePos);
+	  	for (j=1; j<=nConvNodes_1; j++){
+			ind_below = nPixels+j-1;								
+			temp_below = allNodeNums[ind_below]-1;
+			filterNum_below = math.floor((ind_below-nPixels)/(28*28));
+			var row_below = temp_below % 28;
+			var col_below = math.floor(temp_below/28);
+			if (filterNum_below==filterNum) {
+				if (math.floor(row_below/2) == row && math.floor(col_below/2)==col) {
+					var ro=row_below - row;
+					var co=col_below - col;
+					
+					if (conv1_hide)
+					vertAdjust = 0;
 
-				  }
-			    }
-			}
+					lineGeom.vertices.push(new THREE.Vector3(posX[ind_below], posY[ind_below]+vertAdjust, posZ[ind_below]+zAdjust));
+					lineGeom.vertices.push(new THREE.Vector3(posX[ind], posY[ind]-3, posZ[ind]+zAdjust));
+						
+					if (isComputed){
+						v = allNodeOutputs[ind_below];
+						colorNum = math.round(v*99);
+						r = redLookup[colorNum];
+						g = greenLookup[colorNum];
+						b = blueLookup[colorNum];
+					} else {
+						r=0.7; 
+						g=0.7; 
+						b=0.7;
+					}
+					v=1;
+					colorNum = math.round(v*99);
+					rw = 0;										
+					gw = greenLookup[colorNum];
+					bw = blueLookup[colorNum];
+					
+					colors[ vertCount ] = new THREE.Color( rw,gw,bw );
+					vertCount++;
+					colors[ vertCount ] = new THREE.Color( rw,gw,bw );
+					vertCount++;
+
+					// Create a nodePos object from the coordinates
+					var connectedNodePos = {
+						x: posX[ind_below],
+						y: posY[ind_below],
+						z: posZ[ind_below]
+					};
+					// Call updateConv1 with the nodePos object
+					updateConv1(ind_below, connectedNodePos);
+
+				}
+		}
+	}
 		}
 
 	 // conv1
 	 function updateConv1(ind, nodePos) {
+		var lineGeom = new THREE.Geometry(); // Define lineGeom here
+    	lineGeom.dynamic = true;
+
 			  //var friendCount = 0;
 			  //console.log('row,col = ' + row + ', ' + col);
 			  for (j=1; j<=nPixels; j++){
