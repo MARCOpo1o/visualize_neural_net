@@ -239,6 +239,10 @@
       var filterCanvas = document.getElementById("filterCanvas");
       var inputCtx = inputCanvas.getContext("2d");
       var filterCtx = filterCanvas.getContext("2d");
+
+	  //keep track of all line meshes
+	  var lineMeshes = []; //track all lines
+
       
       //var offset = new THREE.Vector3( 10, 10, 10 );
 
@@ -472,6 +476,9 @@
       }
       
       function updateEdges() {
+
+		clearOldLineMeshes(); // Call this function to remove old line meshes
+
 	  var r=1, g=1, b=1, rw=1, gw, bw, i, j, v, colorNum, weight;
 	  //console.log('updating edges');
 	  var vertAdjust = 0;
@@ -770,10 +777,13 @@
 		var lineMat = new THREE.LineBasicMaterial({ color: 0xffffff, opacity: 1, linewidth: 1, vertexColors: THREE.VertexColors });
 		var lineMesh = new THREE.Line(lineGeom, lineMat); // Create a line mesh
 		scene.add(lineMesh); // Add the line mesh to the scene
+		lineMeshes.push(lineMesh); // Store the reference to the new line mesh
+
 	}
 
 	 // conv1
 	 function updateConv1(ind, nodePos) {
+
 		var lineGeom = new THREE.Geometry(); // Define lineGeom here
     	lineGeom.dynamic = true;
 		var colors = [];
@@ -829,6 +839,8 @@
 				var lineMat = new THREE.LineBasicMaterial({ color: 0xffffff, opacity: 1, linewidth: 1, vertexColors: THREE.VertexColors });
 				var lineMesh = new THREE.Line(lineGeom, lineMat); // Create a line mesh
 				scene.add(lineMesh); // Add the line mesh to the scene
+				lineMeshes.push(lineMesh); // Store the reference to the new line mesh
+
 			}
 
 
@@ -839,6 +851,17 @@
 		lineGeom.vertices.push(startPos);
 		lineGeom.vertices.push(endPos);
 	}
+
+	function clearOldLineMeshes() {
+    for (var i = 0; i < lineMeshes.length; i++) {
+        var mesh = lineMeshes[i];
+        scene.remove(mesh); // Remove the mesh from the scene
+        if (mesh.geometry) mesh.geometry.dispose(); // Dispose of the geometry
+        if (mesh.material) mesh.material.dispose(); // Dispose of the material
+    }
+    	lineMeshes = []; // Reset the array
+	}
+
 
       
       function onWindowResize( e ) {
