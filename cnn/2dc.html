@@ -532,12 +532,7 @@
 					  r = redLookup[colorNum];
 					  g = greenLookup[colorNum];
 					  b = blueLookup[colorNum];
-				      } else {
-					  r=0.7; 
-					  g=0.7; 
-					  b=0.7;
-				      }
-				      v=1;
+					  v=1;
 				      colorNum = math.round(v*99);
 				      rw = 0;										
 				      gw = greenLookup[colorNum];
@@ -547,6 +542,12 @@
 				      vertCount++;
 				      colors[ vertCount ] = new THREE.Color( rw,gw,bw );
 				      vertCount++;
+				      } else {
+					  r=0.7; 
+					  g=0.7; 
+					  b=0.7;
+				      }
+				      
 				  }
 			      }
 			  }
