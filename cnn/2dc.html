@@ -774,6 +774,8 @@
 					};
 				}
 			}
+			// Call updateConv1 with the nodePos object
+			updateConv1(ind_below, connectedNodePos);
 		}
 		// After adding vertices and colors
 		var lineMat = new THREE.LineBasicMaterial({ color: 0xffffff, opacity: 1, linewidth: 1, vertexColors: THREE.VertexColors });
@@ -781,8 +783,7 @@
 		scene.add(lineMesh); // Add the line mesh to the scene
 		lineMeshes.push(lineMesh); // Store the reference to the new line mesh
 
-			// Call updateConv1 with the nodePos object
-			updateConv1(ind_below, connectedNodePos);
+
 
 	}
 
