@@ -770,8 +770,6 @@
 						y: posY[ind_below],
 						z: posZ[ind_below]
 					};
-					// Call updateConv1 with the nodePos object
-					updateConv1(ind_below, connectedNodePos);
 				}
 			}
 		}
@@ -780,6 +778,9 @@
 		var lineMesh = new THREE.Line(lineGeom, lineMat); // Create a line mesh
 		scene.add(lineMesh); // Add the line mesh to the scene
 		lineMeshes.push(lineMesh); // Store the reference to the new line mesh
+
+			// Call updateConv1 with the nodePos object
+			updateConv1(ind_below, connectedNodePos);
 
 	}
 
