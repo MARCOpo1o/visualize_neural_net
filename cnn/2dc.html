@@ -727,6 +727,7 @@
 		var zAdjust = 5;
 		var r, g, b, rw, gw, bw, v, colorNum;
 
+		console.log('row,col = ' + row + ', ' + col);
 	  	for (j=1; j<=nConvNodes_1; j++){
 			ind_below = nPixels+j-1;								
 			temp_below = allNodeNums[ind_below]-1;
@@ -735,6 +736,8 @@
 			var col_below = math.floor(temp_below/28);
 			if (filterNum_below==filterNum) {
 				if (math.floor(row_below/2) == row && math.floor(col_below/2)==col) {
+					console.log("Connected to - Row: " + row_below + ", Column: " + col_below); //log row and column connected
+
 					var ro=row_below - row;
 					var co=col_below - col;
 					
@@ -775,7 +778,7 @@
 				}
 			}
 			// Call updateConv1 with the nodePos object
-			updateConv1(ind_below, connectedNodePos);
+			// updateConv1(ind_below, connectedNodePos);
 		}
 		// After adding vertices and colors
 		var lineMat = new THREE.LineBasicMaterial({ color: 0xffffff, opacity: 1, linewidth: 1, vertexColors: THREE.VertexColors });
@@ -789,6 +792,7 @@
 
 	 // conv1
 	 function updateConv1(ind, nodePos) {
+		
 
 		var lineGeom = new THREE.Geometry(); // Define lineGeom here
     	lineGeom.dynamic = true;
@@ -799,7 +803,7 @@
 		var r, g, b, rw, gw, bw, v, colorNum;
 
 			  //var friendCount = 0;
-			  //console.log('row,col = ' + row + ', ' + col);
+			  console.log('row,col = ' + row + ', ' + col);
 			  for (j=1; j<=nPixels; j++){
 			      ind_below = j-1;
 			      temp_below = allNodeNums[ind_below]-1;
