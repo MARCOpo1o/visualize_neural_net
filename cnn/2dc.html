@@ -739,6 +739,12 @@
 			filterNum_below = math.floor((ind_below-nPixels)/(28*28));
 			var row_below = temp_below % 28;
 			var col_below = math.floor(temp_below/28);
+			  
+			// Determine the position of the node represented by 'ind'
+			var nodePosX = posX[ind];
+			var nodePosY = posY[ind];
+			var nodePosZ = posZ[ind];
+
 			if (filterNum_below==filterNum) {
 				if (math.floor(row_below/2) == row && math.floor(col_below/2)==col) {
 					console.log("Third Layer Connected to - Row: " + row_below + ", Column: " + col_below); //log row and column connected
@@ -777,18 +783,18 @@
 					colors[ vertCount ] = new THREE.Color( rw,gw,bw );
 					vertCount++;
 
-					// Create a nodePos object from the coordinates
-					var connectedNodePos = {
-						x: posX[ind_below],
-						y: posY[ind_below],
-						z: posZ[ind_below]
+					// Pass the position of the current node (ind) to NewUpdateConv1
+					var currentNodePos = {
+						x: nodePosX,
+						y: nodePosY,
+						z: nodePosZ
 					};
+					NewUpdateConv1(ind, nodePos, connectedRows, connectedCols);
 				}
 			}
 			// Call updateConv1 with the nodePos object
 			// updateConv1(ind_below, connectedNodePos);
 		}
-		NewUpdateConv1(ind, nodePos, connectedRows, connectedCols);
 
 		// After adding vertices and colors
 		var lineMat = new THREE.LineBasicMaterial({ color: 0xffffff, opacity: 1, linewidth: 1, vertexColors: THREE.VertexColors });
