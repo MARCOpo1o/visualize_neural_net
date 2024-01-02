@@ -12,11 +12,11 @@ Convolutional neural networks are at the core of state-of-the-art approaches to 
 
 
 ## Live demos
-Live demos for all models are available at [https://adamharley.com/nn_vis](https://adamharley.com/nn_vis):
+Live demos for my modifications are available at [this website](https://marcopo1o.github.io/visualize_neural_net/):
 
-1. 2d visualization of a convolutional network:
+1. 2d visualization of a convolutional network with all edges connected:
 
-   <a href="https://adamharley.com/nn_vis/cnn/2d.html" rel="cnn_2d">![cnn2d](images/cnn_2d.png)</a>
+   <a href="https://marcopo1o.github.io/visualize_neural_net/cnn/2dc.html" rel="cnn_2d">![cnn2d](images/cnn_2d.png)</a>
 
 
 ## Citation:

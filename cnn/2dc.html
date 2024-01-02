@@ -741,7 +741,7 @@
 			var col_below = math.floor(temp_below/28);
 			if (filterNum_below==filterNum) {
 				if (math.floor(row_below/2) == row && math.floor(col_below/2)==col) {
-					console.log("Connected to - Row: " + row_below + ", Column: " + col_below); //log row and column connected
+					console.log("Third Layer Connected to - Row: " + row_below + ", Column: " + col_below); //log row and column connected
 					// Store connected rows and columns
 					connectedRows.push(row_below);
                 	connectedCols.push(col_below);
@@ -811,7 +811,7 @@
         let targetCol = connectedCols[i];
 
         // Convert targetRow and targetCol to the index in the higher layer
-        let ind_below = targetRow * 32 + targetCol; // Assuming 32 is the width of the higher layer
+        let ind_below = targetRow * 28 + targetCol; // Assuming 28 is the width of the higher layer
         if (ind_below < nPixels) { // Check if the index is within bounds
             let posX_below = posX[ind_below];
             let posY_below = posY[ind_below];
@@ -820,7 +820,9 @@
             if (input_hide) {
                 vertAdjust = 0;
             }
-
+			// Print out coordinates from and to
+			console.log("From - X: " + posX_below + ", Y: " + posY_below + ", Z: " + posZ_below);
+            console.log("To - X: " + nodePos.x + ", Y: " + nodePos.y + ", Z: " + nodePos.z);
             // Draw edge from current node to connected node
             lineGeom.vertices.push(new THREE.Vector3(posX[ind_below], posY[ind_below] + vertAdjust, posZ[ind_below] + zAdjust));
             lineGeom.vertices.push(new THREE.Vector3(nodePos.x, nodePos.y, nodePos.z));
@@ -872,38 +874,40 @@
 			      var col_below = math.floor(temp_below/32);
 			      
 			      if (row_below > row-1 && row_below < row + 5 && col_below > col-1 && col_below < col + 5) {
-				  //friendCount++;
-				  var ro=row_below - row;
-				  var co=col_below - col;
-				  var weight = conv_nodes[0][filterNum].e(ro+1,co+1);
+					console.log("Second Layer Connected to - Row: " + row_below + ", Column: " + col_below); //log row and column connected
+
+					//friendCount++;
+					var ro=row_below - row;
+					var co=col_below - col;
+					var weight = conv_nodes[0][filterNum].e(ro+1,co+1);
 				  
-				  if (input_hide)
-				      vertAdjust = 0;
+					if (input_hide)
+						vertAdjust = 0;
 				  
-				  lineGeom.vertices.push(new THREE.Vector3(posX[ind_below], posY[ind_below]+vertAdjust, posZ[ind_below]+zAdjust));
-				  lineGeom.vertices.push(new THREE.Vector3(posX[ind], posY[ind]-3, posZ[ind]+zAdjust));
+					lineGeom.vertices.push(new THREE.Vector3(posX[ind_below], posY[ind_below]+vertAdjust, posZ[ind_below]+zAdjust));
+					lineGeom.vertices.push(new THREE.Vector3(posX[ind], posY[ind]-3, posZ[ind]+zAdjust));
 				  
-				  if (isComputed){
-				      v = allNodeOutputs[ind_below];
-				      colorNum = math.round(v*99);
-				      r = redLookup[colorNum];
-				      g = greenLookup[colorNum];
-				      b = blueLookup[colorNum];
-				  } else {
-				      r=0.7; 
-				      g=0.7; 
-				      b=0.7;
-				  }
-				  v = conv_weights_1a[filterNum][ro][co];
-				  colorNum = math.round(v*99);
-				  rw = 0;
-				  gw = greenLookup[colorNum];
-				  bw = blueLookup[colorNum];
-				  
-				  colors[ vertCount ] = new THREE.Color( rw,gw,bw );
-				  vertCount++;
-				  colors[ vertCount ] = new THREE.Color( rw,gw,bw );
-				  vertCount++;
+					if (isComputed){
+						v = allNodeOutputs[ind_below];
+						colorNum = math.round(v*99);
+						r = redLookup[colorNum];
+						g = greenLookup[colorNum];
+						b = blueLookup[colorNum];
+					} else {
+						r=0.7; 
+						g=0.7; 
+						b=0.7;
+					}
+					v = conv_weights_1a[filterNum][ro][co];
+					colorNum = math.round(v*99);
+					rw = 0;
+					gw = greenLookup[colorNum];
+					bw = blueLookup[colorNum];
+					
+					colors[ vertCount ] = new THREE.Color( rw,gw,bw );
+					vertCount++;
+					colors[ vertCount ] = new THREE.Color( rw,gw,bw );
+					vertCount++;
 			      }
 			  }
 			  // After adding vertices and colors
