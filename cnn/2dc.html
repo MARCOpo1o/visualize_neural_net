@@ -719,6 +719,10 @@
       }
 	
 	function updateDown1(ind, nodePos) {
+		// ... existing initialization code ...
+		var connectedRows = [];
+    	var connectedCols = [];
+
 		var lineGeom = new THREE.Geometry(); // Define lineGeom here
     	lineGeom.dynamic = true;
 		var colors = [];
@@ -728,6 +732,7 @@
 		var r, g, b, rw, gw, bw, v, colorNum;
 
 		console.log('row,col = ' + row + ', ' + col);
+		
 	  	for (j=1; j<=nConvNodes_1; j++){
 			ind_below = nPixels+j-1;								
 			temp_below = allNodeNums[ind_below]-1;
@@ -737,6 +742,9 @@
 			if (filterNum_below==filterNum) {
 				if (math.floor(row_below/2) == row && math.floor(col_below/2)==col) {
 					console.log("Connected to - Row: " + row_below + ", Column: " + col_below); //log row and column connected
+					// Store connected rows and columns
+					connectedRows.push(row_below);
+                	connectedCols.push(col_below);
 
 					var ro=row_below - row;
 					var co=col_below - col;
@@ -780,15 +788,68 @@
 			// Call updateConv1 with the nodePos object
 			// updateConv1(ind_below, connectedNodePos);
 		}
+		NewUpdateConv1(ind, nodePos, connectedRows, connectedCols);
+
 		// After adding vertices and colors
 		var lineMat = new THREE.LineBasicMaterial({ color: 0xffffff, opacity: 1, linewidth: 1, vertexColors: THREE.VertexColors });
 		var lineMesh = new THREE.Line(lineGeom, lineMat); // Create a line mesh
 		scene.add(lineMesh); // Add the line mesh to the scene
 		lineMeshes.push(lineMesh); // Store the reference to the new line mesh
-
-
-
 	}
+
+	function NewUpdateConv1(ind, nodePos, connectedRows, connectedCols) {
+    var lineGeom = new THREE.Geometry();
+    lineGeom.dynamic = true;
+    var colors = [];
+    var vertCount = 0;
+    var vertAdjust = 0;
+    var zAdjust = 5;
+    var r, g, b, rw, gw, bw, v, colorNum;
+
+    for (let i = 0; i < connectedRows.length; i++) {
+        let targetRow = connectedRows[i];
+        let targetCol = connectedCols[i];
+
+        // Convert targetRow and targetCol to the index in the higher layer
+        let ind_below = targetRow * 32 + targetCol; // Assuming 32 is the width of the higher layer
+        if (ind_below < nPixels) { // Check if the index is within bounds
+            let posX_below = posX[ind_below];
+            let posY_below = posY[ind_below];
+            let posZ_below = posZ[ind_below];
+
+            if (input_hide) {
+                vertAdjust = 0;
+            }
+
+            // Draw edge from current node to connected node
+            lineGeom.vertices.push(new THREE.Vector3(posX[ind_below], posY[ind_below] + vertAdjust, posZ[ind_below] + zAdjust));
+            lineGeom.vertices.push(new THREE.Vector3(nodePos.x, nodePos.y, nodePos.z));
+
+            if (isComputed) {
+                v = allNodeOutputs[ind_below];
+                colorNum = Math.round(v * 99);
+                r = redLookup[colorNum];
+                g = greenLookup[colorNum];
+                b = blueLookup[colorNum];
+            } else {
+                r = 0.7;
+                g = 0.7;
+                b = 0.7;
+            }
+
+            colors[vertCount] = new THREE.Color(r, g, b);
+            vertCount++;
+            colors[vertCount] = new THREE.Color(r, g, b);
+            vertCount++;
+        }
+    }
+
+    var lineMat = new THREE.LineBasicMaterial({ color: 0xffffff, opacity: 1, linewidth: 1, vertexColors: THREE.VertexColors });
+    var lineMesh = new THREE.Line(lineGeom, lineMat);
+    scene.add(lineMesh);
+    lineMeshes.push(lineMesh);
+}
+
 
 	 // conv1
 	 function updateConv1(ind, nodePos) {
