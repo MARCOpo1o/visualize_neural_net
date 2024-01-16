@@ -761,6 +761,13 @@
 					lineGeom.vertices.push(new THREE.Vector3(posX[ind_below], posY[ind_below]+vertAdjust, posZ[ind_below]+zAdjust));
 					lineGeom.vertices.push(new THREE.Vector3(posX[ind], posY[ind]-3, posZ[ind]+zAdjust));
 						
+					// Store connected node positions
+
+					connectedNodePositions.push({
+						x: posX[ind_below],
+						y: posY[ind_below],
+						z: posZ[ind_below]
+                	});
 					if (isComputed){
 						v = allNodeOutputs[ind_below];
 						colorNum = math.round(v*99);
@@ -789,8 +796,11 @@
 						y: nodePosY,
 						z: nodePosZ
 					};
-					NewUpdateConv1(ind, currentNodePos, connectedRows, connectedCols);
 				}
+				// Call NewUpdateConv1 for each connected node
+				connectedNodePositions.forEach(connectedNodePos => {
+					NewUpdateConv1(ind, connectedNodePos, connectedRows, connectedCols);
+				});	
 			}
 			// Call updateConv1 with the nodePos object
 			// updateConv1(ind_below, connectedNodePos);
@@ -813,28 +823,29 @@
     var r, g, b, rw, gw, bw, v, colorNum;
 
     for (let i = 0; i < connectedRows.length; i++) {
-        let targetRow = connectedRows[i];
-        let targetCol = connectedCols[i];
+        let targetRow = connectedRows[i] * 2;  // Multiply by 2 because it's downscaled in updateDown1
+        let targetCol = connectedCols[i] * 2;  // Multiply by 2 for the same reason
 
-        // Convert targetRow and targetCol to the index in the higher layer
-        let ind_below = targetRow * 28 + targetCol; // Assuming 28 is the width of the higher layer
-        if (ind_below < nPixels) { // Check if the index is within bounds
-            let posX_below = posX[ind_below];
-            let posY_below = posY[ind_below];
-            let posZ_below = posZ[ind_below];
+        // Calculate the index in the first layer, assuming it's a 32x32 grid
+        let ind_below_firstLayer = targetRow * 32 + targetCol; 
+
+        if (ind_below_firstLayer < nPixels) { // Check if the index is within bounds
+            let posX_below = posX[ind_below_firstLayer];
+            let posY_below = posY[ind_below_firstLayer];
+            let posZ_below = posZ[ind_below_firstLayer];
 
             if (input_hide) {
                 vertAdjust = 0;
             }
-			// Print out coordinates from and to
-			console.log("From - X: " + posX_below + ", Y: " + posY_below + ", Z: " + posZ_below);
+
+            console.log("From - X: " + posX_below + ", Y: " + posY_below + ", Z: " + posZ_below);
             console.log("To - X: " + nodePos.x + ", Y: " + nodePos.y + ", Z: " + nodePos.z);
-            // Draw edge from current node to connected node
-            lineGeom.vertices.push(new THREE.Vector3(posX[ind_below], posY[ind_below] + vertAdjust, posZ[ind_below] + zAdjust));
+
+            lineGeom.vertices.push(new THREE.Vector3(posX_below, posY_below + vertAdjust, posZ_below + zAdjust));
             lineGeom.vertices.push(new THREE.Vector3(nodePos.x, nodePos.y, nodePos.z));
 
             if (isComputed) {
-                v = allNodeOutputs[ind_below];
+                v = allNodeOutputs[ind_below_firstLayer];
                 colorNum = Math.round(v * 99);
                 r = redLookup[colorNum];
                 g = greenLookup[colorNum];
@@ -857,7 +868,6 @@
     scene.add(lineMesh);
     lineMeshes.push(lineMesh);
 }
-
 
 	 // conv1
 	 function updateConv1(ind, nodePos) {
