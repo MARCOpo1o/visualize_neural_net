@@ -824,46 +824,53 @@
     var zAdjust = 5;
     var r, g, b, rw, gw, bw, v, colorNum;
 
+    // Loop through each connected node from the downscaled layer
     for (let i = 0; i < connectedRows.length; i++) {
-        let targetRow = connectedRows[i] * 2;  // Multiply by 2 because it's downscaled in updateDown1
-        let targetCol = connectedCols[i] * 2;  // Multiply by 2 for the same reason
+        let scaledRow = connectedRows[i] * 2; // Scale up to match the first layer
+        let scaledCol = connectedCols[i] * 2; // Same as above
 
-        // Calculate the index in the first layer, assuming it's a 32x32 grid
-        let ind_below_firstLayer = targetRow * 32 + targetCol; 
+        // Loop similar to updateConv1, but starting from scaledRow and scaledCol
+        for (let row_offset = -2; row_offset <= 2; row_offset++) {
+            for (let col_offset = -2; col_offset <= 2; col_offset++) {
+                let targetRow = scaledRow + row_offset;
+                let targetCol = scaledCol + col_offset;
 
-        if (ind_below_firstLayer < nPixels) { // Check if the index is within bounds
-            let posX_below = posX[ind_below_firstLayer];
-            let posY_below = posY[ind_below_firstLayer];
-            let posZ_below = posZ[ind_below_firstLayer];
+                // Check if within bounds of the first layer
+                if (targetRow >= 0 && targetRow < 32 && targetCol >= 0 && targetCol < 32) {
+                    let ind_below = targetRow * 32 + targetCol; // Index in the first layer
 
-            if (input_hide) {
-                vertAdjust = 0;
-            }
+                    if (ind_below < nPixels) {
+                        let posX_below = posX[ind_below];
+                        let posY_below = posY[ind_below];
+                        let posZ_below = posZ[ind_below];
 
-            console.log("From - X: " + posX_below + ", Y: " + posY_below + ", Z: " + posZ_below);
-            console.log("To - X: " + nodePos.x + ", Y: " + nodePos.y + ", Z: " + nodePos.z);
+                        if (input_hide) {
+                            vertAdjust = 0;
+                        }
 
-            lineGeom.vertices.push(new THREE.Vector3(posX_below, posY_below + vertAdjust, posZ_below + zAdjust));
-            lineGeom.vertices.push(new THREE.Vector3(nodePos.x, nodePos.y, nodePos.z));
+                        lineGeom.vertices.push(new THREE.Vector3(posX_below, posY_below + vertAdjust, posZ_below + zAdjust));
+                        lineGeom.vertices.push(new THREE.Vector3(nodePos.x, nodePos.y, nodePos.z));
+						if (isComputed) {
+							v = allNodeOutputs[ind_below_firstLayer];
+							colorNum = Math.round(v * 99);
+							r = redLookup[colorNum];
+							g = greenLookup[colorNum];
+							b = blueLookup[colorNum];
+						} else {
+							r = 0.7;
+							g = 0.7;
+							b = 0.7;
+						}
 
-            if (isComputed) {
-                v = allNodeOutputs[ind_below_firstLayer];
-                colorNum = Math.round(v * 99);
-                r = redLookup[colorNum];
-                g = greenLookup[colorNum];
-                b = blueLookup[colorNum];
-            } else {
-                r = 0.7;
-                g = 0.7;
-                b = 0.7;
-            }
-
-            colors[vertCount] = new THREE.Color(r, g, b);
-            vertCount++;
-            colors[vertCount] = new THREE.Color(r, g, b);
-            vertCount++;
-        }
-    }
+						colors[vertCount] = new THREE.Color(r, g, b);
+						vertCount++;
+						colors[vertCount] = new THREE.Color(r, g, b);
+						vertCount++;
+        			}
+				}
+			}
+    	}
+	}	
 
     var lineMat = new THREE.LineBasicMaterial({ color: 0xffffff, opacity: 1, linewidth: 1, vertexColors: THREE.VertexColors });
     var lineMesh = new THREE.Line(lineGeom, lineMat);
