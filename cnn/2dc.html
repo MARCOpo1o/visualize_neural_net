@@ -851,7 +851,7 @@
                         lineGeom.vertices.push(new THREE.Vector3(posX_below, posY_below + vertAdjust, posZ_below + zAdjust));
                         lineGeom.vertices.push(new THREE.Vector3(nodePos.x, nodePos.y, nodePos.z));
 						if (isComputed) {
-							v = allNodeOutputs[ind_below_firstLayer];
+							v = allNodeOutputs[ind_below];
 							colorNum = Math.round(v * 99);
 							r = redLookup[colorNum];
 							g = greenLookup[colorNum];
