@@ -988,7 +988,7 @@ function calculateConv1(row, col, filterNum) {
 
 		lineGeom.vertices.push(new THREE.Vector3(posX_below, posY_below + vertAdjust, posZ_below + zAdjust));
 		lineGeom.vertices.push(new THREE.Vector3(posX[ind], posY[ind]-3, posZ[ind]+zAdjust));
-	console.log("calculated connection from " + posX_below + ", " + posY_below + ", " + posZ_below + " to " + posX[ind] + ", " + posY[ind]-3 + ", " + posZ[ind]+zAdjust)
+	console.log("calculated connection to " + posX_below + ", " + posY_below + ", " + posZ_below)
 
 		if (isComputed) {
 			v = allNodeOutputs[conn.index];
