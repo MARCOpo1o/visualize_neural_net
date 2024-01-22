@@ -831,56 +831,38 @@
     var vertAdjust = 0;
     var zAdjust = 5;
     var r, g, b, rw, gw, bw, v, colorNum;
+	
+	 // Use calculateConv1 to get the connections
+	 connectedRows.forEach((row, i) => {
+        let col = connectedCols[i];
+        let connections = calculateConv1(row, col, filterNum); // Adjust rows and cols for the scale
+        connections.forEach(conn => {
+            let posX_below = posX[conn.index];
+            let posY_below = posY[conn.index];
+            let posZ_below = posZ[conn.index];
 
-    // Loop through each connected node from the downscaled layer
-    for (let i = 0; i < connectedRows.length; i++) {
-        // Correctly scale up rows and columns to match the first layer
-        let scaledRow = connectedCols[i] * 2;  // Note the swapped indices
-        let scaledCol = connectedRows[i] * 2;  // Same as above
+            if (input_hide) vertAdjust = 0;
 
-        // Loop similar to updateConv1, but starting from scaledRow and scaledCol
-        for (let row_offset = -2; row_offset <= 2; row_offset++) {
-            for (let col_offset = -2; col_offset <= 2; col_offset++) {
-                let targetRow = scaledRow + row_offset;
-                let targetCol = scaledCol + col_offset;
+            // Draw lines to the calculated connections
+            lineGeom.vertices.push(new THREE.Vector3(nodePos.x, nodePos.y, nodePos.z));
+            lineGeom.vertices.push(new THREE.Vector3(posX_below, posY_below + vertAdjust, posZ_below + zAdjust));
 
-                // Check if within bounds of the first layer
-                if (targetRow >= 0 && targetRow < 32 && targetCol >= 0 && targetCol < 32) {
-                    let ind_below = targetCol * 32 + targetRow;  // Flipped indices
-
-                    if (ind_below < nPixels) {
-                        let posX_below = posX[ind_below];
-                        let posY_below = posY[ind_below];
-                        let posZ_below = posZ[ind_below];
-
-                        if (input_hide) {
-                            vertAdjust = 0;
-                        }
-
-                        lineGeom.vertices.push(new THREE.Vector3(posX_below, posY_below + vertAdjust, posZ_below + zAdjust));
-                        lineGeom.vertices.push(new THREE.Vector3(nodePos.x, nodePos.y, nodePos.z));
-
-                        if (isComputed) {
-                            v = allNodeOutputs[ind_below];
-                            colorNum = Math.round(v * 99);
-                            r = redLookup[colorNum];
-                            g = greenLookup[colorNum];
-                            b = blueLookup[colorNum];
-                        } else {
-                            r = 0.7;
-                            g = 0.7;
-                            b = 0.7;
-                        }
-
-                        colors[vertCount] = new THREE.Color(r, g, b);
-                        vertCount++;
-                        colors[vertCount] = new THREE.Color(r, g, b);
-                        vertCount++;
-                    }
-                }
+            if (isComputed) {
+                let v = allNodeOutputs[conn.index];
+                let colorNum = Math.round(v * 99);
+                r = redLookup[colorNum];
+                g = greenLookup[colorNum];
+                b = blueLookup[colorNum];
+            } else {
+                r = 0.7;
+                g = 0.7;
+                b = 0.7;
             }
-        }
-    }
+
+            colors[vertCount++] = new THREE.Color(r, g, b);
+            colors[vertCount++] = new THREE.Color(r, g, b);
+        });
+    });
 
     var lineMat = new THREE.LineBasicMaterial({ color: 0xffffff, opacity: 1, linewidth: 1, vertexColors: THREE.VertexColors });
     var lineMesh = new THREE.Line(lineGeom, lineMat);
