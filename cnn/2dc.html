@@ -765,11 +765,22 @@
 						
 					// Store connected node positions
 
+				//	connectedNodePositions.push({
+				//		x: posX[ind_below],
+				//		y: posY[ind_below],
+				//		z: posZ[ind_below]
+                //	});
+					// store posX[ind_below], posY[ind_below], posZ[ind_below] in connectedNodePositions
 					connectedNodePositions.push({
 						x: posX[ind_below],
 						y: posY[ind_below],
 						z: posZ[ind_below]
-                	});
+					});
+
+									// Call NewUpdateConv1 for each connected node
+				connectedNodePositions.forEach(connectedNodePos => {
+					NewUpdateConv1(ind, connectedNodePos, connectedRows, connectedCols);
+				});
 					if (isComputed){
 						v = allNodeOutputs[ind_below];
 						colorNum = math.round(v*99);
@@ -799,10 +810,7 @@
 						z: nodePosZ
 					};
 				}
-				// Call NewUpdateConv1 for each connected node
-				connectedNodePositions.forEach(connectedNodePos => {
-					NewUpdateConv1(ind, connectedNodePos, connectedRows, connectedCols);
-				});	
+	
 			}
 			// Call updateConv1 with the nodePos object
 			// updateConv1(ind_below, connectedNodePos);
@@ -879,6 +887,71 @@
     scene.add(lineMesh);
     lineMeshes.push(lineMesh);
 }
+
+// function NewUpdateConv1(ind, nodePos, connectedRows, connectedCols) {
+//     var lineGeom = new THREE.Geometry();
+//     lineGeom.dynamic = true;
+//     var colors = [];
+//     var vertCount = 0;
+//     var vertAdjust = 0;
+//     var zAdjust = 5;
+//     var r, g, b, rw, gw, bw, v, colorNum;
+
+//     // Loop through each connected node from the downscaled layer
+//     for (let i = 0; i < connectedRows.length; i++) {
+//         // Correctly scale up rows and columns to match the first layer
+//         let scaledRow = connectedCols[i] * 2;  // Note the swapped indices
+//         let scaledCol = connectedRows[i] * 2;  // Same as above
+
+//         // Loop similar to updateConv1, but starting from scaledRow and scaledCol
+//         for (let row_offset = -2; row_offset <= 2; row_offset++) {
+//             for (let col_offset = -2; col_offset <= 2; col_offset++) {
+//                 let targetRow = scaledRow + row_offset;
+//                 let targetCol = scaledCol + col_offset;
+
+//                 // Check if within bounds of the first layer
+//                 if (targetRow >= 0 && targetRow < 32 && targetCol >= 0 && targetCol < 32) {
+//                     let ind_below = targetCol * 32 + targetRow;  // Flipped indices
+
+//                     if (ind_below < nPixels) {
+//                         let posX_below = posX[ind_below];
+//                         let posY_below = posY[ind_below];
+//                         let posZ_below = posZ[ind_below];
+
+//                         if (input_hide) {
+//                             vertAdjust = 0;
+//                         }
+
+//                         lineGeom.vertices.push(new THREE.Vector3(posX_below, posY_below + vertAdjust, posZ_below + zAdjust));
+//                         lineGeom.vertices.push(new THREE.Vector3(nodePos.x, nodePos.y, nodePos.z));
+
+//                         if (isComputed) {
+//                             v = allNodeOutputs[ind_below];
+//                             colorNum = Math.round(v * 99);
+//                             r = redLookup[colorNum];
+//                             g = greenLookup[colorNum];
+//                             b = blueLookup[colorNum];
+//                         } else {
+//                             r = 0.7;
+//                             g = 0.7;
+//                             b = 0.7;
+//                         }
+
+//                         colors[vertCount] = new THREE.Color(r, g, b);
+//                         vertCount++;
+//                         colors[vertCount] = new THREE.Color(r, g, b);
+//                         vertCount++;
+//                     }
+//                 }
+//             }
+//         }
+//     }
+
+//     var lineMat = new THREE.LineBasicMaterial({ color: 0xffffff, opacity: 1, linewidth: 1, vertexColors: THREE.VertexColors });
+//     var lineMesh = new THREE.Line(lineGeom, lineMat);
+//     scene.add(lineMesh);
+//     lineMeshes.push(lineMesh);
+// }
 // function to calcualte the connections for conv1
 function calculateConv1(row, col, filterNum) {
     let connections = [];
