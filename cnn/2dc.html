@@ -475,251 +475,301 @@
 	  });
       }
       
-      function updateEdges() {
+    //   function updateEdges() {
 
-		clearOldLineMeshes(); // Call this function to remove old line meshes
+		// clearOldLineMeshes(); // Call this function to remove old line meshes
 
-	  var r=1, g=1, b=1, rw=1, gw, bw, i, j, v, colorNum, weight;
-	  //console.log('updating edges');
-	  var vertAdjust = 0;
-	  var zAdjust = 5;
-	  var numChildren = scene.children.length;
-	  var colors = [];
-	  vertCount = 0;
-	  for ( var c = 0; c<numChildren; c++) {
-	      if ( scene.children[c].name == 'edges' ){
-			var object = scene.children[c];
-			object.geometry.dispose();
+	  // var r=1, g=1, b=1, rw=1, gw, bw, i, j, v, colorNum, weight;
+	  // //console.log('updating edges');
+	  // var vertAdjust = 0;
+	  // var zAdjust = 5;
+	  // var numChildren = scene.children.length;
+	  // var colors = [];
+	  // vertCount = 0;
+	  // for ( var c = 0; c<numChildren; c++) {
+	  //     if ( scene.children[c].name == 'edges' ){
+		// 	var object = scene.children[c];
+		// 	object.geometry.dispose();
 
-			var lineGeom = new THREE.Geometry();
-			lineGeom.dynamic = true;						
+		// 	var lineGeom = new THREE.Geometry();
+		// 	lineGeom.dynamic = true;						
 		  
-		  if (highlightBox.visible) {
-		      ind = interID;
-		      var nodePos = posY[interID];
-		      if (layerNum[interID]==0) {
-			  // inp layer
-		      } else if (layerNum[interID]==1) {
-				updateConv1(ind, nodePos);
-			  //console.log('friendCount = ' + friendCount);
-		      } else if (layerNum[interID]==2) {
-			  // down1
-				updateDown1(ind, nodePos);
-		      } else if (layerNum[interID]==3) {
-				// updateCov2(ind, nodePos);
-				 // conv2
-				 for (j=1; j<=nConvNodes_1_down; j++){
-			      ind_below = nPixels+nConvNodes_1+j-1;								
-			      temp_below = allNodeNums[ind_below]-1;
-			      filterNum_below = math.floor((ind_below-nPixels-nConvNodes_1)/(14*14));
-			      var row_below = temp_below % 14;
-			      var col_below = math.floor(temp_below/14);
-			      if (keepers.e(filterNum_below+1,filterNum+1)==1) {
-				  if (row_below > row-1 && row_below < row + 5 && col_below > col-1 && col_below < col + 5) {
-				      var ro=row_below - row;
-				      var co=col_below - col;
-				      var filterKeeper = keeperIndices[filterNum][filterNum_below];
-				      var weight = conv_nodes[1][filterNum][filterKeeper].e(ro+1,co+1);
+		//   if (highlightBox.visible) {
+		//       ind = interID;
+		//       var nodePos = posY[interID];
+		//       if (layerNum[interID]==0) {
+		// 	  // inp layer
+		//       } else if (layerNum[interID]==1) {
+		// 		updateConv1(ind, nodePos);
+		// 	  //console.log('friendCount = ' + friendCount);
+		//       } else if (layerNum[interID]==2) {
+		// 	  // down1
+		// 		updateDown1(ind, nodePos);
+		//       } else if (layerNum[interID]==3) {
+		// 		// updateCov2(ind, nodePos);
+		// 		 // conv2
+		// 		 for (j=1; j<=nConvNodes_1_down; j++){
+		// 	      ind_below = nPixels+nConvNodes_1+j-1;								
+		// 	      temp_below = allNodeNums[ind_below]-1;
+		// 	      filterNum_below = math.floor((ind_below-nPixels-nConvNodes_1)/(14*14));
+		// 	      var row_below = temp_below % 14;
+		// 	      var col_below = math.floor(temp_below/14);
+		// 	      if (keepers.e(filterNum_below+1,filterNum+1)==1) {
+		// 		  if (row_below > row-1 && row_below < row + 5 && col_below > col-1 && col_below < col + 5) {
+		// 		      var ro=row_below - row;
+		// 		      var co=col_below - col;
+		// 		      var filterKeeper = keeperIndices[filterNum][filterNum_below];
+		// 		      var weight = conv_nodes[1][filterNum][filterKeeper].e(ro+1,co+1);
 				      
-				      if (down1_hide)
-					  vertAdjust = 0;
+		// 		      if (down1_hide)
+		// 			  vertAdjust = 0;
 				      
-				      lineGeom.vertices.push(new THREE.Vector3(posX[ind_below], posY[ind_below]+vertAdjust, posZ[ind_below]+zAdjust));
-				      lineGeom.vertices.push(new THREE.Vector3(posX[ind], posY[ind]-3, posZ[ind]+zAdjust));
+		// 		      lineGeom.vertices.push(new THREE.Vector3(posX[ind_below], posY[ind_below]+vertAdjust, posZ[ind_below]+zAdjust));
+		// 		      lineGeom.vertices.push(new THREE.Vector3(posX[ind], posY[ind]-3, posZ[ind]+zAdjust));
 				      
-				      if (isComputed){
-					  v = allNodeOutputs[ind_below];
-					  colorNum = math.round(v*99);
-					  r = redLookup[colorNum];
-					  g = greenLookup[colorNum];
-					  b = blueLookup[colorNum];
-					  v = conv_weights_2a[filterNum][filterNum_below][ro][co];
-				      colorNum = math.round(v*99);
-				      rw = 0;
-				      gw = greenLookup[colorNum];
-				      bw = blueLookup[colorNum];
+		// 		      if (isComputed){
+		// 			  v = allNodeOutputs[ind_below];
+		// 			  colorNum = math.round(v*99);
+		// 			  r = redLookup[colorNum];
+		// 			  g = greenLookup[colorNum];
+		// 			  b = blueLookup[colorNum];
+		// 			  v = conv_weights_2a[filterNum][filterNum_below][ro][co];
+		// 		      colorNum = math.round(v*99);
+		// 		      rw = 0;
+		// 		      gw = greenLookup[colorNum];
+		// 		      bw = blueLookup[colorNum];
 				      
-				      colors[ vertCount ] = new THREE.Color( rw,gw,bw );
-				      vertCount++;
-				      colors[ vertCount ] = new THREE.Color( rw,gw,bw );
-				      vertCount++;
-				      } else {
-					  r=0.7; 
-					  g=0.7; 
-					  b=0.7;
-				      }				      
-				  }
-			      }
-			  }
-		      } else if (layerNum[interID]==4) {
-			  // down2
-			  for (j=1; j<=nConvNodes_1; j++){
-			      ind_below = nPixels+nConvNodes_1+nConvNodes_1_down+j-1;								
-			      temp_below = allNodeNums[ind_below]-1;
-			      filterNum_below = math.floor((ind_below-nPixels-nConvNodes_1-nConvNodes_1_down)/(10*10));
-			      var row_below = temp_below % 10;
-			      var col_below = math.floor(temp_below/10);
-			      if (filterNum_below==filterNum) {
-				  if (math.floor(row_below/2) == row && math.floor(col_below/2)==col) {
-				      var ro=row_below - row;
-				      var co=col_below - col;
+		// 		      colors[ vertCount ] = new THREE.Color( rw,gw,bw );
+		// 		      vertCount++;
+		// 		      colors[ vertCount ] = new THREE.Color( rw,gw,bw );
+		// 		      vertCount++;
+		// 		      } else {
+		// 			  r=0.7; 
+		// 			  g=0.7; 
+		// 			  b=0.7;
+		// 		      }				      
+		// 		  }
+		// 	      }
+		// 	  }
+		//       } else if (layerNum[interID]==4) {
+		// 	  // down2
+		// 	  for (j=1; j<=nConvNodes_1; j++){
+		// 	      ind_below = nPixels+nConvNodes_1+nConvNodes_1_down+j-1;								
+		// 	      temp_below = allNodeNums[ind_below]-1;
+		// 	      filterNum_below = math.floor((ind_below-nPixels-nConvNodes_1-nConvNodes_1_down)/(10*10));
+		// 	      var row_below = temp_below % 10;
+		// 	      var col_below = math.floor(temp_below/10);
+		// 	      if (filterNum_below==filterNum) {
+		// 		  if (math.floor(row_below/2) == row && math.floor(col_below/2)==col) {
+		// 		      var ro=row_below - row;
+		// 		      var co=col_below - col;
 				      
-				      if (conv2_hide)
-					  vertAdjust = 0;
+		// 		      if (conv2_hide)
+		// 			  vertAdjust = 0;
 				      
-				      lineGeom.vertices.push(new THREE.Vector3(posX[ind_below], posY[ind_below]+vertAdjust, posZ[ind_below]+zAdjust));
-				      lineGeom.vertices.push(new THREE.Vector3(posX[ind], posY[ind]-3, posZ[ind]+zAdjust));
+		// 		      lineGeom.vertices.push(new THREE.Vector3(posX[ind_below], posY[ind_below]+vertAdjust, posZ[ind_below]+zAdjust));
+		// 		      lineGeom.vertices.push(new THREE.Vector3(posX[ind], posY[ind]-3, posZ[ind]+zAdjust));
 				      
-				      if (isComputed){
-					  v = allNodeOutputs[ind_below];
-					  colorNum = math.round(v*99);
-					  r = redLookup[colorNum];
-					  g = greenLookup[colorNum];
-					  b = blueLookup[colorNum];
-					  v=1;
-				      colorNum = math.round(v*99);
-				      rw = 0;										
-				      gw = greenLookup[colorNum];
-				      bw = blueLookup[colorNum];
+		// 		      if (isComputed){
+		// 			  v = allNodeOutputs[ind_below];
+		// 			  colorNum = math.round(v*99);
+		// 			  r = redLookup[colorNum];
+		// 			  g = greenLookup[colorNum];
+		// 			  b = blueLookup[colorNum];
+		// 			  v=1;
+		// 		      colorNum = math.round(v*99);
+		// 		      rw = 0;										
+		// 		      gw = greenLookup[colorNum];
+		// 		      bw = blueLookup[colorNum];
 				      
-				      colors[ vertCount ] = new THREE.Color( rw,gw,bw );
-				      vertCount++;
-				      colors[ vertCount ] = new THREE.Color( rw,gw,bw );
-				      vertCount++;
-				      } else {
-					  r=0.7; 
-					  g=0.7; 
-					  b=0.7;
-				      }
+		// 		      colors[ vertCount ] = new THREE.Color( rw,gw,bw );
+		// 		      vertCount++;
+		// 		      colors[ vertCount ] = new THREE.Color( rw,gw,bw );
+		// 		      vertCount++;
+		// 		      } else {
+		// 			  r=0.7; 
+		// 			  g=0.7; 
+		// 			  b=0.7;
+		// 		      }
 				      
-				  }
-			      }
-			  }
-		      } else if (layerNum[interID]==5) {
-			  // hidden layer 1
-			  for (j=1; j<=nConvNodes_2_down; j++){
+		// 		  }
+		// 	      }
+		// 	  }
+		//       } else if (layerNum[interID]==5) {
+		// 	  // hidden layer 1
+		// 	  for (j=1; j<=nConvNodes_2_down; j++){
 			      
-			      ind_below = nPixels + nConvNodes_1 + nConvNodes_1_down + nConvNodes_2 + j-1;
-			      var weight = hidden_weights_1.e(allNodeNums[ind],allNodeNums[ind_below]);
+		// 	      ind_below = nPixels + nConvNodes_1 + nConvNodes_1_down + nConvNodes_2 + j-1;
+		// 	      var weight = hidden_weights_1.e(allNodeNums[ind],allNodeNums[ind_below]);
 			      
-			      if (down2_hide)
-				  vertAdjust = 0;
+		// 	      if (down2_hide)
+		// 		  vertAdjust = 0;
 
-			      lineGeom.vertices.push(new THREE.Vector3(posX[ind_below], posY[ind_below]+vertAdjust, posZ[ind_below]+zAdjust));
-			      lineGeom.vertices.push(new THREE.Vector3(posX[ind], posY[ind]-3, posZ[ind]+zAdjust));
+		// 	      lineGeom.vertices.push(new THREE.Vector3(posX[ind_below], posY[ind_below]+vertAdjust, posZ[ind_below]+zAdjust));
+		// 	      lineGeom.vertices.push(new THREE.Vector3(posX[ind], posY[ind]-3, posZ[ind]+zAdjust));
 			      
-			      if (isComputed){
-				  v = allNodeOutputs[ind_below];
-				  colorNum = math.round(v*99);
-				  r = redLookup[colorNum];
-				  g = greenLookup[colorNum];
-				  b = blueLookup[colorNum];
-			      } else {
-				  r=0.7; 
-				  g=0.7; 
-				  b=0.7;
-			      }
-			      v = hidden_weights_1a[allNodeNums[ind]-1][allNodeNums[ind_below]-1];
-			      colorNum = math.round(v*99);
-			      rw = 0;
-			      gw = greenLookup[colorNum];
-			      bw = blueLookup[colorNum];
+		// 	      if (isComputed){
+		// 		  v = allNodeOutputs[ind_below];
+		// 		  colorNum = math.round(v*99);
+		// 		  r = redLookup[colorNum];
+		// 		  g = greenLookup[colorNum];
+		// 		  b = blueLookup[colorNum];
+		// 	      } else {
+		// 		  r=0.7; 
+		// 		  g=0.7; 
+		// 		  b=0.7;
+		// 	      }
+		// 	      v = hidden_weights_1a[allNodeNums[ind]-1][allNodeNums[ind_below]-1];
+		// 	      colorNum = math.round(v*99);
+		// 	      rw = 0;
+		// 	      gw = greenLookup[colorNum];
+		// 	      bw = blueLookup[colorNum];
 			      
-			      colors[ vertCount ] = new THREE.Color( rw,gw,bw );
-			      vertCount++;
-			      colors[ vertCount ] = new THREE.Color( rw,gw,bw );
-			      vertCount++;
-			  }
-		      } else if (layerNum[interID]==6) {
-			  // hidden layer 2
-			  for (j=1; j<=nHiddenNodes_1; j++){
-			      ind_below = nPixels + nConvNodes_1 + nConvNodes_1_down + nConvNodes_2 + nConvNodes_2_down + j-1;
-			      var weight = hidden_weights_2.e(allNodeNums[ind],allNodeNums[ind_below]);
+		// 	      colors[ vertCount ] = new THREE.Color( rw,gw,bw );
+		// 	      vertCount++;
+		// 	      colors[ vertCount ] = new THREE.Color( rw,gw,bw );
+		// 	      vertCount++;
+		// 	  }
+		//       } else if (layerNum[interID]==6) {
+		// 	  // hidden layer 2
+		// 	  for (j=1; j<=nHiddenNodes_1; j++){
+		// 	      ind_below = nPixels + nConvNodes_1 + nConvNodes_1_down + nConvNodes_2 + nConvNodes_2_down + j-1;
+		// 	      var weight = hidden_weights_2.e(allNodeNums[ind],allNodeNums[ind_below]);
 
-			      if (fc1_hide)
-				  vertAdjust = 0;
+		// 	      if (fc1_hide)
+		// 		  vertAdjust = 0;
 			      
-			      lineGeom.vertices.push(new THREE.Vector3(posX[ind_below], posY[ind_below]+vertAdjust, posZ[ind_below]+zAdjust));
-			      lineGeom.vertices.push(new THREE.Vector3(posX[ind], posY[ind]-3, posZ[ind]+zAdjust));
-			      if (isComputed){
-				  v = allNodeOutputs[ind_below];
-				  colorNum = math.round(v*99);
-				  r = redLookup[colorNum];
-				  g = greenLookup[colorNum];
-				  b = blueLookup[colorNum];
-			      } else {
-				  r=0.7; 
-				  g=0.7; 
-				  b=0.7;
-			      }
-			      v = hidden_weights_2a[allNodeNums[ind]-1][allNodeNums[ind_below]-1];
-			      colorNum = math.round(v*99);
-			      rw = 0;
-			      gw = greenLookup[colorNum];
-			      bw = blueLookup[colorNum];
+		// 	      lineGeom.vertices.push(new THREE.Vector3(posX[ind_below], posY[ind_below]+vertAdjust, posZ[ind_below]+zAdjust));
+		// 	      lineGeom.vertices.push(new THREE.Vector3(posX[ind], posY[ind]-3, posZ[ind]+zAdjust));
+		// 	      if (isComputed){
+		// 		  v = allNodeOutputs[ind_below];
+		// 		  colorNum = math.round(v*99);
+		// 		  r = redLookup[colorNum];
+		// 		  g = greenLookup[colorNum];
+		// 		  b = blueLookup[colorNum];
+		// 	      } else {
+		// 		  r=0.7; 
+		// 		  g=0.7; 
+		// 		  b=0.7;
+		// 	      }
+		// 	      v = hidden_weights_2a[allNodeNums[ind]-1][allNodeNums[ind_below]-1];
+		// 	      colorNum = math.round(v*99);
+		// 	      rw = 0;
+		// 	      gw = greenLookup[colorNum];
+		// 	      bw = blueLookup[colorNum];
 			      
-			      colors[ vertCount ] = new THREE.Color( rw,gw,bw );
-			      vertCount++;
-			      colors[ vertCount ] = new THREE.Color( rw,gw,bw );
-			      vertCount++;
-			  }
-		      } else if (layerNum[interID]==7) {
-			  // Output layer
-			  for (j=1; j<=nHiddenNodes_2; j++){
-			      ind_below = nPixels + nConvNodes_1 + nConvNodes_1_down + nConvNodes_2 + nConvNodes_2_down + nHiddenNodes_1 + j-1;
-			      var weight = final_weights.e(allNodeNums[ind],allNodeNums[ind_below]);
+		// 	      colors[ vertCount ] = new THREE.Color( rw,gw,bw );
+		// 	      vertCount++;
+		// 	      colors[ vertCount ] = new THREE.Color( rw,gw,bw );
+		// 	      vertCount++;
+		// 	  }
+		//       } else if (layerNum[interID]==7) {
+		// 	  // Output layer
+		// 	  for (j=1; j<=nHiddenNodes_2; j++){
+		// 	      ind_below = nPixels + nConvNodes_1 + nConvNodes_1_down + nConvNodes_2 + nConvNodes_2_down + nHiddenNodes_1 + j-1;
+		// 	      var weight = final_weights.e(allNodeNums[ind],allNodeNums[ind_below]);
 
-			      if (fc2_hide)
-				  vertAdjust = 0;
+		// 	      if (fc2_hide)
+		// 		  vertAdjust = 0;
 
-			      lineGeom.vertices.push(new THREE.Vector3(posX[ind_below], posY[ind_below]+vertAdjust, posZ[ind_below]+zAdjust));
-			      lineGeom.vertices.push(new THREE.Vector3(posX[ind], posY[ind]-3, posZ[ind]+zAdjust));
-			      if (isComputed){
-				  v = allNodeOutputs[ind_below];
-				  colorNum = math.round(v*99);
-				  r = redLookup[colorNum];
-				  g = greenLookup[colorNum];
-				  b = blueLookup[colorNum];
-			      } else {
-				  r=0.7; 
-				  g=0.7; 
-				  b=0.7;
-			      }
-			      v = final_weightsa[allNodeNums[ind]-1][allNodeNums[ind_below]-1];
-			      colorNum = math.round(v*99);
-			      rw = 0;
-			      gw = greenLookup[colorNum];
-			      bw = blueLookup[colorNum];
+		// 	      lineGeom.vertices.push(new THREE.Vector3(posX[ind_below], posY[ind_below]+vertAdjust, posZ[ind_below]+zAdjust));
+		// 	      lineGeom.vertices.push(new THREE.Vector3(posX[ind], posY[ind]-3, posZ[ind]+zAdjust));
+		// 	      if (isComputed){
+		// 		  v = allNodeOutputs[ind_below];
+		// 		  colorNum = math.round(v*99);
+		// 		  r = redLookup[colorNum];
+		// 		  g = greenLookup[colorNum];
+		// 		  b = blueLookup[colorNum];
+		// 	      } else {
+		// 		  r=0.7; 
+		// 		  g=0.7; 
+		// 		  b=0.7;
+		// 	      }
+		// 	      v = final_weightsa[allNodeNums[ind]-1][allNodeNums[ind_below]-1];
+		// 	      colorNum = math.round(v*99);
+		// 	      rw = 0;
+		// 	      gw = greenLookup[colorNum];
+		// 	      bw = blueLookup[colorNum];
 			      
-			      colors[ vertCount ] = new THREE.Color( rw,gw,bw );
-			      vertCount++;
-			      colors[ vertCount ] = new THREE.Color( rw,gw,bw );
-			      vertCount++;
-			  }
-		      }
-		      v = allNodeOutputs[ind];
-		      colorNum = math.round(v*99);
-		      r = redLookup[colorNum];
-		      g = greenLookup[colorNum];
-		      b = blueLookup[colorNum];
+		// 	      colors[ vertCount ] = new THREE.Color( rw,gw,bw );
+		// 	      vertCount++;
+		// 	      colors[ vertCount ] = new THREE.Color( rw,gw,bw );
+		// 	      vertCount++;
+		// 	  }
+		//       }
+		//       v = allNodeOutputs[ind];
+		//       colorNum = math.round(v*99);
+		//       r = redLookup[colorNum];
+		//       g = greenLookup[colorNum];
+		//       b = blueLookup[colorNum];
 		      
-		  }
-		  var lineMat = new THREE.LineBasicMaterial( { color: 0xffffff, opacity: 1, linewidth: 1, vertexColors: THREE.VertexColors } );						
-		  object.material = lineMat;
-		  object.geometry.colors = colors;
-		  object.geometry.vertices = lineGeom.vertices;
-		  object.material.needsUpdate = true;
-		  object.geometry.colorsNeedUpdate = true;
-		  object.geometry.verticesNeedUpdate = true;
-		  //print something
-		  console.log("reached break")
-		  break; 
-	      }
-	  }
-      }
+		//   }
+		//   var lineMat = new THREE.LineBasicMaterial( { color: 0xffffff, opacity: 1, linewidth: 1, vertexColors: THREE.VertexColors } );						
+		//   object.material = lineMat;
+		//   object.geometry.colors = colors;
+		//   object.geometry.vertices = lineGeom.vertices;
+		//   object.material.needsUpdate = true;
+		//   object.geometry.colorsNeedUpdate = true;
+		//   object.geometry.verticesNeedUpdate = true;
+		//   //print something
+		//   console.log("reached break")
+		//   break; 
+	  //     }
+	  // }
+    //   }
 
 
 // function to calcualte the connections for conv1
+
+function updateEdges() {
+    var vertAdjust = 0;
+    var zAdjust = 5;
+    var numChildren = scene.children.length;
+
+    for (var currentLayer = 1; currentLayer <= layerNum[interID]; currentLayer++) {
+        for (var prevLayer = 1; prevLayer < currentLayer; prevLayer++) {
+            createEdgesBetweenLayers(prevLayer, currentLayer, vertAdjust, zAdjust);
+        }
+    }
+
+    function createEdgesBetweenLayers(prevLayer, currentLayer, vertAdjust, zAdjust) {
+        var r = 1, g = 1, b = 1, rw = 1, gw, bw, i, j, v, colorNum, weight;
+        var colors = [];
+        vertCount = 0;
+
+        for (var c = 0; c < numChildren; c++) {
+            if (scene.children[c].name == 'edges' + currentLayer + '-' + prevLayer) {
+                var object = scene.children[c];
+                object.geometry.dispose();
+
+                var lineGeom = new THREE.Geometry();
+                lineGeom.dynamic = true;
+
+                // Add your logic here to create edges between the current layer and the previous layer.
+                // You can use 'prevLayer' and 'currentLayer' to determine which layers to connect.
+
+                // Example code for creating edges between two layers:
+                // for (j = 1; j <= nNodesInCurrentLayer; j++) {
+                //     for (i = 1; i <= nNodesInPreviousLayer; i++) {
+                //         // Calculate positions, weights, colors, etc. for the edges.
+                //         // Add vertices and colors to lineGeom.
+                //     }
+                // }
+
+                var lineMat = new THREE.LineBasicMaterial({ color: 0xffffff, opacity: 1, linewidth: 1, vertexColors: THREE.VertexColors });
+                object.material = lineMat;
+                object.geometry.colors = colors;
+                object.geometry.vertices = lineGeom.vertices;
+                object.material.needsUpdate = true;
+                object.geometry.colorsNeedUpdate = true;
+                object.geometry.verticesNeedUpdate = true;
+                break;
+            }
+        }
+    }
+}
+
+
 function calculateConv1(row, col, filterNum) {
     let connections = [];
 
