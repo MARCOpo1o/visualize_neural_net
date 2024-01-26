@@ -549,27 +549,7 @@
 					  b=0.7;
 				      }
 					
-					  //create the box
-					  var boxGeometry = new THREE.BoxGeometry(1,1,1);
-					  
-					  //create a material for the box
-					  var boxMaterial = new THREE.MeshLambertMaterial({ color: new THREE.Color(r, g, b) });
-
-					  //create the box mesh
-					  boxMesh = new THREE.Mesh(boxGeometry, boxMaterial);
-					  boxMesh.position.set(posX[ind_below], posY[ind_below], posZ[ind_below]);
-
-					  scene.add(boxMesh);
-					  // Create a border for the box
-					  var borderGeometry = new THREE.EdgesGeometry(boxGeometry);
-						var borderMaterial = new THREE.LineBasicMaterial({ color: 0x000000, linewidth: 2 });
-						var borderMesh = new THREE.LineSegments(borderGeometry, borderMaterial);
-
-						// Set the position of the border
-						borderMesh.position.set(posX[ind_below], posY[ind_below], posZ[ind_below]);
-
-						// Add the border to the scene
-						scene.add(borderMesh);
+					 
         }
 
 
