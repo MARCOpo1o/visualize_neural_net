@@ -500,7 +500,13 @@
 		      if (layerNum[interID]==0) {
 			  // inp layer
 		      } else if (layerNum[interID]==1) {
-				NewUpdateConv1(ind, nodePos, row, col);
+				var connectedRows =[]
+				var connectedCols =[]
+				// add row to connectedRows
+				connectedRows.push(row)
+				// add col to connectedCols
+				connectedCols.push(col)
+				NewUpdateConv1(ind, nodePos, connectedRows, connectedCols);
 				// updateConv1(ind, nodePos);
 		      } else if (layerNum[interID]==2) {
 			  // down1
