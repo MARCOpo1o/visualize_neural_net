@@ -794,6 +794,7 @@ function calculateConv1(row, col, filterNum) {
 
 					// Call NewUpdateConv1 for each connected node
 					connectedNodePositions.forEach(connectedNodePos => {
+						console.log("happy", connectedNodePos)
 						NewUpdateConv1(ind, connectedNodePos, connectedRows, connectedCols);
 					});
 					if (isComputed){
@@ -967,19 +968,19 @@ function calculateConv1(row, col, filterNum) {
 					lineGeom.vertices.push(new THREE.Vector3(posX[ind], posY[ind]-3, posZ[ind]+zAdjust));
 					console.log("updatedConv2 connection to " + posX[ind_below] + ", " + posY[ind_below] + ", " + posZ[ind_below])
 					
-					var connectedNodePositions = [];
+					// var connectedNodePositions = [];
 
-					// store posX[ind_below], posY[ind_below], posZ[ind_below] in connectedNodePositions
-					connectedNodePositions.push({
-						x: posX[ind_below],
-						y: posY[ind_below],
-						z: posZ[ind_below]
-					});
+					// // store posX[ind_below], posY[ind_below], posZ[ind_below] in connectedNodePositions
+					// connectedNodePositions.push({
+					// 	x: posX[ind_below],
+					// 	y: posY[ind_below],
+					// 	z: posZ[ind_below]
+					// });
 
-					// Call NewUpdateConv1 for each connected node
-					connectedNodePositions.forEach(connectedNodePos => {
-						NewUpdateDown1(ind, connectedNodePos, connectedRows, connectedCols);
-					});
+					// // Call NewUpdateConv1 for each connected node
+					// connectedNodePositions.forEach(connectedNodePos => {
+					// 	NewUpdateDown1(ind, connectedNodePos, connectedRows, connectedCols);
+					// });
 
 
 					if (isComputed){
