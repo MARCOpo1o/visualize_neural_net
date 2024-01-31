@@ -818,6 +818,11 @@ function calculateConv1(row, col, filterNum) {
 		var vertAdjust = 0;
 		var zAdjust = 5;
 		var r, g, b, rw, gw, bw, v, colorNum;
+
+		//log the variables
+		console.log("nodePos: " + nodePos)
+		console.log("connectedRows: " + connectedRows)
+		console.log("connectedCols: " + connectedCols)
 		
 		// Use calculateConv1 to get the connections
 		connectedRows.forEach((row, i) => {
@@ -1001,10 +1006,6 @@ function calculateConv1(row, col, filterNum) {
 		var zAdjust = 5;
 		var r, g, b, rw, gw, bw, v, colorNum;
 		
-		//log the variables
-		console.log("nodePos: " + nodePos)
-		console.log("connectedRows: " + connectedRows)
-		console.log("connectedCols: " + connectedCols)
 		for (j=1; j<=nConvNodes_1; j++){
 			ind_below = nPixels+j-1;								
 			temp_below = allNodeNums[ind_below]-1;
