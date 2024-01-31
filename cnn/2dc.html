@@ -711,18 +711,21 @@ function calculateConv1(row, col, filterNum) {
 	function calculateDown1(row, col, filterNum) {
 		let connections = [];
 
-		for (let j = 1; j <= nConvNodes_1; j++) {
-			let ind_below = nPixels + j - 1;
-			let temp_below = allNodeNums[ind_below] - 1;
-			let row_below = temp_below % 28;
-			let col_below = Math.floor(temp_below / 28);
+    for (let j = 1; j <= nConvNodes_1; j++) {
+        let ind_below = nPixels + j - 1;
+        let temp_below = allNodeNums[ind_below] - 1;
+        let filterNum_below = Math.floor((ind_below - nPixels) / (28 * 28));
+        let row_below = temp_below % 28;
+        let col_below = Math.floor(temp_below / 28);
 
-			if (row_below > row - 1 && row_below < row + 3 && col_below > col - 1 && col_below < col + 3) {
-				connections.push({ row: row_below, col: col_below, index: ind_below });
-			}
-		}
+        if (filterNum_below == filterNum) {
+            if (Math.floor(row_below / 2) == row && Math.floor(col_below / 2) == col) {
+                connections.push({ row: row_below, col: col_below, index: ind_below });
+            }
+        }
+    }
 
-		return connections;
+    return connections;
 	}
 	
 	function updateDown1(ind, nodePos) {
