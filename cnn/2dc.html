@@ -755,6 +755,10 @@ function calculateConv1(row, col, filterNum) {
 			connectedRows.push(posX_below);
 			connectedCols.push(posY_below);
 
+			//log posX_below and posY_below
+			console.log("posX_below: " + posX_below)
+			console.log("posY_below: " + posY_below)
+
 			if (conv1_hide) vertAdjust = 0;
 
 			lineGeom.vertices.push(new THREE.Vector3(posX_below, posY_below+vertAdjust, posZ_below+zAdjust));
