@@ -849,6 +849,7 @@ function calculateConv1(row, col, filterNum) {
 		
 		// Use calculateConv1 to get the connections
 		connectedRows.forEach((row, i) => {
+			console.log(i);
 			let col = connectedCols[i];
 			let connections = calculateConv1(row, col, filterNum); // Adjust rows and cols for the scale
 			connections.forEach(conn => {
@@ -966,7 +967,19 @@ function calculateConv1(row, col, filterNum) {
 					lineGeom.vertices.push(new THREE.Vector3(posX[ind], posY[ind]-3, posZ[ind]+zAdjust));
 					console.log("updatedConv2 connection to " + posX[ind_below] + ", " + posY[ind_below] + ", " + posZ[ind_below])
 					
+					var connectedNodePositions = [];
 
+					// store posX[ind_below], posY[ind_below], posZ[ind_below] in connectedNodePositions
+					connectedNodePositions.push({
+						x: posX[ind_below],
+						y: posY[ind_below],
+						z: posZ[ind_below]
+					});
+
+					// Call NewUpdateConv1 for each connected node
+					connectedNodePositions.forEach(connectedNodePos => {
+						NewUpdateDown1(ind, connectedNodePos, connectedRows, connectedCols);
+					});
 
 
 					if (isComputed){
@@ -998,6 +1011,57 @@ function calculateConv1(row, col, filterNum) {
 		scene.add(lineMesh); // Add the line mesh to the scene
 		lineMeshes.push(lineMesh); // Store the reference to the new line mesh
 	}
+
+	function NewUpdateDown1(ind, nodePos, connectedRows, connectedCols) {
+		var lineGeom = new THREE.Geometry();
+		lineGeom.dynamic = true;
+		var colors = [];
+		var vertCount = 0;
+		var vertAdjust = 0;
+		var zAdjust = 5;
+		var r, g, b, rw, gw, bw, v, colorNum;
+		
+		// Use calculateConv1 to get the connections
+		connectedRows.forEach((row, i) => {
+			let col = connectedCols[i];
+			//TODO change this to calculateDown1
+			let connections = calculateConv1(row, col, filterNum); // Adjust rows and cols for the scale
+			connections.forEach(conn => {
+				let posX_below = posX[conn.index];
+				let posY_below = posY[conn.index];
+				let posZ_below = posZ[conn.index];
+
+				if (input_hide) vertAdjust = 0;
+
+				// Draw lines to the calculated connections
+				lineGeom.vertices.push(new THREE.Vector3(nodePos.x, nodePos.y, nodePos.z));
+				lineGeom.vertices.push(new THREE.Vector3(posX_below, posY_below + vertAdjust, posZ_below + zAdjust));
+
+				if (isComputed) {
+					let v = allNodeOutputs[conn.index];
+					let colorNum = Math.round(v * 99);
+					r = redLookup[colorNum];
+					g = greenLookup[colorNum];
+					b = blueLookup[colorNum];
+				} else {
+					r = 0.7;
+					g = 0.7;
+					b = 0.7;
+				}
+
+				colors[vertCount++] = new THREE.Color(r, g, b);
+				colors[vertCount++] = new THREE.Color(r, g, b);
+			});
+		});
+
+		var lineMat = new THREE.LineBasicMaterial({ color: 0xffffff, opacity: 1, linewidth: 1, vertexColors: THREE.VertexColors });
+		var lineMesh = new THREE.Line(lineGeom, lineMat);
+		scene.add(lineMesh);
+		lineMeshes.push(lineMesh);
+	}
+
+
+
 
 	function clearOldLineMeshes() {
     for (var i = 0; i < lineMeshes.length; i++) {
