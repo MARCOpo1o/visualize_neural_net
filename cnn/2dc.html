@@ -948,8 +948,8 @@ function calculateConv1(row, col, filterNum) {
 			// for the lower layers
 			var connectedRows = [];
 			var connectedCols = [];
-			connectedRows.push(row_below);
-			connectedCols.push(col_below);
+			connectedRows.push(posX_below);
+			connectedCols.push(posY_below);
 
 			lineGeom.vertices.push(new THREE.Vector3(posX_below, posY_below + vertAdjust, posZ_below + zAdjust));
 			lineGeom.vertices.push(new THREE.Vector3(posX[ind], posY[ind]-3, posZ[ind]+zAdjust));
@@ -959,9 +959,9 @@ function calculateConv1(row, col, filterNum) {
 
 			// store posX[ind_below], posY[ind_below], posZ[ind_below] in connectedNodePositions
 			connectedNodePositions.push({
-				x: posX[ind_below],
-				y: posY[ind_below],
-				z: posZ[ind_below]
+				x: posX_below,
+				y: posY_below,
+				z: posZ_below
 			});
 			// Call NewUpdateConv1 for each connected node
 			connectedNodePositions.forEach(connectedNodePos => {
