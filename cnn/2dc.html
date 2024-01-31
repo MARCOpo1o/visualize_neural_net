@@ -500,10 +500,8 @@
 		      if (layerNum[interID]==0) {
 			  // inp layer
 		      } else if (layerNum[interID]==1) {
-			  //add a function to calculate connectedRows, connectedCols
-			  //change this function to NewUpdateConv1
-				updateConv1(ind, nodePos);
-			  //console.log('friendCount = ' + friendCount);
+				newUpdateConv1(ind, nodePos, row, col);
+				// updateConv1(ind, nodePos);
 		      } else if (layerNum[interID]==2) {
 			  // down1
 				updateDown1(ind, nodePos);
