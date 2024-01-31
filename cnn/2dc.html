@@ -506,7 +506,15 @@
 				connectedRows.push(row)
 				// add col to connectedCols
 				connectedCols.push(col)
-				NewUpdateConv1(ind, nodePos, connectedRows, connectedCols);
+				connectedNodePositions.push({
+						x: posX[ind],
+						y: posY[ind],
+						z: posZ[ind]
+				});
+				connectedNodePositions.forEach(connectedNodePos => {
+					// updateConv1(ind, nodePos, connectedRows, connectedCols);
+					NewUpdateConv1(ind, connectedNodePos, connectedRows, connectedCols);
+				})
 				// updateConv1(ind, nodePos);
 		      } else if (layerNum[interID]==2) {
 			  // down1
