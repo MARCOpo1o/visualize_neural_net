@@ -752,7 +752,6 @@ function calculateConv1(row, col, filterNum) {
 		var zAdjust = 5;
 		var r, g, b, rw, gw, bw, v, colorNum;
 
-		var connectedNodePositions = [];
 
 		console.log('row,col = ' + row + ', ' + col);
 		
@@ -784,6 +783,8 @@ function calculateConv1(row, col, filterNum) {
 					lineGeom.vertices.push(new THREE.Vector3(posX[ind_below], posY[ind_below]+vertAdjust, posZ[ind_below]+zAdjust));
 					lineGeom.vertices.push(new THREE.Vector3(posX[ind], posY[ind]-3, posZ[ind]+zAdjust));
 						
+					var connectedNodePositions = [];
+
 					// store posX[ind_below], posY[ind_below], posZ[ind_below] in connectedNodePositions
 					connectedNodePositions.push({
 						x: posX[ind_below],
@@ -964,6 +965,9 @@ function calculateConv1(row, col, filterNum) {
 					lineGeom.vertices.push(new THREE.Vector3(posX[ind_below], posY[ind_below]+vertAdjust, posZ[ind_below]+zAdjust));
 					lineGeom.vertices.push(new THREE.Vector3(posX[ind], posY[ind]-3, posZ[ind]+zAdjust));
 					console.log("updatedConv2 connection to " + posX[ind_below] + ", " + posY[ind_below] + ", " + posZ[ind_below])
+					
+
+
 
 					if (isComputed){
 						v = allNodeOutputs[ind_below];
