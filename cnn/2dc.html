@@ -957,11 +957,6 @@ function calculateConv1(row, col, filterNum) {
 				g=0.7; 
 				b=0.7;
 			}
-			v = conv_weights_2a[filterNum][filterNum_below][ro][co];
-			colorNum = math.round(v*99);
-			rw = 0;
-			gw = greenLookup[colorNum];
-			bw = blueLookup[colorNum];
 			
 			colors[ vertCount ] = new THREE.Color( rw,gw,bw );
 			vertCount++;
