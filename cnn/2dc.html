@@ -782,6 +782,7 @@ function calculateConv1(row, col, filterNum) {
 
 					// Call NewUpdateConv1 for each connected node
 					connectedNodePositions.forEach(connectedNodePos => {
+						console.log("new update conv1")
 						NewUpdateConv1(ind, connectedNodePos, connectedRows, connectedCols);
 					});
 					if (isComputed){
