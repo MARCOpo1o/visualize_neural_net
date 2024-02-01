@@ -957,56 +957,75 @@ function calculateConv1(row, col, filterNum) {
 		var r, g, b, rw, gw, bw, v, colorNum;
 
 		// conv2
-		let connections = calculateCov2(row, col, filterNum);
-		for (let conn of connections) {
-			let posX_below = posX[conn.index];
-			let posY_below = posY[conn.index];
-			let posZ_below = posZ[conn.index];
+		// let connections = calculateCov2(row, col, filterNum);
+		// for (let conn of connections) {
+		// 	let posX_below = posX[conn.index];
+		// 	let posY_below = posY[conn.index];
+		// 	let posZ_below = posZ[conn.index];
 
-			if (down1_hide) {
-				vertAdjust = 0;
-			}
-			// for the lower layers
-			var connectedRows = [];
-			var connectedCols = [];
-			connectedRows.push(posX_below);
-			connectedCols.push(posY_below);
+		// 	if (down1_hide) {
+		// 		vertAdjust = 0;
+		// 	}
+		// 	// for the lower layers
+		// 	var connectedRows = [];
+		// 	var connectedCols = [];
+		// 	connectedRows.push(posX_below);
+		// 	connectedCols.push(posY_below);
 
-			lineGeom.vertices.push(new THREE.Vector3(posX_below, posY_below + vertAdjust, posZ_below + zAdjust));
-			lineGeom.vertices.push(new THREE.Vector3(posX[ind], posY[ind]-3, posZ[ind]+zAdjust));
+		// 	lineGeom.vertices.push(new THREE.Vector3(posX_below, posY_below + vertAdjust, posZ_below + zAdjust));
+		// 	lineGeom.vertices.push(new THREE.Vector3(posX[ind], posY[ind]-3, posZ[ind]+zAdjust));
 
-			//for the lower layers
-			var connectedNodePositions = [];
+		//revert back
+		for (j=1; j<=nConvNodes_1_down; j++){
+			      ind_below = nPixels+nConvNodes_1+j-1;								
+			      temp_below = allNodeNums[ind_below]-1;
+			      filterNum_below = math.floor((ind_below-nPixels-nConvNodes_1)/(14*14));
+			      var row_below = temp_below % 14;
+			      var col_below = math.floor(temp_below/14);
+			      if (keepers.e(filterNum_below+1,filterNum+1)==1) {
+				  if (row_below > row-1 && row_below < row + 5 && col_below > col-1 && col_below < col + 5) {
+				      var ro=row_below - row;
+				      var co=col_below - col;
+				      var filterKeeper = keeperIndices[filterNum][filterNum_below];
+				      var weight = conv_nodes[1][filterNum][filterKeeper].e(ro+1,co+1);
+				      
+				      if (down1_hide)
+					  vertAdjust = 0;
+				      
+				      lineGeom.vertices.push(new THREE.Vector3(posX[ind_below], posY[ind_below]+vertAdjust, posZ[ind_below]+zAdjust));
+				      lineGeom.vertices.push(new THREE.Vector3(posX[ind], posY[ind]-3, posZ[ind]+zAdjust));
 
-			// store posX[ind_below], posY[ind_below], posZ[ind_below] in connectedNodePositions
-			connectedNodePositions.push({
-				x: posX_below,
-				y: posY_below,
-				z: posZ_below
-			});
-			// Call NewUpdateConv1 for each connected node
-			// connectedNodePositions.forEach(connectedNodePos => {
-			// 	NewUpdateDown1(ind, connectedNodePos, connectedRows, connectedCols);
-			// });
-			connectedNodePos = connectedNodePositions[0];
-			NewUpdateDown1(ind, connectedNodePos, connectedRows, connectedCols);
-			
-			if (isComputed){
-				v = allNodeOutputs[ind_below];
-				colorNum = math.round(v*99);
-				r = redLookup[colorNum];
-				g = greenLookup[colorNum];
-				b = blueLookup[colorNum];
-			} else {
-				r=0.7; 
-				g=0.7; 
-				b=0.7;
-			}
-			
-			colors[ vertCount ] = new THREE.Color( rw,gw,bw );
-			vertCount++;
-			colors[ vertCount ] = new THREE.Color( rw,gw,bw );
-			vertCount++;
+						//for the lower layers
+						var connectedNodePositions = [];
+
+						// store posX[ind_below], posY[ind_below], posZ[ind_below] in connectedNodePositions
+						connectedNodePositions.push({
+							x: posX_below,
+							y: posY_below,
+							z: posZ_below
+						});
+				
+						connectedNodePos = connectedNodePositions[0];
+						// NewUpdateDown1(ind, connectedNodePos, connectedRows, connectedCols);
+
+						if (isComputed){
+							v = allNodeOutputs[ind_below];
+							colorNum = math.round(v*99);
+							r = redLookup[colorNum];
+							g = greenLookup[colorNum];
+							b = blueLookup[colorNum];
+						} else {
+							r=0.7; 
+							g=0.7; 
+							b=0.7;
+						}
+						
+						colors[ vertCount ] = new THREE.Color( rw,gw,bw );
+						vertCount++;
+						colors[ vertCount ] = new THREE.Color( rw,gw,bw );
+						vertCount++;
+					}
+				}
 		}
 		var lineMat = new THREE.LineBasicMaterial({ color: 0xffffff, opacity: 1, linewidth: 1, vertexColors: THREE.VertexColors });
 		var lineMesh = new THREE.Line(lineGeom, lineMat); // Create a line mesh
