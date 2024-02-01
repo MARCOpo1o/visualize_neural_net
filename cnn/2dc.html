@@ -727,9 +727,12 @@ function calculateConv1(row, col, filterNum) {
 
     return connections;
 	}
-	
+
 	function updateDown1(ind, nodePos) {
 		// ... existing initialization code ...
+		var connectedRows = [];
+    	var connectedCols = [];
+
 		var lineGeom = new THREE.Geometry(); // Define lineGeom here
     	lineGeom.dynamic = true;
 		var colors = [];
@@ -737,75 +740,84 @@ function calculateConv1(row, col, filterNum) {
 		var vertAdjust = 0;
 		var zAdjust = 5;
 		var r, g, b, rw, gw, bw, v, colorNum;
+
+		var connectedNodePositions = [];
+
+		console.log('row,col = ' + row + ', ' + col);
+		
+	  	for (j=1; j<=nConvNodes_1; j++){
+			ind_below = nPixels+j-1;								
+			temp_below = allNodeNums[ind_below]-1;
+			filterNum_below = math.floor((ind_below-nPixels)/(28*28));
+			var row_below = temp_below % 28;
+			var col_below = math.floor(temp_below/28);
 			  
-		// Determine the position of the node represented by 'ind'
-		var nodePosX = posX[ind];
-		var nodePosY = posY[ind];
-		var nodePosZ = posZ[ind];
+			// Determine the position of the node represented by 'ind'
+			var nodePosX = posX[ind];
+			var nodePosY = posY[ind];
+			var nodePosZ = posZ[ind];
 
-		let connections = calculateDown1(row, col, filterNum);
-		connections.forEach(conn => {
-			let posX_below = posX[conn.index];
-			let posY_below = posY[conn.index];
-			let posZ_below = posZ[conn.index];
+			if (filterNum_below==filterNum) {
+				if (math.floor(row_below/2) == row && math.floor(col_below/2)==col) {
+					console.log("Third Layer Connected to - Row: " + row_below + ", Column: " + col_below); //log row and column connected
+					// Store connected rows and columns
+					connectedRows.push(row_below);
+                	connectedCols.push(col_below);
 
-			// Store connected rows and columns
-			var connectedRows = [];
-			var connectedCols = [];
-			connectedRows.push(posX_below);
-			connectedCols.push(posY_below);
+					var ro=row_below - row;
+					var co=col_below - col;
+					
+					if (conv1_hide)
+					vertAdjust = 0;
 
-			//log posX_below and posY_below
-			console.log("posX_below: " + posX_below)
-			console.log("posY_below: " + posY_below)
+					lineGeom.vertices.push(new THREE.Vector3(posX[ind_below], posY[ind_below]+vertAdjust, posZ[ind_below]+zAdjust));
+					lineGeom.vertices.push(new THREE.Vector3(posX[ind], posY[ind]-3, posZ[ind]+zAdjust));
+						
+					// store posX[ind_below], posY[ind_below], posZ[ind_below] in connectedNodePositions
+					connectedNodePositions.push({
+						x: posX[ind_below],
+						y: posY[ind_below],
+						z: posZ[ind_below]
+					});
 
-			if (conv1_hide) vertAdjust = 0;
-
-			lineGeom.vertices.push(new THREE.Vector3(posX_below, posY_below+vertAdjust, posZ_below+zAdjust));
-			lineGeom.vertices.push(new THREE.Vector3(posX[ind], posY[ind]-3, posZ[ind]+zAdjust));
-
-			var connectedNodePositions = [];
-			// store in connectedNodePositions
-			connectedNodePositions.push({
-					x: posX_below,
-					y: posY_below,
-					z: posZ_below
-				});
-
-				// Call NewUpdateConv1 for each connected node
-				connectedNodePositions.forEach(connectedNodePos => {
-					console.log("yes down")	
-					NewUpdateConv1(ind, connectedNodePos, connectedRows, connectedCols);
-				});
-				if (isComputed){
-					v = allNodeOutputs[ind_below];
+					// Call NewUpdateConv1 for each connected node
+					connectedNodePositions.forEach(connectedNodePos => {
+						NewUpdateConv1(ind, connectedNodePos, connectedRows, connectedCols);
+					});
+					if (isComputed){
+						v = allNodeOutputs[ind_below];
+						colorNum = math.round(v*99);
+						r = redLookup[colorNum];
+						g = greenLookup[colorNum];
+						b = blueLookup[colorNum];
+					} else {
+						r=0.7; 
+						g=0.7; 
+						b=0.7;
+					}
+					v=1;
 					colorNum = math.round(v*99);
-					r = redLookup[colorNum];
-					g = greenLookup[colorNum];
-					b = blueLookup[colorNum];
-				} else {
-					r=0.7; 
-					g=0.7; 
-					b=0.7;
-				}
-				v=1;
-				colorNum = math.round(v*99);
-				rw = 0;										
-				gw = greenLookup[colorNum];
-				bw = blueLookup[colorNum];
-				
-				colors[ vertCount ] = new THREE.Color( rw,gw,bw );
-				vertCount++;
-				colors[ vertCount ] = new THREE.Color( rw,gw,bw );
-				vertCount++;
+					rw = 0;										
+					gw = greenLookup[colorNum];
+					bw = blueLookup[colorNum];
+					
+					colors[ vertCount ] = new THREE.Color( rw,gw,bw );
+					vertCount++;
+					colors[ vertCount ] = new THREE.Color( rw,gw,bw );
+					vertCount++;
 
-				// Pass the position of the current node (ind) to NewUpdateConv1
-				var currentNodePos = {
-					x: nodePosX,
-					y: nodePosY,
-					z: nodePosZ
-				};
-			});
+					// Pass the position of the current node (ind) to NewUpdateConv1
+					var currentNodePos = {
+						x: nodePosX,
+						y: nodePosY,
+						z: nodePosZ
+					};
+				}
+	
+			}
+			// Call updateConv1 with the nodePos object
+			// updateConv1(ind_below, connectedNodePos);
+		}
 
 		// After adding vertices and colors
 		var lineMat = new THREE.LineBasicMaterial({ color: 0xffffff, opacity: 1, linewidth: 1, vertexColors: THREE.VertexColors });
@@ -813,6 +825,93 @@ function calculateConv1(row, col, filterNum) {
 		scene.add(lineMesh); // Add the line mesh to the scene
 		lineMeshes.push(lineMesh); // Store the reference to the new line mesh
 	}
+	
+						
+	// function updateDown1(ind, nodePos) {
+	// 	// ... existing initialization code ...
+	// 	var lineGeom = new THREE.Geometry(); // Define lineGeom here
+    // 	lineGeom.dynamic = true;
+	// 	var colors = [];
+	// 	var vertCount = 0;
+	// 	var vertAdjust = 0;
+	// 	var zAdjust = 5;
+	// 	var r, g, b, rw, gw, bw, v, colorNum;
+			  
+	// 	// Determine the position of the node represented by 'ind'
+	// 	var nodePosX = posX[ind];
+	// 	var nodePosY = posY[ind];
+	// 	var nodePosZ = posZ[ind];
+
+	// 	let connections = calculateDown1(row, col, filterNum);
+	// 	connections.forEach(conn => {
+	// 		let posX_below = posX[conn.index];
+	// 		let posY_below = posY[conn.index];
+	// 		let posZ_below = posZ[conn.index];
+
+	// 		// Store connected rows and columns
+	// 		var connectedRows = [];
+	// 		var connectedCols = [];
+	// 		connectedRows.push(posX_below);
+	// 		connectedCols.push(posY_below);
+
+	// 		//log posX_below and posY_below
+	// 		console.log("posX_below: " + posX_below)
+	// 		console.log("posY_below: " + posY_below)
+
+	// 		if (conv1_hide) vertAdjust = 0;
+
+	// 		lineGeom.vertices.push(new THREE.Vector3(posX_below, posY_below+vertAdjust, posZ_below+zAdjust));
+	// 		lineGeom.vertices.push(new THREE.Vector3(posX[ind], posY[ind]-3, posZ[ind]+zAdjust));
+
+	// 		var connectedNodePositions = [];
+	// 		// store in connectedNodePositions
+	// 		connectedNodePositions.push({
+	// 				x: posX_below,
+	// 				y: posY_below,
+	// 				z: posZ_below
+	// 			});
+
+	// 			// Call NewUpdateConv1 for each connected node
+	// 			connectedNodePositions.forEach(connectedNodePos => {
+	// 				console.log("yes down")	
+	// 				NewUpdateConv1(ind, connectedNodePos, connectedRows, connectedCols);
+	// 			});
+	// 			if (isComputed){
+	// 				v = allNodeOutputs[ind_below];
+	// 				colorNum = math.round(v*99);
+	// 				r = redLookup[colorNum];
+	// 				g = greenLookup[colorNum];
+	// 				b = blueLookup[colorNum];
+	// 			} else {
+	// 				r=0.7; 
+	// 				g=0.7; 
+	// 				b=0.7;
+	// 			}
+	// 			v=1;
+	// 			colorNum = math.round(v*99);
+	// 			rw = 0;										
+	// 			gw = greenLookup[colorNum];
+	// 			bw = blueLookup[colorNum];
+				
+	// 			colors[ vertCount ] = new THREE.Color( rw,gw,bw );
+	// 			vertCount++;
+	// 			colors[ vertCount ] = new THREE.Color( rw,gw,bw );
+	// 			vertCount++;
+
+	// 			// Pass the position of the current node (ind) to NewUpdateConv1
+	// 			var currentNodePos = {
+	// 				x: nodePosX,
+	// 				y: nodePosY,
+	// 				z: nodePosZ
+	// 			};
+	// 		});
+
+	// 	// After adding vertices and colors
+	// 	var lineMat = new THREE.LineBasicMaterial({ color: 0xffffff, opacity: 1, linewidth: 1, vertexColors: THREE.VertexColors });
+	// 	var lineMesh = new THREE.Line(lineGeom, lineMat); // Create a line mesh
+	// 	scene.add(lineMesh); // Add the line mesh to the scene
+	// 	lineMeshes.push(lineMesh); // Store the reference to the new line mesh
+	// }
 
 	function NewUpdateConv1(ind, nodePos, connectedRows, connectedCols) {
 		var lineGeom = new THREE.Geometry();
