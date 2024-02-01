@@ -957,12 +957,12 @@ function calculateConv1(row, col, filterNum) {
 		var r, g, b, rw, gw, bw, v, colorNum;
 
 		for (j=1; j<=nConvNodes_1_down; j++){
-			      ind_below = nPixels+nConvNodes_1+j-1;								
-			      temp_below = allNodeNums[ind_below]-1;
-			      filterNum_below = math.floor((ind_below-nPixels-nConvNodes_1)/(14*14));
-			      var row_below = temp_below % 14;
-			      var col_below = math.floor(temp_below/14);
-			      if (keepers.e(filterNum_below+1,filterNum+1)==1) {
+			ind_below = nPixels+nConvNodes_1+j-1;								
+			temp_below = allNodeNums[ind_below]-1;
+			filterNum_below = math.floor((ind_below-nPixels-nConvNodes_1)/(14*14));
+			var row_below = temp_below % 14;
+			var col_below = math.floor(temp_below/14);
+			if (keepers.e(filterNum_below+1,filterNum+1)==1) {
 				  if (row_below > row-1 && row_below < row + 5 && col_below > col-1 && col_below < col + 5) {
 				      var ro=row_below - row;
 				      var co=col_below - col;
@@ -1035,6 +1035,8 @@ function calculateConv1(row, col, filterNum) {
 		row = connectedRows;
 		col = connectedCols;
 		for (j=1; j<=nConvNodes_1; j++){
+			//log how many in the loop
+			console.log("looping through " + j)
 			ind_below = nPixels+j-1;								
 			temp_below = allNodeNums[ind_below]-1;
 			filterNum_below = math.floor((ind_below-nPixels)/(28*28));
