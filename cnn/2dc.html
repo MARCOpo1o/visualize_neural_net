@@ -956,26 +956,6 @@ function calculateConv1(row, col, filterNum) {
 		var zAdjust = 5;
 		var r, g, b, rw, gw, bw, v, colorNum;
 
-		// conv2
-		// let connections = calculateCov2(row, col, filterNum);
-		// for (let conn of connections) {
-		// 	let posX_below = posX[conn.index];
-		// 	let posY_below = posY[conn.index];
-		// 	let posZ_below = posZ[conn.index];
-
-		// 	if (down1_hide) {
-		// 		vertAdjust = 0;
-		// 	}
-		// 	// for the lower layers
-		// 	var connectedRows = [];
-		// 	var connectedCols = [];
-		// 	connectedRows.push(posX_below);
-		// 	connectedCols.push(posY_below);
-
-		// 	lineGeom.vertices.push(new THREE.Vector3(posX_below, posY_below + vertAdjust, posZ_below + zAdjust));
-		// 	lineGeom.vertices.push(new THREE.Vector3(posX[ind], posY[ind]-3, posZ[ind]+zAdjust));
-
-		//revert back
 		for (j=1; j<=nConvNodes_1_down; j++){
 			      ind_below = nPixels+nConvNodes_1+j-1;								
 			      temp_below = allNodeNums[ind_below]-1;
@@ -1003,14 +983,12 @@ function calculateConv1(row, col, filterNum) {
 						x: posX[ind_below],
 						y: posY[ind_below],
 						z: posZ[ind_below]
-					});
+						});
 
-					// create connectedRows and connectedCols, note to directly use the row and col if this works, and change
-					// the function to accept row and col
-					var connectedRows = [];
-					var connectedCols = [];
-					connectedRows.push(row_below);
-					connectedCols.push(col_below);
+						// create connectedRows and connectedCols, note to directly use the row and col if this works, and change
+						// the function to accept row and col
+						var connectedRows = row_below;
+						var connectedCols = col_below;
 				
 						connectedNodePos = connectedNodePositions[0];
 						NewUpdateDown1(ind, connectedNodePos, connectedRows, connectedCols);
@@ -1054,8 +1032,8 @@ function calculateConv1(row, col, filterNum) {
 		console.log("connectedRows: " + connectedRows)
 		console.log("connectedCols: " + connectedCols)
 
-		row = connectedRows[0];
-		col = connectedCols[0];
+		row = connectedRows;
+		col = connectedCols;
 		for (j=1; j<=nConvNodes_1; j++){
 			ind_below = nPixels+j-1;								
 			temp_below = allNodeNums[ind_below]-1;
