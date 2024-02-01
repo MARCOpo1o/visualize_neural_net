@@ -1000,13 +1000,20 @@ function calculateConv1(row, col, filterNum) {
 
 						// store posX[ind_below], posY[ind_below], posZ[ind_below] in connectedNodePositions
 						connectedNodePositions.push({
-							x: posX_below,
-							y: posY_below,
-							z: posZ_below
-						});
+						x: posX[ind_below],
+						y: posY[ind_below],
+						z: posZ[ind_below]
+					});
+
+					// create connectedRows and connectedCols, note to directly use the row and col if this works, and change
+					// the function to accept row and col
+					var connectedRows = [];
+					var connectedCols = [];
+					connectedRows.push(row_below);
+					connectedCols.push(col_below);
 				
 						connectedNodePos = connectedNodePositions[0];
-						// NewUpdateDown1(ind, connectedNodePos, connectedRows, connectedCols);
+						NewUpdateDown1(ind, connectedNodePos, connectedRows, connectedCols);
 
 						if (isComputed){
 							v = allNodeOutputs[ind_below];
@@ -1047,7 +1054,8 @@ function calculateConv1(row, col, filterNum) {
 		console.log("connectedRows: " + connectedRows)
 		console.log("connectedCols: " + connectedCols)
 
-		
+		row = connectedRows[0];
+		col = connectedCols[0];
 		for (j=1; j<=nConvNodes_1; j++){
 			ind_below = nPixels+j-1;								
 			temp_below = allNodeNums[ind_below]-1;
