@@ -935,6 +935,24 @@ function updateConv1(ind, nodePos) {
     // Log the coordinates of the top-left and bottom-right blocks
     console.log(`Top-left block: Row ${minRow}, Column ${minCol}`);
     console.log(`Bottom-right block: Row ${maxRow}, Column ${maxCol}`);
+	// Define the coordinates of the rectangle corners
+	var topLeft = new THREE.Vector3(minRow, minCol, posZ[ind]+zAdjust); // Assuming Z is 0 for simplicity
+	var topRight = new THREE.Vector3(maxRow, maxCol, posZ[ind]+zAdjust);
+	var bottomRight = new THREE.Vector3(maxRow, minCol, posZ[ind]+zAdjust);
+	var bottomLeft = new THREE.Vector3(minRow, maxCol, posZ[ind]+zAdjust);
+
+	// Create the rectangle geometry
+	var rectGeometry = new THREE.Geometry();
+	rectGeometry.vertices.push(topLeft, topRight, bottomRight, bottomLeft, topLeft); // Closed loop
+
+	// Create a line material
+	var material = new THREE.LineBasicMaterial({ color: 0xff0000, linewidth: 2 }); // Red color
+
+	// Create a line using the geometry and material
+	var rectangle = new THREE.Line(rectGeometry, material);
+
+	// Add the rectangle to the scene
+	scene.add(rectangle);
 }
 
 
