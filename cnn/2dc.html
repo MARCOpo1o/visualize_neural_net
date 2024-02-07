@@ -772,6 +772,7 @@ function calculateConv1(row, col, filterNum) {
 					lineGeom.vertices.push(new THREE.Vector3(posX[ind_below], posY[ind_below]+vertAdjust, posZ[ind_below]+zAdjust));
 					lineGeom.vertices.push(new THREE.Vector3(posX[ind], posY[ind]-3, posZ[ind]+zAdjust));
 						
+
 					// store posX[ind_below], posY[ind_below], posZ[ind_below] in connectedNodePositions
 					connectedNodePositions.push({
 						x: posX[ind_below],
@@ -908,6 +909,9 @@ function updateConv1(ind, nodePos) {
 
         lineGeom.vertices.push(new THREE.Vector3(posX_below, posY_below + vertAdjust, posZ_below + zAdjust));
         lineGeom.vertices.push(new THREE.Vector3(posX[ind], posY[ind]-3, posZ[ind]+zAdjust));
+
+		//print out the z coordinates 
+		console.log("from x: " + posX_below + " y: " + posY_below + " z: " + posZ_below+zAdjust + " to x: " + posX[ind] + " y: " + posY[ind]-3 + " z: " + posZ[ind]+zAdjust);
 
         if (isComputed) {
             v = allNodeOutputs[conn.index];
