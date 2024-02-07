@@ -900,10 +900,10 @@ function updateConv1(ind, nodePos) {
         let posZ_below = posZ[conn.index];
 
         // Update min and max row and column values
-        minRow = Math.min(minRow, conn.row);
-        minCol = Math.min(minCol, conn.col);
-        maxRow = Math.max(maxRow, conn.row);
-        maxCol = Math.max(maxCol, conn.col);
+        minRow = Math.min(minRow, posX_below);
+        minCol = Math.min(minCol, posY_below);
+        maxRow = Math.max(maxRow, posX_below);
+        maxCol = Math.max(maxCol, posY_below);
 
         if (input_hide) vertAdjust = 0;
 
@@ -954,15 +954,10 @@ function updateConv1(ind, nodePos) {
     console.log(`Bottom-right block: Row ${maxRow}, Column ${maxCol}`);
 	console.log(`z is ${posZ[ind]+zAdjust}`)
 	// Define the coordinates of the rectangle corners
-	// var topLeft = new THREE.Vector3(minRow, minCol, posZ[ind]+zAdjust); // Assuming Z is 0 for simplicity
-	// var topRight = new THREE.Vector3(maxRow, maxCol, posZ[ind]+zAdjust);
-	// var bottomRight = new THREE.Vector3(maxRow, minCol, posZ[ind]+zAdjust);
-	// var bottomLeft = new THREE.Vector3(minRow, maxCol, posZ[ind]+zAdjust);
-
-	var topLeft = new THREE.Vector3(155, -615, 5); // Assuming Z is 0 for simplicity
-	var topRight = new THREE.Vector3(200, -615, 5);
-	var bottomRight = new THREE.Vector3(200, -600, 5);
-	var bottomLeft = new THREE.Vector3(155, -600, 5);
+	var topLeft = new THREE.Vector3(minRow, minCol+vertAdjust, posZ[ind]+zAdjust); // Assuming Z is 0 for simplicity
+	var topRight = new THREE.Vector3(maxRow, maxCol+vertAdjust, posZ[ind]+zAdjust);
+	var bottomRight = new THREE.Vector3(maxRow, minCol+vertAdjust, posZ[ind]+zAdjust);
+	var bottomLeft = new THREE.Vector3(minRow, maxCol+vertAdjust, posZ[ind]+zAdjust);
 
 	// Create the rectangle geometry
 	var rectGeometry = new THREE.Geometry();
