@@ -911,7 +911,20 @@ function updateConv1(ind, nodePos) {
         lineGeom.vertices.push(new THREE.Vector3(posX[ind], posY[ind]-3, posZ[ind]+zAdjust));
 
 		//print out the z coordinates 
-		console.log("from x: " + posX_below + " y: " + posY_below + " z: " + (posZ_below+zAdjust) + " to x: " + posX[ind] + " y: " + posY[ind]-3 + " z: " + (posZ[ind]+zAdjust));
+
+		console.log(row, col)
+		console.log("x")
+		console.log(posX[ind])
+		console.log("y")
+		console.log(posY[ind]-3)
+		console.log("z")
+		console.log(posZ[ind]+zAdjust)
+		console.log("x")
+		console.log(posX_below)
+		console.log("y")
+		console.log(posY_below)
+		console.log("z")
+		console.log(posZ_below+zAdjust)
 
         if (isComputed) {
             v = allNodeOutputs[conn.index];
@@ -939,6 +952,7 @@ function updateConv1(ind, nodePos) {
     // Log the coordinates of the top-left and bottom-right blocks
     console.log(`Top-left block: Row ${minRow}, Column ${minCol}`);
     console.log(`Bottom-right block: Row ${maxRow}, Column ${maxCol}`);
+	console.log(`z is ${posZ[ind]+zAdjust}`)
 	// Define the coordinates of the rectangle corners
 	var topLeft = new THREE.Vector3(minRow, minCol, posZ[ind]+zAdjust); // Assuming Z is 0 for simplicity
 	var topRight = new THREE.Vector3(maxRow, maxCol, posZ[ind]+zAdjust);
