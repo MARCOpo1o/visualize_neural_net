@@ -835,7 +835,7 @@ function calculateConv1(row, col, filterNum) {
 
 		// Check and draw square if valid min and max values are found
 		if (minX < Infinity && maxX > -Infinity && minY < Infinity && maxY > -Infinity && squareZ !== 0) {
-			drawSquare(minX, minY, maxX, maxY, posY[ind_below]+vertAdjust, 0xff0000, 2);
+			drawSquare(minX, minY, maxX, maxY, posY[ind_below]+vertAdjust, 0x33A5FF, 2);
 			console.log("Square drawn");
 			//log min, max and z
 			console.log("minX: " + minX + " maxX: " + maxX + " minY: " + minY + " maxY: " + maxY + " squareZ: " + squareZ);
