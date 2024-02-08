@@ -782,6 +782,12 @@ function calculateConv1(row, col, filterNum) {
 					lineGeom.vertices.push(new THREE.Vector3(posX[ind_below], posY[ind_below]+vertAdjust, posZ[ind_below]+zAdjust));
 					lineGeom.vertices.push(new THREE.Vector3(posX[ind], posY[ind]-3, posZ[ind]+zAdjust));
 					
+					//print out both z
+					console.log("posZ[ind_below]: " + posZ[ind_below]);
+					console.log("posZ[ind]: " + posZ[ind]);
+					//print out zadjust
+					console.log("zAdjust: " + zAdjust);
+					
 					//save z value for squareZ
 					squareZ = posZ[ind_below]+zAdjust
 					//log to see if z is being saved
