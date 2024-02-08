@@ -746,6 +746,7 @@ function calculateConv1(row, col, filterNum) {
 		let maxX = -Infinity;
     	let minY = Infinity;
 		let maxY = -Infinity;
+		let squareZ = 0; 
 		
 	  	for (j=1; j<=nConvNodes_1; j++){
 			ind_below = nPixels+j-1;								
@@ -761,7 +762,13 @@ function calculateConv1(row, col, filterNum) {
 
 			if (filterNum_below==filterNum) {
 				if (math.floor(row_below/2) == row && math.floor(col_below/2)==col) {
-					console.log("Third Layer Connected to - Row: " + row_below + ", Column: " + col_below); //log row and column connected
+
+					// Update min and max values for X and Y
+					minX = Math.min(minX, posX[ind_below]);
+					maxX = Math.max(maxX, posX[ind_below]);
+					minY = Math.min(minY, posY[ind_below]);
+					maxY = Math.max(maxY, posY[ind_below]);
+
 					// Store connected rows and columns
 					connectedRows.push(row_below);
                 	connectedCols.push(col_below);
@@ -775,7 +782,8 @@ function calculateConv1(row, col, filterNum) {
 					lineGeom.vertices.push(new THREE.Vector3(posX[ind_below], posY[ind_below]+vertAdjust, posZ[ind_below]+zAdjust));
 					lineGeom.vertices.push(new THREE.Vector3(posX[ind], posY[ind]-3, posZ[ind]+zAdjust));
 					
-
+					//save z value for squareZ
+					squareZ = posZ[ind_below]+zAdjust
 					// store posX[ind_below], posY[ind_below], posZ[ind_below] in connectedNodePositions
 					connectedNodePositions.push({
 						x: posX[ind_below],
@@ -822,6 +830,14 @@ function calculateConv1(row, col, filterNum) {
 			// Call updateConv1 with the nodePos object
 			// updateConv1(ind_below, connectedNodePos);
 		}
+
+		// Check and draw square if valid min and max values are found
+		if (minX < Infinity && maxX > -Infinity && minY < Infinity && maxY > -Infinity && squareZ !== 0) {
+			let squareZ = nodePos.z; // Adjust as needed
+			drawSquare(minX, minY, maxX, maxY, squareZ, 0xff0000, 2);
+		} else {
+			console.log("Invalid min and max values for square");}
+
 
 		// After adding vertices and colors
 		var lineMat = new THREE.LineBasicMaterial({ color: 0xffffff, opacity: 1, linewidth: 1, vertexColors: THREE.VertexColors });
