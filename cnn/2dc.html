@@ -787,7 +787,7 @@ function calculateConv1(row, col, filterNum) {
 					console.log("posZ[ind]: " + posZ[ind]);
 					//print out zadjust
 					console.log("zAdjust: " + zAdjust);
-					
+
 					//save z value for squareZ
 					squareZ = posZ[ind_below]+zAdjust
 					//log to see if z is being saved
@@ -841,7 +841,7 @@ function calculateConv1(row, col, filterNum) {
 
 		// Check and draw square if valid min and max values are found
 		if (minX < Infinity && maxX > -Infinity && minY < Infinity && maxY > -Infinity && squareZ !== 0) {
-			drawSquare(minX, minY, maxX, maxY, posY[ind_below]+vertAdjust, 0x33A5FF, 2);
+			drawSquare(minX, minY, maxX, maxY, posY[ind_below]+zAdjust, 0x33A5FF, 2);
 			console.log("Square drawn");
 			//log min, max and z
 			console.log("minX: " + minX + " maxX: " + maxX + " minY: " + minY + " maxY: " + maxY + " squareZ: " + squareZ);
