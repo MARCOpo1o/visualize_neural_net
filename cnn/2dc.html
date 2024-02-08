@@ -784,6 +784,8 @@ function calculateConv1(row, col, filterNum) {
 					
 					//save z value for squareZ
 					squareZ = posZ[ind_below]+zAdjust
+					//log to see if z is being saved
+					console.log("squareZ: " + squareZ);
 					// store posX[ind_below], posY[ind_below], posZ[ind_below] in connectedNodePositions
 					connectedNodePositions.push({
 						x: posX[ind_below],
