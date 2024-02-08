@@ -741,8 +741,6 @@ function calculateConv1(row, col, filterNum) {
 		var r, g, b, rw, gw, bw, v, colorNum;
 
 		var connectedNodePositions = [];
-
-		console.log('row,col = ' + row + ', ' + col);
 		
 	  	for (j=1; j<=nConvNodes_1; j++){
 			ind_below = nPixels+j-1;								
@@ -771,7 +769,10 @@ function calculateConv1(row, col, filterNum) {
 
 					lineGeom.vertices.push(new THREE.Vector3(posX[ind_below], posY[ind_below]+vertAdjust, posZ[ind_below]+zAdjust));
 					lineGeom.vertices.push(new THREE.Vector3(posX[ind], posY[ind]-3, posZ[ind]+zAdjust));
-						
+					
+					// draw square
+					var maxX = null;
+    				var minY = Infinity;
 
 					// store posX[ind_below], posY[ind_below], posZ[ind_below] in connectedNodePositions
 					connectedNodePositions.push({
@@ -910,21 +911,6 @@ function updateConv1(ind, nodePos) {
         lineGeom.vertices.push(new THREE.Vector3(posX_below, posY_below + vertAdjust, posZ_below + zAdjust));
         lineGeom.vertices.push(new THREE.Vector3(posX[ind], posY[ind]-3, posZ[ind]+zAdjust));
 
-		//print out the z coordinates 
-
-		console.log(row, col)
-		console.log("x")
-		console.log(posX[ind])
-		console.log("y")
-		console.log(posY[ind]-3)
-		console.log("z")
-		console.log(posZ[ind]+zAdjust)
-		console.log("x")
-		console.log(posX_below)
-		console.log("y")
-		console.log(posY_below)
-		console.log("z")
-		console.log(posZ_below+zAdjust)
 
         if (isComputed) {
             v = allNodeOutputs[conn.index];
@@ -949,30 +935,33 @@ function updateConv1(ind, nodePos) {
     scene.add(lineMesh);
     lineMeshes.push(lineMesh);
 
-    // Log the coordinates of the top-left and bottom-right blocks
-    console.log(`Top-left block: Row ${minRow}, Column ${minCol}`);
-    console.log(`Bottom-right block: Row ${maxRow}, Column ${maxCol}`);
-	console.log(`z is ${posZ[ind]+zAdjust}`)
-	// Define the coordinates of the rectangle corners
-	var topLeft = new THREE.Vector3(minRow, maxCol+vertAdjust, posZ[ind]+zAdjust); // Assuming Z is 0 for simplicity
-	var topRight = new THREE.Vector3(maxRow, maxCol+vertAdjust, posZ[ind]+zAdjust);
-	var bottomRight = new THREE.Vector3(maxRow, minCol+vertAdjust, posZ[ind]+zAdjust);
-	var bottomLeft = new THREE.Vector3(minRow, minCol+vertAdjust, posZ[ind]+zAdjust);
-
-	// Create the rectangle geometry
-	var rectGeometry = new THREE.Geometry();
-	rectGeometry.vertices.push(topLeft, topRight, bottomRight, bottomLeft, topLeft); // Closed loop
-
-	// Create a line material
-	var material = new THREE.LineBasicMaterial({ color: 0xff0000, linewidth: 2 }); // Red color
-
-	// Create a line using the geometry and material
-	var rectangle = new THREE.Line(rectGeometry, material);
-
-	// Add the rectangle to the scene
-	scene.add(rectangle);
-	lineMeshes.push(rectangle);
+	drawSquare(minRow, minCol, maxRow, maxCol, posZ_below + zAdjust, 0xff0000, 2);
 }
+
+function drawSquare(minRow, minCol, maxRow, maxCol, z, lineColor = 0xff0000, lineWidth = 2) {
+    // Define the coordinates of the rectangle corners
+    var topLeft = new THREE.Vector3(minRow, maxCol, z);
+    var topRight = new THREE.Vector3(maxRow, maxCol, z);
+    var bottomRight = new THREE.Vector3(maxRow, minCol, z);
+    var bottomLeft = new THREE.Vector3(minRow, minCol, z);
+
+    // Create the rectangle geometry
+    var rectGeometry = new THREE.Geometry();
+    rectGeometry.vertices.push(topLeft, topRight, bottomRight, bottomLeft, topLeft); // Closed loop
+
+    // Create a line material
+    var material = new THREE.LineBasicMaterial({ color: lineColor, linewidth: lineWidth });
+
+    // Create a line using the geometry and material
+    var rectangle = new THREE.Line(rectGeometry, material);
+
+    // Add the rectangle to the scene
+    scene.add(rectangle);
+	lineMeshes.push(rectangle);
+
+    return rectangle; // Return the rectangle if needed for further manipulation
+}
+
 
 
 	function calculateCov2(row, col, filterNum) {
@@ -1077,11 +1066,6 @@ function updateConv1(ind, nodePos) {
 		var vertAdjust = 0;
 		var zAdjust = 5;
 		var r, g, b, rw, gw, bw, v, colorNum;
-
-		// get row and col from connectedRows and connectedCols
-		//test what's in them
-		console.log("connectedRows: " + connectedRows)
-		console.log("connectedCols: " + connectedCols)
 
 		row = connectedRows;
 		col = connectedCols;
