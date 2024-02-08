@@ -741,6 +741,11 @@ function calculateConv1(row, col, filterNum) {
 		var r, g, b, rw, gw, bw, v, colorNum;
 
 		var connectedNodePositions = [];
+		// Additional variables for square drawing
+		let minX = Infinity;
+		let maxX = -Infinity;
+    	let minY = Infinity;
+		let maxY = -Infinity;
 		
 	  	for (j=1; j<=nConvNodes_1; j++){
 			ind_below = nPixels+j-1;								
@@ -770,9 +775,6 @@ function calculateConv1(row, col, filterNum) {
 					lineGeom.vertices.push(new THREE.Vector3(posX[ind_below], posY[ind_below]+vertAdjust, posZ[ind_below]+zAdjust));
 					lineGeom.vertices.push(new THREE.Vector3(posX[ind], posY[ind]-3, posZ[ind]+zAdjust));
 					
-					// draw square
-					var maxX = null;
-    				var minY = Infinity;
 
 					// store posX[ind_below], posY[ind_below], posZ[ind_below] in connectedNodePositions
 					connectedNodePositions.push({
@@ -888,6 +890,7 @@ function updateConv1(ind, nodePos) {
     var vertAdjust = 0;
     var zAdjust = 5;
     var r, g, b, rw, gw, bw, v, colorNum;
+	var z = 0;
 
     let connections = calculateConv1(row, col, filterNum);
 
@@ -910,7 +913,7 @@ function updateConv1(ind, nodePos) {
 
         lineGeom.vertices.push(new THREE.Vector3(posX_below, posY_below + vertAdjust, posZ_below + zAdjust));
         lineGeom.vertices.push(new THREE.Vector3(posX[ind], posY[ind]-3, posZ[ind]+zAdjust));
-
+		z = posZ_below + zAdjust;
 
         if (isComputed) {
             v = allNodeOutputs[conn.index];
@@ -935,7 +938,7 @@ function updateConv1(ind, nodePos) {
     scene.add(lineMesh);
     lineMeshes.push(lineMesh);
 
-	drawSquare(minRow, minCol, maxRow, maxCol, posZ_below + zAdjust, 0xff0000, 2);
+	drawSquare(minRow, minCol, maxRow, maxCol, z, 0xff0000, 2);
 }
 
 function drawSquare(minRow, minCol, maxRow, maxCol, z, lineColor = 0xff0000, lineWidth = 2) {
