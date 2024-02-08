@@ -954,10 +954,10 @@ function updateConv1(ind, nodePos) {
     console.log(`Bottom-right block: Row ${maxRow}, Column ${maxCol}`);
 	console.log(`z is ${posZ[ind]+zAdjust}`)
 	// Define the coordinates of the rectangle corners
-	var topLeft = new THREE.Vector3(minRow, minCol+vertAdjust, posZ[ind]+zAdjust); // Assuming Z is 0 for simplicity
+	var topLeft = new THREE.Vector3(minRow, maxCol+vertAdjust, posZ[ind]+zAdjust); // Assuming Z is 0 for simplicity
 	var topRight = new THREE.Vector3(maxRow, maxCol+vertAdjust, posZ[ind]+zAdjust);
 	var bottomRight = new THREE.Vector3(maxRow, minCol+vertAdjust, posZ[ind]+zAdjust);
-	var bottomLeft = new THREE.Vector3(minRow, maxCol+vertAdjust, posZ[ind]+zAdjust);
+	var bottomLeft = new THREE.Vector3(minRow, minCol+vertAdjust, posZ[ind]+zAdjust);
 
 	// Create the rectangle geometry
 	var rectGeometry = new THREE.Geometry();
