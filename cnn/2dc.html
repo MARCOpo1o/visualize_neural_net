@@ -747,12 +747,6 @@ function calculateConv1(row, col, filterNum) {
     	let minY = Infinity;
 		let maxY = -Infinity;
 		let squareZ = 0; 
-		drawSquare(-100, -200, 100, -250, 5, 0x33A5FF, 2);
-		drawSquare(-100, -500, 100, -250, 0, 0xfcba03, 2);
-		//log
-		console.log("Square drawn");
-
-
 		
 	  	for (j=1; j<=nConvNodes_1; j++){
 			ind_below = nPixels+j-1;								
@@ -787,23 +781,14 @@ function calculateConv1(row, col, filterNum) {
 
 					lineGeom.vertices.push(new THREE.Vector3(posX[ind_below], posY[ind_below]+vertAdjust, posZ[ind_below]+zAdjust));
 					lineGeom.vertices.push(new THREE.Vector3(posX[ind], posY[ind]-3, posZ[ind]+zAdjust));
-					
-					//print out both z
-					console.log("posZ[ind_below]: " + posZ[ind_below]);
-					console.log("posZ[ind]: " + posZ[ind]);
-					//print out zadjust
-					console.log("zAdjust: " + zAdjust);
 
-					//save z value for squareZ
-					squareZ = posZ[ind_below]+zAdjust
-					//log to see if z is being saved
-					console.log("squareZ: " + squareZ);
 					// store posX[ind_below], posY[ind_below], posZ[ind_below] in connectedNodePositions
 					connectedNodePositions.push({
 						x: posX[ind_below],
 						y: posY[ind_below],
 						z: posZ[ind_below]
 					});
+
 
 					// Call NewUpdateConv1 for each connected node
 					connectedNodePositions.forEach(connectedNodePos => {
@@ -847,7 +832,7 @@ function calculateConv1(row, col, filterNum) {
 
 		// Check and draw square if valid min and max values are found
 		if (minX < Infinity && maxX > -Infinity && minY < Infinity && maxY > -Infinity && squareZ !== 0) {
-			drawSquare(minX, minY, maxX, maxY, 4, 0x33A5FF, 2);
+			drawSquare(minX, minY, maxX, maxY, 5, 0x33A5FF, 2);
 			console.log("Square drawn");
 			//log min, max and z
 			console.log("minX: " + minX + " maxX: " + maxX + " minY: " + minY + " maxY: " + maxY + " squareZ: " + squareZ);
