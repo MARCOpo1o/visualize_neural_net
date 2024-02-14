@@ -768,6 +768,7 @@ function calculateConv1(row, col, filterNum) {
 					maxX = Math.max(maxX, posX[ind_below]);
 					minY = Math.min(minY, posY[ind_below]);
 					maxY = Math.max(maxY, posY[ind_below]);
+					console.log(minX, maxX, minY, maxY);
 
 					// Store connected rows and columns
 					connectedRows.push(row_below);
@@ -830,12 +831,13 @@ function calculateConv1(row, col, filterNum) {
 			// updateConv1(ind_below, connectedNodePos);
 		}
 
+
 		// Check and draw square if valid min and max values are found
 		if (minX < Infinity && maxX > -Infinity && minY < Infinity && maxY > -Infinity && squareZ !== 0) {
 			drawSquare(minX, minY, maxX, maxY, 5, 0x33A5FF, 2);
 			console.log("Square drawn");
 			//log min, max and z
-			console.log("minX: " + minX + " maxX: " + maxX + " minY: " + minY + " maxY: " + maxY + " squareZ: " + squareZ);
+			console.log("minX: " + minX + " maxX: " + maxX + " minY: " + minY + " maxY: " + maxY);
 		} else {
 			console.log("Invalid min and max values for square");}
 
