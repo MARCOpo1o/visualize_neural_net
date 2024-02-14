@@ -988,10 +988,12 @@ function calculateConv1(row, col, filterNum) {
 		// Use calculateConv1 to get the connections
 		connectedRows.forEach((row, i) => {
 			let col = connectedCols[i];
+			//log the row and col
+			console.log("row: " + row + " col: " + col);
 			let connections = calculateConv1(row, col, filterNum); // Adjust rows and cols for the scale
 			connections.forEach(conn => {
-				//log the column and row
-				console.log("row: " + row + " col: " + col);
+				//log the connections
+				console.log("connections: " + connections);
 				let posX_below = posX[conn.index];
 				let posY_below = posY[conn.index];
 				let posZ_below = posZ[conn.index];
