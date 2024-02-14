@@ -969,6 +969,8 @@ function calculateConv1(row, col, filterNum) {
 
 
 	function NewUpdateConv1(ind, nodePos, connectedRows, connectedCols) {
+		// print out all the variables
+		console.log("NewUpdateConv1: ind: " + ind + " nodePos: " + nodePos + " connectedRows: " + connectedRows + " connectedCols: " + connectedCols);
 		var lineGeom = new THREE.Geometry();
 		lineGeom.dynamic = true;
 		var colors = [];
@@ -1027,6 +1029,9 @@ function calculateConv1(row, col, filterNum) {
 				colors[vertCount++] = new THREE.Color(r, g, b);
 			});
 		});
+
+		//print out the min and max values
+		console.log("minX1: " + minX1 + " maxX1: " + maxX1 + " minY1: " + minY1 + " maxY1: " + maxY1);
 
 		// Check and draw square if valid min and max values are found
 		if (minX1 < Infinity && maxX1 > -Infinity && minY1 < Infinity && maxY1 > -Infinity) {
