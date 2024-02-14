@@ -727,6 +727,128 @@ function calculateConv1(row, col, filterNum) {
     return connections;
 	}
 
+	// function updateDown1(ind, nodePos) {
+	// 	// ... existing initialization code ...
+	// 	var connectedRows = [];
+    // 	var connectedCols = [];
+
+	// 	var lineGeom = new THREE.Geometry(); // Define lineGeom here
+    // 	lineGeom.dynamic = true;
+	// 	var colors = [];
+	// 	var vertCount = 0;
+	// 	var vertAdjust = 0;
+	// 	var zAdjust = 5;
+	// 	var r, g, b, rw, gw, bw, v, colorNum;
+
+	// 	var connectedNodePositions = [];
+	// 	// Additional variables for square drawing
+	// 	let minX = Infinity;
+	// 	let maxX = -Infinity;
+    // 	let minY = Infinity;
+	// 	let maxY = -Infinity;
+	// 	let squareZ = 0; 
+		
+	//   	for (j=1; j<=nConvNodes_1; j++){
+	// 		ind_below = nPixels+j-1;								
+	// 		temp_below = allNodeNums[ind_below]-1;
+	// 		filterNum_below = math.floor((ind_below-nPixels)/(28*28));
+	// 		var row_below = temp_below % 28;
+	// 		var col_below = math.floor(temp_below/28);
+			  
+	// 		// Determine the position of the node represented by 'ind'
+	// 		var nodePosX = posX[ind];
+	// 		var nodePosY = posY[ind];
+	// 		var nodePosZ = posZ[ind];
+
+	// 		if (filterNum_below==filterNum) {
+	// 			if (math.floor(row_below/2) == row && math.floor(col_below/2)==col) {
+
+	// 				// Update min and max values for X and Y
+	// 				minX = Math.min(minX, posX[ind_below]);
+	// 				maxX = Math.max(maxX, posX[ind_below]);
+	// 				minY = Math.min(minY, posY[ind_below]);
+	// 				maxY = Math.max(maxY, posY[ind_below]);
+	// 				console.log(minX, maxX, minY, maxY);
+
+	// 				// Store connected rows and columns
+	// 				connectedRows.push(row_below);
+    //             	connectedCols.push(col_below);
+
+	// 				var ro=row_below - row;
+	// 				var co=col_below - col;
+					
+	// 				if (conv1_hide)
+	// 				vertAdjust = 0;
+
+	// 				lineGeom.vertices.push(new THREE.Vector3(posX[ind_below], posY[ind_below]+vertAdjust, posZ[ind_below]+zAdjust));
+	// 				lineGeom.vertices.push(new THREE.Vector3(posX[ind], posY[ind]-3, posZ[ind]+zAdjust));
+
+	// 				// store posX[ind_below], posY[ind_below], posZ[ind_below] in connectedNodePositions
+	// 				connectedNodePositions.push({
+	// 					x: posX[ind_below],
+	// 					y: posY[ind_below],
+	// 					z: posZ[ind_below]
+	// 				});
+
+
+	// 				// Call NewUpdateConv1 for each connected node
+	// 				connectedNodePositions.forEach(connectedNodePos => {
+	// 					console.log("new update conv1")
+	// 					NewUpdateConv1(ind, connectedNodePos, connectedRows, connectedCols);
+	// 				});
+	// 				if (isComputed){
+	// 					v = allNodeOutputs[ind_below];
+	// 					colorNum = math.round(v*99);
+	// 					r = redLookup[colorNum];
+	// 					g = greenLookup[colorNum];
+	// 					b = blueLookup[colorNum];
+	// 				} else {
+	// 					r=0.7; 
+	// 					g=0.7; 
+	// 					b=0.7;
+	// 				}
+	// 				v=1;
+	// 				colorNum = math.round(v*99);
+	// 				rw = 0;										
+	// 				gw = greenLookup[colorNum];
+	// 				bw = blueLookup[colorNum];
+					
+	// 				colors[ vertCount ] = new THREE.Color( rw,gw,bw );
+	// 				vertCount++;
+	// 				colors[ vertCount ] = new THREE.Color( rw,gw,bw );
+	// 				vertCount++;
+
+	// 				// Pass the position of the current node (ind) to NewUpdateConv1
+	// 				var currentNodePos = {
+	// 					x: nodePosX,
+	// 					y: nodePosY,
+	// 					z: nodePosZ
+	// 				};
+	// 			}
+	
+	// 		}
+	// 		// Call updateConv1 with the nodePos object
+	// 		// updateConv1(ind_below, connectedNodePos);
+	// 	}
+
+	// 	console.log("min-max value after loop: ", minX, maxX, minY, maxY)
+	// 	// Check and draw square if valid min and max values are found
+	// 	if (minX < Infinity && maxX > -Infinity && minY < Infinity && maxY > -Infinity) {
+	// 		drawSquare(minX, minY, maxX, maxY, 5, 0x33A5FF, 2);
+	// 		console.log("Square drawn");
+	// 		//log min, max and z
+	// 		console.log("minX: " + minX + " maxX: " + maxX + " minY: " + minY + " maxY: " + maxY);
+	// 	} else {
+	// 		console.log("Invalid min and max values for square");}
+
+
+	// 	// After adding vertices and colors
+	// 	var lineMat = new THREE.LineBasicMaterial({ color: 0xffffff, opacity: 1, linewidth: 1, vertexColors: THREE.VertexColors });
+	// 	var lineMesh = new THREE.Line(lineGeom, lineMat); // Create a line mesh
+	// 	scene.add(lineMesh); // Add the line mesh to the scene
+	// 	lineMeshes.push(lineMesh); // Store the reference to the new line mesh
+	// }
+	
 	function updateDown1(ind, nodePos) {
 		// ... existing initialization code ...
 		var connectedRows = [];
@@ -769,10 +891,6 @@ function calculateConv1(row, col, filterNum) {
 					minY = Math.min(minY, posY[ind_below]);
 					maxY = Math.max(maxY, posY[ind_below]);
 					console.log(minX, maxX, minY, maxY);
-
-					// Store connected rows and columns
-					connectedRows.push(row_below);
-                	connectedCols.push(col_below);
 
 					var ro=row_below - row;
 					var co=col_below - col;
@@ -831,7 +949,16 @@ function calculateConv1(row, col, filterNum) {
 			// updateConv1(ind_below, connectedNodePos);
 		}
 
-		console.log("min-max value after loop: ", minX, maxX, minY, maxY)
+		// Store connected rows and columns
+		connectedRows.push(minX, maxX);
+        connectedCols.push(minY, maxY);
+		connectedNodePos = {
+			x: posX[ind_below],
+			y: posY[ind_below],
+			z: posZ[ind_below]
+		};
+		NewUpdateConv1(ind, connectedNodePos, connectedRows, connectedCols);
+
 		// Check and draw square if valid min and max values are found
 		if (minX < Infinity && maxX > -Infinity && minY < Infinity && maxY > -Infinity) {
 			drawSquare(minX, minY, maxX, maxY, 5, 0x33A5FF, 2);
@@ -848,7 +975,6 @@ function calculateConv1(row, col, filterNum) {
 		scene.add(lineMesh); // Add the line mesh to the scene
 		lineMeshes.push(lineMesh); // Store the reference to the new line mesh
 	}
-	
 						
 
 
