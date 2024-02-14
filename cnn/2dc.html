@@ -693,6 +693,9 @@
 function calculateConv1(row, col, filterNum) {
     let connections = [];
 
+	//log row and col
+	console.log("in calculation conv1", row, col)
+
     for (let j = 1; j <= nPixels; j++) {
         let ind_below = j - 1;
         let temp_below = allNodeNums[ind_below] - 1;
@@ -701,6 +704,8 @@ function calculateConv1(row, col, filterNum) {
 
         if (row_below > row - 1 && row_below < row + 5 && col_below > col - 1 && col_below < col + 5) {
             connections.push({ row: row_below, col: col_below, index: ind_below });
+			//log this row and col
+			console.log("row_below", row_below, "col_below", col_below)
         }
     }
 
@@ -990,7 +995,7 @@ function calculateConv1(row, col, filterNum) {
 			let col = connectedCols[i];
 			//log the row and col
 			console.log("row: " + row + " col: " + col);
-			let connections = calculateConv1(row, col, filterNum); // Adjust rows and cols for the scale
+			let connections = calculateConv1(row, col, filterNum);
 			//log the connections
 			console.log("connections: " + connections);
 			connections.forEach(conn => {
