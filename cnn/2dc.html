@@ -833,7 +833,7 @@ function calculateConv1(row, col, filterNum) {
 
 		console.log("min-max value after loop: ", minX, maxX, minY, maxY)
 		// Check and draw square if valid min and max values are found
-		if (minX < Infinity && maxX > -Infinity && minY < Infinity && maxY > -Infinity && squareZ !== 0) {
+		if (minX < Infinity && maxX > -Infinity && minY < Infinity && maxY > -Infinity) {
 			drawSquare(minX, minY, maxX, maxY, 5, 0x33A5FF, 2);
 			console.log("Square drawn");
 			//log min, max and z
@@ -862,12 +862,11 @@ function calculateConv1(row, col, filterNum) {
 		var r, g, b, rw, gw, bw, v, colorNum;
 
 		// Additional variables for square drawing
-		let minX = Infinity;
-		let maxX = -Infinity;
-    	let minY = Infinity;
-		let maxY = -Infinity;
-		let squareZ = 0; 
-		
+		let minX1 = Infinity;
+		let maxX1 = -Infinity;
+    	let minY1 = Infinity;
+		let maxY1 = -Infinity;
+
 		// Use calculateConv1 to get the connections
 		connectedRows.forEach((row, i) => {
 			let col = connectedCols[i];
@@ -878,10 +877,10 @@ function calculateConv1(row, col, filterNum) {
 				let posZ_below = posZ[conn.index];
 
 				// Update min and max values for X and Y
-				minX = Math.min(minX, posX_below);
-				maxX = Math.max(maxX, posX_below);
-				minY = Math.min(minY, posY_below);
-				maxY = Math.max(maxY, posY_below);
+				minX1 = Math.min(minX1, posX_below);
+				maxX1 = Math.max(maxX1, posX_below);
+				minY1 = Math.min(minY1, posY_below);
+				maxY1 = Math.max(maxY1, posY_below);
 				// get z value
 				squareZ = posZ_below + zAdjust;
 
@@ -909,8 +908,8 @@ function calculateConv1(row, col, filterNum) {
 		});
 
 		// Check and draw square if valid min and max values are found
-		if (minX < Infinity && maxX > -Infinity && minY < Infinity && maxY > -Infinity && squareZ !== 0) {
-			drawSquare(minX, minY, maxX, maxY, squareZ, 0xff0000, 2);
+		if (minX < Infinity && maxX > -Infinity && minY < Infinity && maxY > -Infinity) {
+			drawSquare(minX1, minY1, maxX1, maxY1, 5, 0xff0000, 2);
 		} else {
 			console.log("Invalid min and max values for square");
 		}
