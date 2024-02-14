@@ -831,7 +831,7 @@ function calculateConv1(row, col, filterNum) {
 			// updateConv1(ind_below, connectedNodePos);
 		}
 
-
+		console.log("min-max value after loop: ", minX, maxX, minY, maxY)
 		// Check and draw square if valid min and max values are found
 		if (minX < Infinity && maxX > -Infinity && minY < Infinity && maxY > -Infinity && squareZ !== 0) {
 			drawSquare(minX, minY, maxX, maxY, 5, 0x33A5FF, 2);
