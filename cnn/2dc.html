@@ -998,9 +998,14 @@ function calculateConv1(row, col, filterNum) {
 			let col = connectedCols[i];
 			let connections = calculateConv1(row, col, filterNum); // Adjust rows and cols for the scale
 			connections.forEach(conn => {
+				//log the column and row
+				console.log("row: " + row + " col: " + col);
 				let posX_below = posX[conn.index];
 				let posY_below = posY[conn.index];
 				let posZ_below = posZ[conn.index];
+
+				//log the positions
+				console.log("posX_below: " + posX_below + " posY_below: " + posY_below + " posZ_below: " + posZ_below);
 
 				// Update min and max values for X and Y
 				minX1 = Math.min(minX1, posX_below);
