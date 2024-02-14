@@ -908,7 +908,7 @@ function calculateConv1(row, col, filterNum) {
 		});
 
 		// Check and draw square if valid min and max values are found
-		if (minX < Infinity && maxX > -Infinity && minY < Infinity && maxY > -Infinity) {
+		if (minX1 < Infinity && maxX1 > -Infinity && minY1 < Infinity && maxY1 > -Infinity) {
 			drawSquare(minX1, minY1, maxX1, maxY1, 5, 0xff0000, 2);
 		} else {
 			console.log("Invalid min and max values for square");
@@ -981,7 +981,7 @@ function updateConv1(ind, nodePos) {
 	drawSquare(minRow, minCol, maxRow, maxCol, z, 0xff0000, 2);
 }
 
-function drawSquare(minRow, minCol, maxRow, maxCol, z, lineColor = 0xff0000, lineWidth = 2) {
+function drawSquare(minRow, minCol, maxRow, maxCol, z=5, lineColor = 0xff0000, lineWidth = 2) {
     // Define the coordinates of the rectangle corners
     var topLeft = new THREE.Vector3(minRow, maxCol, z);
     var topRight = new THREE.Vector3(maxRow, maxCol, z);
