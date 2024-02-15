@@ -500,12 +500,12 @@
 		      if (layerNum[interID]==0) {
 			  // inp layer
 		      } else if (layerNum[interID]==1) {
-				var connectedRows =[]
-				var connectedCols =[]
-				// add row to connectedRows
-				connectedRows.push(row)
-				// add col to connectedCols
-				connectedCols.push(col)
+				// var connectedRows =[]
+				// var connectedCols =[]
+				// // add row to connectedRows
+				// connectedRows.push(row)
+				// // add col to connectedCols
+				// connectedCols.push(col)
 				// var connectedNodePositions = []
 				// connectedNodePositions.push({
 				// 		x: posX[ind],
@@ -1067,6 +1067,8 @@ function updateConv1(ind, nodePos) {
     var r, g, b, rw, gw, bw, v, colorNum;
 	var z = 0;
 
+	//log current node position
+	console.log("current node position: ", row, col)
     let connections = calculateConv1(row, col, filterNum);
 
     // Initialize variables to track min and max rows and columns
