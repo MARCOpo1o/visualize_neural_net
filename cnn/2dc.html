@@ -1067,10 +1067,8 @@ function updateConv1(ind, nodePos) {
     var r, g, b, rw, gw, bw, v, colorNum;
 	var z = 0;
 
-	//draw "x":-65,0"y":-350,-300"z":5
-	// drawSquare(-65, -350, 0, -300, 5, 0xff0000, 2);
-	//draw 0, 0, 5
-	drawSquare(0, 10, 0, 10, 5, 0xff0000, 2);
+	//draw a square of size 10 with the current node position using row and col
+	drawSquare(row, col, row+5, col+5, 5, 0xff0000, 2)
 
 
 	//log current node position
@@ -1512,8 +1510,6 @@ function drawSquare(minRow, minCol, maxRow, maxCol, z=5, lineColor = 0xff0000, l
 	      createText(nums, 0, 100);
 	      drawCubes();
 	      drawEdges();
-		  //open a popup window
-		//   window.open('http://www.google.com','name','height=200,width=150');
 	      uncheckAll();
 	  });
       }
