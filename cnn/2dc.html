@@ -1070,9 +1070,16 @@ function updateConv1(ind, nodePos) {
 	//draw a square of size 10 with the current node position using row and col
 	drawSquare(row, col, row+5, col+5, 5, 0xff0000, 2)
 
+	//draw another square using calculated row and col using layerNum, this is blue in color
+	filterNum = -1;
+	tempInd = allNodeNums[interID]-1;
+	row1 = (tempInd) % 32;
+	col1 = math.floor(tempInd/32);	
+	console.log("calcualted: row1: " + row1 + " col1: " + col1);
+	drawSquare(row1, col1, row1+5, col1+5, 5, 0x33A5FF, 2)	
 
 	//log current node position
-	console.log("current node position: ", row, col)
+	console.log("current node position with row and col: ", row, col)
     let connections = calculateConv1(row, col, filterNum);
 
     // Initialize variables to track min and max rows and columns
