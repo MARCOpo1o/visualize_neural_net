@@ -497,6 +497,8 @@
 		  if (highlightBox.visible) {
 		      ind = interID;
 		      var nodePos = posY[interID];
+			  //print row and cols 
+			  console.log("beginning: row and col", row, col)
 		      if (layerNum[interID]==0) {
 			  // inp layer
 		      } else if (layerNum[interID]==1) {
@@ -693,9 +695,6 @@
 function calculateConv1(row, col, filterNum) {
     let connections = [];
 
-	//log row and col
-	console.log("in calculation conv1", row, col)
-
     for (let j = 1; j <= nPixels; j++) {
         let ind_below = j - 1;
         let temp_below = allNodeNums[ind_below] - 1;
@@ -704,8 +703,6 @@ function calculateConv1(row, col, filterNum) {
 
         if (row_below > row - 1 && row_below < row + 5 && col_below > col - 1 && col_below < col + 5) {
             connections.push({ row: row_below, col: col_below, index: ind_below });
-			//log this row and col
-			console.log("row_below", row_below, "col_below", col_below)
         }
     }
 
@@ -975,7 +972,6 @@ function calculateConv1(row, col, filterNum) {
 
 	function NewUpdateConv1(ind, nodePos, connectedRows, connectedCols) {
 		// print out all the variables
-		console.log("NewUpdateConv1: ind: " + ind + " nodePos: " + nodePos + " connectedRows: " + connectedRows + " connectedCols: " + connectedCols);
 		var lineGeom = new THREE.Geometry();
 		lineGeom.dynamic = true;
 		var colors = [];
@@ -993,20 +989,14 @@ function calculateConv1(row, col, filterNum) {
 		// Use calculateConv1 to get the connections
 		connectedRows.forEach((row, i) => {
 			let col = connectedCols[i];
-			//log the row and col
-			console.log("row: " + row + " col: " + col);
 			let connections = calculateConv1(row, col, filterNum);
-			//log the connections
-			console.log("connections: " + connections);
 			connections.forEach(conn => {
-				//log the connections
-				console.log(" in connections: " + conn);
+			
 				let posX_below = posX[conn.index];
 				let posY_below = posY[conn.index];
 				let posZ_below = posZ[conn.index];
 
-				//log the positions
-				console.log("posX_below: " + posX_below + " posY_below: " + posY_below + " posZ_below: " + posZ_below);
+			
 
 				// Update min and max values for X and Y
 				minX1 = Math.min(minX1, posX_below);
@@ -1039,8 +1029,7 @@ function calculateConv1(row, col, filterNum) {
 			});
 		});
 
-		//print out the min and max values
-		console.log("minX1: " + minX1 + " maxX1: " + maxX1 + " minY1: " + minY1 + " maxY1: " + maxY1);
+		
 
 		// Check and draw square if valid min and max values are found
 		if (minX1 < Infinity && maxX1 > -Infinity && minY1 < Infinity && maxY1 > -Infinity) {
@@ -1067,19 +1056,6 @@ function updateConv1(ind, nodePos) {
     var r, g, b, rw, gw, bw, v, colorNum;
 	var z = 0;
 
-	//draw a square of size 10 with the current node position using row and col
-	drawSquare(row, col, row+5, col+5, 5, 0xff0000, 2)
-
-	//draw another square using calculated row and col using layerNum, this is blue in color
-	filterNum = -1;
-	tempInd = allNodeNums[interID]-1;
-	row1 = (tempInd) % 32;
-	col1 = math.floor(tempInd/32);	
-	console.log("calcualted: row1: " + row1 + " col1: " + col1);
-	drawSquare(row1, col1, row1+5, col1+5, 5, 0x33A5FF, 2)	
-
-	//log current node position
-	console.log("current node position with row and col: ", row, col)
     let connections = calculateConv1(row, col, filterNum);
 
     // Initialize variables to track min and max rows and columns
@@ -1187,7 +1163,6 @@ function drawSquare(minRow, minCol, maxRow, maxCol, z=5, lineColor = 0xff0000, l
 		var r, g, b, rw, gw, bw, v, colorNum;
 
 		for (j=1; j<=nConvNodes_1_down; j++){
-			console.log(j)
 			ind_below = nPixels+nConvNodes_1+j-1;								
 			temp_below = allNodeNums[ind_below]-1;
 			filterNum_below = math.floor((ind_below-nPixels-nConvNodes_1)/(14*14));
@@ -1260,7 +1235,6 @@ function drawSquare(minRow, minCol, maxRow, maxCol, z=5, lineColor = 0xff0000, l
 
 		row = connectedRows;
 		col = connectedCols;
-		console.log(nConvNodes_1)
 		for (j=1; j<=nConvNodes_1; j++){
 			ind_below = nPixels+j-1;								
 			temp_below = allNodeNums[ind_below]-1;
