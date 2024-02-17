@@ -692,7 +692,7 @@
 
 
 // function to calcualte the connections for conv1
-function calculateConv1(row, col, filterNum) {
+function calculateConv1(row, col) {
     let connections = [];
 
     for (let j = 1; j <= nPixels; j++) {
@@ -870,6 +870,12 @@ function calculateConv1(row, col, filterNum) {
 		let maxX = -Infinity;
     	let minY = Infinity;
 		let maxY = -Infinity;
+
+		// min, max values for connected rows and columns
+		let minRow = Infinity;
+		let maxRow = -Infinity;
+		let minCol = Infinity;
+		let maxCol = -Infinity;
 		
 	  	for (j=1; j<=nConvNodes_1; j++){
 			ind_below = nPixels+j-1;								
@@ -892,14 +898,15 @@ function calculateConv1(row, col, filterNum) {
 					minY = Math.min(minY, posY[ind_below]);
 					maxY = Math.max(maxY, posY[ind_below]);
 
-					var ro=row_below - row;
-					var co=col_below - col;
+					// Update min and max values for connected rows and columns
+					minRow = Math.min(minRow, row_below);
+					maxRow = Math.max(maxRow, row_below);
+					minCol = Math.min(minCol, col_below);
+					maxCol = Math.max(maxCol, col_below);
 					
 					if (conv1_hide)
 					vertAdjust = 0;
-					// print out ind to see what it is
-					console.log("ind: ", ind);
-					console.log("ind_below: ", ind_below);
+
 					//print PoxX, posY, posZ
 					lineGeom.vertices.push(new THREE.Vector3(posX[ind_below], posY[ind_below]+vertAdjust, posZ[ind_below]+zAdjust));
 					lineGeom.vertices.push(new THREE.Vector3(posX[ind], posY[ind]-3, posZ[ind]+zAdjust));
@@ -947,13 +954,14 @@ function calculateConv1(row, col, filterNum) {
 		}
 
 		// Store connected rows and columns
-		connectedRows.push(minX, maxX);
-        connectedCols.push(minY, maxY);
+		connectedRows.push(minRow, maxRow);
+		connectedCols.push(minCol, maxCol);
 		connectedNodePos = {
 			x: posX[ind_below],
 			y: posY[ind_below],
 			z: posZ[ind_below]
 		};
+		//take the first ind_below and the last ind_below, and then use that to calculate the square
 		NewUpdateConv1(ind, connectedNodePos, connectedRows, connectedCols);
 
 		// Check and draw square if valid min and max values are found
@@ -994,7 +1002,7 @@ function calculateConv1(row, col, filterNum) {
 		// Use calculateConv1 to get the connections
 		connectedRows.forEach((row, i) => {
 			let col = connectedCols[i];
-			let connections = calculateConv1(row, col, filterNum);
+			let connections = calculateConv1(row1, col1);
 			connections.forEach(conn => {
 			
 				let posX_below = posX[conn.index];
@@ -1061,7 +1069,7 @@ function updateConv1(ind, nodePos) {
     var r, g, b, rw, gw, bw, v, colorNum;
 	var z = 0;
 
-    let connections = calculateConv1(row, col, filterNum);
+    let connections = calculateConv1(row, col);
 
     // Initialize variables to track min and max rows and columns
     let minRow = Infinity, minCol = Infinity;
