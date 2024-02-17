@@ -987,10 +987,6 @@ function calculateConv1(row, col) {
 		// print out all the variables
 		var lineGeom = new THREE.Geometry();
 		lineGeom.dynamic = true;
-		var colors = [];
-		var vertCount = 0;
-		var vertAdjust = 0;
-		var zAdjust = 5;
 		var r, g, b, rw, gw, bw, v, colorNum;
 
 		// Additional variables for square drawing
@@ -1016,33 +1012,9 @@ function calculateConv1(row, col) {
 				maxX1 = Math.max(maxX1, posX_below);
 				minY1 = Math.min(minY1, posY_below);
 				maxY1 = Math.max(maxY1, posY_below);
-				// get z value
-				squareZ = posZ_below + zAdjust;
-
-				if (input_hide) vertAdjust = 0;
-
-				// Draw lines to the calculated connections
-				lineGeom.vertices.push(new THREE.Vector3(nodePos.x, nodePos.y, nodePos.z));
-				lineGeom.vertices.push(new THREE.Vector3(posX_below, posY_below + vertAdjust, posZ_below + zAdjust));
-
-				if (isComputed) {
-					let v = allNodeOutputs[conn.index];
-					let colorNum = Math.round(v * 99);
-					r = redLookup[colorNum];
-					g = greenLookup[colorNum];
-					b = blueLookup[colorNum];
-				} else {
-					r = 0.7;
-					g = 0.7;
-					b = 0.7;
-				}
-
-				colors[vertCount++] = new THREE.Color(r, g, b);
-				colors[vertCount++] = new THREE.Color(r, g, b);
 			});
 		});
 
-		
 
 		// Check and draw square if valid min and max values are found
 		if (minX1 < Infinity && maxX1 > -Infinity && minY1 < Infinity && maxY1 > -Infinity) {
