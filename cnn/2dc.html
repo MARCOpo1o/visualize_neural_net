@@ -966,6 +966,9 @@ function calculateConv1(row, col, filterNum) {
 		var lineMesh = new THREE.Line(lineGeom, lineMat); // Create a line mesh
 		scene.add(lineMesh); // Add the line mesh to the scene
 		lineMeshes.push(lineMesh); // Store the reference to the new line mesh
+
+		//log the current location
+		console.log("current location: ", posX[ind], posY[ind]-3, posZ[ind]+zAdjust);
 	}
 						
 
@@ -1103,6 +1106,8 @@ function updateConv1(ind, nodePos) {
     lineMeshes.push(lineMesh);
 
 	drawSquare(minRow, minCol, maxRow, maxCol, z, 0xff0000, 2);
+	//log the current location
+	console.log("current location: ", posX[ind], posY[ind]-3, posZ[ind]+zAdjust);
 }
 
 function drawSquare(minRow, minCol, maxRow, maxCol, z=5, lineColor = 0xff0000, lineWidth = 2) {
