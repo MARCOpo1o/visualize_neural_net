@@ -1002,7 +1002,7 @@ function calculateConv1(row, col) {
 		// Use calculateConv1 to get the connections
 		connectedRows.forEach((row, i) => {
 			let col = connectedCols[i];
-			let connections = calculateConv1(row1, col1);
+			let connections = calculateConv1(row, col);
 			connections.forEach(conn => {
 			
 				let posX_below = posX[conn.index];
