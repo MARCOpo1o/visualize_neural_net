@@ -870,7 +870,6 @@ function calculateConv1(row, col, filterNum) {
 		let maxX = -Infinity;
     	let minY = Infinity;
 		let maxY = -Infinity;
-		let squareZ = 0; 
 		
 	  	for (j=1; j<=nConvNodes_1; j++){
 			ind_below = nPixels+j-1;								
@@ -898,7 +897,10 @@ function calculateConv1(row, col, filterNum) {
 					
 					if (conv1_hide)
 					vertAdjust = 0;
-
+					// print out ind to see what it is
+					console.log("ind: ", ind);
+					console.log("ind_below: ", ind_below);
+					//print PoxX, posY, posZ
 					lineGeom.vertices.push(new THREE.Vector3(posX[ind_below], posY[ind_below]+vertAdjust, posZ[ind_below]+zAdjust));
 					lineGeom.vertices.push(new THREE.Vector3(posX[ind], posY[ind]-3, posZ[ind]+zAdjust));
 
