@@ -1002,7 +1002,13 @@ function drawSquare(minRow, minCol, maxRow, maxCol, z=5, lineColor = 0xff0000, l
 			}
 
 			//draw the square
-			drawSquare(minX, minY, maxX, maxY, 5, 0xff0000, 2);
+			if (minX < Infinity && maxX > -Infinity && minY < Infinity && maxY > -Infinity) {
+				drawSquare(minX, minY, maxX, maxY, 5, 0xff0000, 2);
+				//log min max x and y
+				console.log("minX", minX, "maxX", maxX, "minY", minY, "maxY", maxY)
+			} else {
+				console.log("NewConv1: Invalid min and max values for square");
+			}
 
 			//connect to the lower level from here
 
