@@ -954,19 +954,60 @@ function drawSquare(minRow, minCol, maxRow, maxCol, z=5, lineColor = 0xff0000, l
 		var r, g, b, rw, gw, bw, v, colorNum;
 		var connectedRows = [];
 		var connectedCols = [];
-
-		// Additional variables for square drawing
-		let minX = Infinity;
-		let maxX = -Infinity;
-    	let minY = Infinity;
-		let maxY = -Infinity;
-
-		// min, max values for connected rows and columns
-		let minRow = Infinity;
-		let maxRow = -Infinity;
-		let minCol = Infinity;
-		let maxCol = -Infinity;
 		let connections = calculateCov2(row, col, filterNum);
+		
+		//log the length of connections
+		console.log("length of connections", connections.length)
+		console.log(connections.length/6)
+		console.log("should be 25")
+
+		var total_square = 6;
+		//get length of connections
+		//the connections should be 6 of 5*5
+		//divide into 6 groups of 5*5
+		//a for loop to go through each group
+		//for each group, calculate the min and max of the row and col
+		//draw the square
+		for (let i = 0; i< connections.length; i +=connections.length/total_square){
+			//for each group, find out the min and max of the row and col and then draw the square
+			// store the min and max values for X and Y after the connection 
+			console.log("i", i)
+			let minX = -Infinity;
+			let maxX = Infinity;
+			let minY = -Infinity;
+			let maxY = Infinity;
+
+			let minRow = Infinity;
+			let maxRow = -Infinity;
+			let minCol = Infinity;
+			let maxCol = -Infinity;
+
+			//loop through the group of 5*5 to find the min and max of the row and col, and store the min and max of the row and col
+			for (let j = i; j < i+connections.length/total_square; j++) {
+				console.log("j", j)
+				let conn = connections[j];
+				let posX_below = posX[conn.index];
+				let posY_below = posY[conn.index];
+				// Update min and max values for X and Y
+				minX = Math.min(minX, posX_below);
+				maxX = Math.max(maxX, posX_below);
+				minY = Math.min(minY, posY_below);
+				maxY = Math.max(maxY, posY_below);
+
+				// Update min and max values for connected rows and columns
+				minRow = Math.min(minRow, conn.row);
+				maxRow = Math.max(maxRow, conn.row);
+				minCol = Math.min(minCol, conn.col);
+				maxCol = Math.max(maxCol, conn.col);
+			}
+
+			//draw the square
+			drawSquare(minX, minY, maxX, maxY, 5, 0xff0000, 2);
+
+			//connect to the lower level from here
+
+		}
+
 
 		for (let conn of connections) {
 			let ind_below = conn.index;  
@@ -975,14 +1016,14 @@ function drawSquare(minRow, minCol, maxRow, maxCol, z=5, lineColor = 0xff0000, l
 			lineGeom.vertices.push(new THREE.Vector3(posX[ind_below], posY[ind_below]+vertAdjust, posZ[ind_below]+zAdjust));
 			lineGeom.vertices.push(new THREE.Vector3(posX[ind], posY[ind]-3, posZ[ind]+zAdjust));
 
-			//log  row and col
-			console.log("row and col", row_below, col_below)
 
-				// Update min and max values for X and Y
+			// find the min and max X and Y and record their ind_below
 			minX = Math.min(minX, posX[ind_below]);
 			maxX = Math.max(maxX, posX[ind_below]);
 			minY = Math.min(minY, posY[ind_below]);
 			maxY = Math.max(maxY, posY[ind_below]);
+
+			// if the node is 
 
 			// Update min and max values for connected rows and columns
 			minRow = Math.min(minRow, row_below);
@@ -1020,11 +1061,6 @@ function drawSquare(minRow, minCol, maxRow, maxCol, z=5, lineColor = 0xff0000, l
 		};
 		NewUpdateDown1(ind, connectedNodePos, connectedRows, connectedCols);
 
-		// Check and draw square if valid min and max values are found
-		if (minX < Infinity && maxX > -Infinity && minY < Infinity && maxY > -Infinity) {
-			drawSquare(minX, minY, maxX, maxY, 5, 0x33A5FF, 2);
-		} else {
-			console.log("Down1: Invalid min and max values for square");}
 
 		var lineMat = new THREE.LineBasicMaterial({ color: 0xffffff, opacity: 1, linewidth: 1, vertexColors: THREE.VertexColors });
 		var lineMesh = new THREE.Line(lineGeom, lineMat); // Create a line mesh
