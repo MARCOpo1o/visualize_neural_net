@@ -1037,14 +1037,14 @@ function drawSquare(minRow, minCol, maxRow, maxCol, z=5, lineColor = 0xff0000, l
 		}
 
 		// Store connected rows and columns
-		connectedRows.push(minRow, maxRow);
-		connectedCols.push(minCol, maxCol);
-		connectedNodePos = {
-			x: posX[ind_below],
-			y: posY[ind_below],
-			z: posZ[ind_below]
-		};
-		NewUpdateDown1(ind, connectedNodePos, connectedRows, connectedCols);
+		// connectedRows.push(minRow, maxRow);
+		// connectedCols.push(minCol, maxCol);
+		// connectedNodePos = {
+		// 	x: posX[ind_below],
+		// 	y: posY[ind_below],
+		// 	z: posZ[ind_below]
+		// };
+		// NewUpdateDown1(ind, connectedNodePos, connectedRows, connectedCols);
 
 
 		var lineMat = new THREE.LineBasicMaterial({ color: 0xffffff, opacity: 1, linewidth: 1, vertexColors: THREE.VertexColors });
