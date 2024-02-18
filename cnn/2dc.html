@@ -758,11 +758,6 @@ function calculateConv1(row, col) {
 			filterNum_below = math.floor((ind_below-nPixels)/(28*28));
 			var row_below = temp_below % 28;
 			var col_below = math.floor(temp_below/28);
-			  
-			// Determine the position of the node represented by 'ind'
-			var nodePosX = posX[ind];
-			var nodePosY = posY[ind];
-			var nodePosZ = posZ[ind];
 
 			if (filterNum_below==filterNum) {
 				if (math.floor(row_below/2) == row && math.floor(col_below/2)==col) {
@@ -823,8 +818,6 @@ function calculateConv1(row, col) {
 			
 				let posX_below = posX[conn.index];
 				let posY_below = posY[conn.index];
-				let posZ_below = posZ[conn.index];
-
 				// Update min and max values for X and Y
 				minX1 = Math.min(minX1, posX_below);
 				maxX1 = Math.max(maxX1, posX_below);
@@ -962,6 +955,18 @@ function drawSquare(minRow, minCol, maxRow, maxCol, z=5, lineColor = 0xff0000, l
 		var zAdjust = 5;
 		var r, g, b, rw, gw, bw, v, colorNum;
 
+		// Additional variables for square drawing
+		let minX = Infinity;
+		let maxX = -Infinity;
+    	let minY = Infinity;
+		let maxY = -Infinity;
+
+		// min, max values for connected rows and columns
+		let minRow = Infinity;
+		let maxRow = -Infinity;
+		let minCol = Infinity;
+		let maxCol = -Infinity;
+
 		for (j=1; j<=nConvNodes_1_down; j++){
 			ind_below = nPixels+nConvNodes_1+j-1;								
 			temp_below = allNodeNums[ind_below]-1;
@@ -981,23 +986,18 @@ function drawSquare(minRow, minCol, maxRow, maxCol, z=5, lineColor = 0xff0000, l
 				      lineGeom.vertices.push(new THREE.Vector3(posX[ind_below], posY[ind_below]+vertAdjust, posZ[ind_below]+zAdjust));
 				      lineGeom.vertices.push(new THREE.Vector3(posX[ind], posY[ind]-3, posZ[ind]+zAdjust));
 
-						//for the lower layers
-						var connectedNodePositions = [];
+					  // Update min and max values for X and Y
+					minX = Math.min(minX, posX[ind_below]);
+					maxX = Math.max(maxX, posX[ind_below]);
+					minY = Math.min(minY, posY[ind_below]);
+					maxY = Math.max(maxY, posY[ind_below]);
 
-						// store posX[ind_below], posY[ind_below], posZ[ind_below] in connectedNodePositions
-						connectedNodePositions.push({
-						x: posX[ind_below],
-						y: posY[ind_below],
-						z: posZ[ind_below]
-						});
+					// Update min and max values for connected rows and columns
+					minRow = Math.min(minRow, row_below);
+					maxRow = Math.max(maxRow, row_below);
+					minCol = Math.min(minCol, col_below);
+					maxCol = Math.max(maxCol, col_below);
 
-						// create connectedRows and connectedCols, note to directly use the row and col if this works, and change
-						// the function to accept row and col
-						var connectedRows = row_below;
-						var connectedCols = col_below;
-				
-						connectedNodePos = connectedNodePositions[0];
-						NewUpdateDown1(ind, connectedNodePos, connectedRows, connectedCols);
 
 						if (isComputed){
 							v = allNodeOutputs[ind_below];
@@ -1018,6 +1018,23 @@ function drawSquare(minRow, minCol, maxRow, maxCol, z=5, lineColor = 0xff0000, l
 					}
 				}
 		}
+
+		// Store connected rows and columns
+		connectedRows.push(minRow, maxRow);
+		connectedCols.push(minCol, maxCol);
+		connectedNodePos = {
+			x: posX[ind_below],
+			y: posY[ind_below],
+			z: posZ[ind_below]
+		};
+		NewUpdateDown1(ind, connectedNodePos, connectedRows, connectedCols);
+
+		// Check and draw square if valid min and max values are found
+		if (minX < Infinity && maxX > -Infinity && minY < Infinity && maxY > -Infinity) {
+			drawSquare(minX, minY, maxX, maxY, 5, 0x33A5FF, 2);
+		} else {
+			console.log("Down1: Invalid min and max values for square");}
+
 		var lineMat = new THREE.LineBasicMaterial({ color: 0xffffff, opacity: 1, linewidth: 1, vertexColors: THREE.VertexColors });
 		var lineMesh = new THREE.Line(lineGeom, lineMat); // Create a line mesh
 		scene.add(lineMesh); // Add the line mesh to the scene
@@ -1027,93 +1044,119 @@ function drawSquare(minRow, minCol, maxRow, maxCol, z=5, lineColor = 0xff0000, l
 	function NewUpdateDown1(ind, nodePos, connectedRows, connectedCols) {
 		var lineGeom = new THREE.Geometry();
 		lineGeom.dynamic = true;
-		var colors = [];
-		var vertCount = 0;
-		var vertAdjust = 0;
-		var zAdjust = 5;
-		var r, g, b, rw, gw, bw, v, colorNum;
+
+
+		// Additional variables for square drawing
+		let minX1 = Infinity;
+		let maxX1 = -Infinity;
+    	let minY1 = Infinity;
+		let maxY1 = -Infinity;
 
 		row = connectedRows;
 		col = connectedCols;
-		for (j=1; j<=nConvNodes_1; j++){
-			ind_below = nPixels+j-1;								
-			temp_below = allNodeNums[ind_below]-1;
-			filterNum_below = math.floor((ind_below-nPixels)/(28*28));
-			var row_below = temp_below % 28;
-			var col_below = math.floor(temp_below/28);
-			  
-			// Determine the position of the node represented by 'ind'
-			var nodePosX = posX[ind];
-			var nodePosY = posY[ind];
-			var nodePosZ = posZ[ind];
+		connectedRows.forEach((row,i) => {
+			let col = connectedCols[i];
+			for (j=1; j<=nConvNodes_1; j++){
+				ind_below = nPixels+j-1;								
+				temp_below = allNodeNums[ind_below]-1;
+				filterNum_below = math.floor((ind_below-nPixels)/(28*28));
+				var row_below = temp_below % 28;
+				var col_below = math.floor(temp_below/28);
+				if (filterNum_below==filterNum) {
+					if (math.floor(row_below/2) == row && math.floor(col_below/2)==col) {
 
-			if (filterNum_below==filterNum) {
-				if (math.floor(row_below/2) == row && math.floor(col_below/2)==col) {
-					// Store connected rows and columns
-					var low_connectedRows = [];
-    				var low_connectedCols = [];
-					low_connectedRows.push(row_below);
-                	low_connectedCols.push(col_below);
-					
-					if (conv1_hide)
-					vertAdjust = 0;
-
-					lineGeom.vertices.push(new THREE.Vector3(posX[ind_below], posY[ind_below]+vertAdjust, posZ[ind_below]+zAdjust));
-					lineGeom.vertices.push(new THREE.Vector3(posX[ind], posY[ind]-3, posZ[ind]+zAdjust));
-						
-					var connectedNodePositions = [];
-
-					// store posX[ind_below], posY[ind_below], posZ[ind_below] in connectedNodePositions
-					connectedNodePositions.push({
-						x: posX[ind_below],
-						y: posY[ind_below],
-						z: posZ[ind_below]
-					});
-
-					// Call NewUpdateConv1 for each connected node
-					connectedNodePositions.forEach(connectedNodePos => {
-						NewUpdateConv1(ind, connectedNodePos, low_connectedRows, low_connectedCols);
-					});
-					if (isComputed){
-						v = allNodeOutputs[ind_below];
-						colorNum = math.round(v*99);
-						r = redLookup[colorNum];
-						g = greenLookup[colorNum];
-						b = blueLookup[colorNum];
-					} else {
-						r=0.7; 
-						g=0.7; 
-						b=0.7;
+						let posX_below = posX[row_below];
+						let posY_below = posY[col_below];
+						// Update min and max values for X and Y
+						minX1 = Math.min(minX1, posX_below);
+						maxX1 = Math.max(maxX1, posX_below);
+						minY1 = Math.min(minY1, posY_below);
+						maxY1 = Math.max(maxY1, posY_below);
 					}
-					v=1;
-					colorNum = math.round(v*99);
-					rw = 0;										
-					gw = greenLookup[colorNum];
-					bw = blueLookup[colorNum];
-					
-					colors[ vertCount ] = new THREE.Color( rw,gw,bw );
-					vertCount++;
-					colors[ vertCount ] = new THREE.Color( rw,gw,bw );
-					vertCount++;
-
-					// Pass the position of the current node (ind) to NewUpdateConv1
-					var currentNodePos = {
-						x: nodePosX,
-						y: nodePosY,
-						z: nodePosZ
-					};
 				}
-	
 			}
-			// Call updateConv1 with the nodePos object
-			// updateConv1(ind_below, connectedNodePos);
-		}
+		})
+		//draw the square
+		drawSquare(minX1, minY1, maxX1, maxY1, 5, 0xff0000, 2);
+		// for (j=1; j<=nConvNodes_1; j++){
+		// 	ind_below = nPixels+j-1;								
+		// 	temp_below = allNodeNums[ind_below]-1;
+		// 	filterNum_below = math.floor((ind_below-nPixels)/(28*28));
+		// 	var row_below = temp_below % 28;
+		// 	var col_below = math.floor(temp_below/28);
+			  
+		// 	// Determine the position of the node represented by 'ind'
+		// 	var nodePosX = posX[ind];
+		// 	var nodePosY = posY[ind];
+		// 	var nodePosZ = posZ[ind];
 
-		// After adding vertices and colors
-		var lineMat = new THREE.LineBasicMaterial({ color: 0xffffff, opacity: 1, linewidth: 1, vertexColors: THREE.VertexColors });
-		var lineMesh = new THREE.Line(lineGeom, lineMat); // Create a line mesh
-		scene.add(lineMesh); // Add the line mesh to the scene
-		lineMeshes.push(lineMesh); // Store the reference to the new line mesh
+		// 	if (filterNum_below==filterNum) {
+		// 		if (math.floor(row_below/2) == row && math.floor(col_below/2)==col) {
+		// 			// Store connected rows and columns
+		// 			var low_connectedRows = [];
+    	// 			var low_connectedCols = [];
+		// 			low_connectedRows.push(row_below);
+        //         	low_connectedCols.push(col_below);
+					
+		// 			if (conv1_hide)
+		// 			vertAdjust = 0;
+
+		// 			lineGeom.vertices.push(new THREE.Vector3(posX[ind_below], posY[ind_below]+vertAdjust, posZ[ind_below]+zAdjust));
+		// 			lineGeom.vertices.push(new THREE.Vector3(posX[ind], posY[ind]-3, posZ[ind]+zAdjust));
+						
+		// 			var connectedNodePositions = [];
+
+		// 			// store posX[ind_below], posY[ind_below], posZ[ind_below] in connectedNodePositions
+		// 			connectedNodePositions.push({
+		// 				x: posX[ind_below],
+		// 				y: posY[ind_below],
+		// 				z: posZ[ind_below]
+		// 			});
+
+		// 			// Call NewUpdateConv1 for each connected node
+		// 			connectedNodePositions.forEach(connectedNodePos => {
+		// 				NewUpdateConv1(ind, connectedNodePos, low_connectedRows, low_connectedCols);
+		// 			});
+		// 			if (isComputed){
+		// 				v = allNodeOutputs[ind_below];
+		// 				colorNum = math.round(v*99);
+		// 				r = redLookup[colorNum];
+		// 				g = greenLookup[colorNum];
+		// 				b = blueLookup[colorNum];
+		// 			} else {
+		// 				r=0.7; 
+		// 				g=0.7; 
+		// 				b=0.7;
+		// 			}
+		// 			v=1;
+		// 			colorNum = math.round(v*99);
+		// 			rw = 0;										
+		// 			gw = greenLookup[colorNum];
+		// 			bw = blueLookup[colorNum];
+					
+		// 			colors[ vertCount ] = new THREE.Color( rw,gw,bw );
+		// 			vertCount++;
+		// 			colors[ vertCount ] = new THREE.Color( rw,gw,bw );
+		// 			vertCount++;
+
+		// 			// Pass the position of the current node (ind) to NewUpdateConv1
+		// 			var currentNodePos = {
+		// 				x: nodePosX,
+		// 				y: nodePosY,
+		// 				z: nodePosZ
+		// 			};
+		// 		}
+	
+		// 	}
+		// 	// Call updateConv1 with the nodePos object
+		// 	// updateConv1(ind_below, connectedNodePos);
+		// }
+
+		// // After adding vertices and colors
+		// var lineMat = new THREE.LineBasicMaterial({ color: 0xffffff, opacity: 1, linewidth: 1, vertexColors: THREE.VertexColors });
+		// var lineMesh = new THREE.Line(lineGeom, lineMat); // Create a line mesh
+		// scene.add(lineMesh); // Add the line mesh to the scene
+		// lineMeshes.push(lineMesh); // Store the reference to the new line mesh
 	}
 
 
