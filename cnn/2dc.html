@@ -934,10 +934,8 @@ function drawSquare(minRow, minCol, maxRow, maxCol, z=5, lineColor = 0xff0000, l
 			let row_below = temp_below % 14;
 			let col_below = Math.floor(temp_below / 14);
 
-			if (keepers.e(filterNum_below + 1, filterNum + 1) == 1) {
-				if (row_below > row - 1 && row_below < row + 5 && col_below > col - 1 && col_below < col + 5) {
-					connections.push({ row: row_below, col: col_below, index: ind_below });
-				}
+			if (row_below > row - 1 && row_below < row + 5 && col_below > col - 1 && col_below < col + 5) {
+				connections.push({ row: row_below, col: col_below, index: ind_below });
 			}
 		}
 
@@ -970,55 +968,46 @@ function drawSquare(minRow, minCol, maxRow, maxCol, z=5, lineColor = 0xff0000, l
 		let maxCol = -Infinity;
 		let connections = calculateCov2(row, col, filterNum);
 
-		for (j=1; j<=nConvNodes_1_down; j++){
-			ind_below = nPixels+nConvNodes_1+j-1;								
-			temp_below = allNodeNums[ind_below]-1;
-			filterNum_below = math.floor((ind_below-nPixels-nConvNodes_1)/(14*14));
-			var row_below = temp_below % 14;
-			var col_below = math.floor(temp_below/14);
-			// if (keepers.e(filterNum_below+1,filterNum+1)==1) {
-				  if (row_below > row-1 && row_below < row + 5 && col_below > col-1 && col_below < col + 5) {
-				      var ro=row_below - row;
-				      var co=col_below - col;
-				      var filterKeeper = keeperIndices[filterNum][filterNum_below];
-				    //   var weight = conv_nodes[1][filterNum][filterKeeper].e(ro+1,co+1);
-				      
-				      if (down1_hide)
-					  vertAdjust = 0;
-				      
-				      lineGeom.vertices.push(new THREE.Vector3(posX[ind_below], posY[ind_below]+vertAdjust, posZ[ind_below]+zAdjust));
-				      lineGeom.vertices.push(new THREE.Vector3(posX[ind], posY[ind]-3, posZ[ind]+zAdjust));
+		for (let conn of connections) {
+			let ind_below = conn.index;  
+			let row_below = conn.row;
+			let col_below = conn.col;    
+			lineGeom.vertices.push(new THREE.Vector3(posX[ind_below], posY[ind_below]+vertAdjust, posZ[ind_below]+zAdjust));
+			lineGeom.vertices.push(new THREE.Vector3(posX[ind], posY[ind]-3, posZ[ind]+zAdjust));
 
-					  // Update min and max values for X and Y
-					minX = Math.min(minX, posX[ind_below]);
-					maxX = Math.max(maxX, posX[ind_below]);
-					minY = Math.min(minY, posY[ind_below]);
-					maxY = Math.max(maxY, posY[ind_below]);
+			//log  row and col
+			console.log("row and col", row_below, col_below)
 
-					// Update min and max values for connected rows and columns
-					minRow = Math.min(minRow, row_below);
-					maxRow = Math.max(maxRow, row_below);
-					minCol = Math.min(minCol, col_below);
-					maxCol = Math.max(maxCol, col_below);
+				// Update min and max values for X and Y
+			minX = Math.min(minX, posX[ind_below]);
+			maxX = Math.max(maxX, posX[ind_below]);
+			minY = Math.min(minY, posY[ind_below]);
+			maxY = Math.max(maxY, posY[ind_below]);
+
+			// Update min and max values for connected rows and columns
+			minRow = Math.min(minRow, row_below);
+			maxRow = Math.max(maxRow, row_below);
+			minCol = Math.min(minCol, col_below);
+			maxCol = Math.max(maxCol, col_below);
 
 
-						if (isComputed){
-							v = allNodeOutputs[ind_below];
-							colorNum = math.round(v*99);
-							r = redLookup[colorNum];
-							g = greenLookup[colorNum];
-							b = blueLookup[colorNum];
-						} else {
-							r=0.7; 
-							g=0.7; 
-							b=0.7;
-						}
-						
-						colors[ vertCount ] = new THREE.Color( rw,gw,bw );
-						vertCount++;
-						colors[ vertCount ] = new THREE.Color( rw,gw,bw );
-						vertCount++;
-				}
+			if (isComputed){
+				v = allNodeOutputs[ind_below];
+				colorNum = math.round(v*99);
+				r = redLookup[colorNum];
+				g = greenLookup[colorNum];
+				b = blueLookup[colorNum];
+			} else {
+				r=0.7; 
+				g=0.7; 
+				b=0.7;
+			}
+			
+			colors[ vertCount ] = new THREE.Color( rw,gw,bw );
+			vertCount++;
+			colors[ vertCount ] = new THREE.Color( rw,gw,bw );
+			vertCount++;
+				
 		}
 
 		// Store connected rows and columns
