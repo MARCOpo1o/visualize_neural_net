@@ -976,7 +976,6 @@ function drawSquare(minRow, minCol, maxRow, maxCol, z=5, lineColor = 0xff0000, l
 			var row_below = temp_below % 14;
 			var col_below = math.floor(temp_below/14);
 			// if (keepers.e(filterNum_below+1,filterNum+1)==1) {
-			if (filterNum_below == filterNum) {
 				  if (row_below > row-1 && row_below < row + 5 && col_below > col-1 && col_below < col + 5) {
 				      var ro=row_below - row;
 				      var co=col_below - col;
@@ -1018,7 +1017,6 @@ function drawSquare(minRow, minCol, maxRow, maxCol, z=5, lineColor = 0xff0000, l
 						vertCount++;
 						colors[ vertCount ] = new THREE.Color( rw,gw,bw );
 						vertCount++;
-					}
 				}
 		}
 
