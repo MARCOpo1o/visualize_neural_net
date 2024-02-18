@@ -972,10 +972,10 @@ function drawSquare(minRow, minCol, maxRow, maxCol, z=5, lineColor = 0xff0000, l
 			//for each group, find out the min and max of the row and col and then draw the square
 			// store the min and max values for X and Y after the connection 
 			console.log("i", i)
-			let minX = -Infinity;
-			let maxX = Infinity;
-			let minY = -Infinity;
-			let maxY = Infinity;
+			let minX = Infinity;
+			let maxX = -Infinity;
+			let minY = Infinity;
+			let maxY = -Infinity;
 
 			let minRow = Infinity;
 			let maxRow = -Infinity;
