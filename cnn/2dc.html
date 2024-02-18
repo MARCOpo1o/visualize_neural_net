@@ -1017,21 +1017,6 @@ function drawSquare(minRow, minCol, maxRow, maxCol, z=5, lineColor = 0xff0000, l
 			lineGeom.vertices.push(new THREE.Vector3(posX[ind], posY[ind]-3, posZ[ind]+zAdjust));
 
 
-			// find the min and max X and Y and record their ind_below
-			minX = Math.min(minX, posX[ind_below]);
-			maxX = Math.max(maxX, posX[ind_below]);
-			minY = Math.min(minY, posY[ind_below]);
-			maxY = Math.max(maxY, posY[ind_below]);
-
-			// if the node is 
-
-			// Update min and max values for connected rows and columns
-			minRow = Math.min(minRow, row_below);
-			maxRow = Math.max(maxRow, row_below);
-			minCol = Math.min(minCol, col_below);
-			maxCol = Math.max(maxCol, col_below);
-
-
 			if (isComputed){
 				v = allNodeOutputs[ind_below];
 				colorNum = math.round(v*99);
