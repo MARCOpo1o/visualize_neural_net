@@ -947,27 +947,11 @@ function drawSquare(minRow, minCol, maxRow, maxCol, z=5, lineColor = 0xff0000, l
 		// Initialization code similar to updateDown1...
 		var lineGeom = new THREE.Geometry();
 		lineGeom.dynamic = true;
-		var colors = [];
-		var vertCount = 0;
-		var vertAdjust = 0;
-		var zAdjust = 5;
-		var r, g, b, rw, gw, bw, v, colorNum;
 		var connectedRows = [];
 		var connectedCols = [];
 		let connections = calculateCov2(row, col, filterNum);
-		
-		//log the length of connections
-		console.log("length of connections", connections.length)
-		console.log(connections.length/6)
-		console.log("should be 25")
 
 		var total_square = 6;
-		//get length of connections
-		//the connections should be 6 of 5*5
-		//divide into 6 groups of 5*5
-		//a for loop to go through each group
-		//for each group, calculate the min and max of the row and col
-		//draw the square
 		for (let i = 0; i< connections.length; i +=connections.length/total_square){
 			//for each group, find out the min and max of the row and col and then draw the square
 			// store the min and max values for X and Y after the connection 
@@ -1009,54 +993,8 @@ function drawSquare(minRow, minCol, maxRow, maxCol, z=5, lineColor = 0xff0000, l
 			} else {
 				console.log("NewConv1: Invalid min and max values for square");
 			}
-
 			//connect to the lower level from here
-
 		}
-
-
-		for (let conn of connections) {
-			let ind_below = conn.index;  
-			let row_below = conn.row;
-			let col_below = conn.col;    
-			lineGeom.vertices.push(new THREE.Vector3(posX[ind_below], posY[ind_below]+vertAdjust, posZ[ind_below]+zAdjust));
-			lineGeom.vertices.push(new THREE.Vector3(posX[ind], posY[ind]-3, posZ[ind]+zAdjust));
-
-
-			if (isComputed){
-				v = allNodeOutputs[ind_below];
-				colorNum = math.round(v*99);
-				r = redLookup[colorNum];
-				g = greenLookup[colorNum];
-				b = blueLookup[colorNum];
-			} else {
-				r=0.7; 
-				g=0.7; 
-				b=0.7;
-			}
-			
-			colors[ vertCount ] = new THREE.Color( rw,gw,bw );
-			vertCount++;
-			colors[ vertCount ] = new THREE.Color( rw,gw,bw );
-			vertCount++;
-				
-		}
-
-		// Store connected rows and columns
-		// connectedRows.push(minRow, maxRow);
-		// connectedCols.push(minCol, maxCol);
-		// connectedNodePos = {
-		// 	x: posX[ind_below],
-		// 	y: posY[ind_below],
-		// 	z: posZ[ind_below]
-		// };
-		// NewUpdateDown1(ind, connectedNodePos, connectedRows, connectedCols);
-
-
-		var lineMat = new THREE.LineBasicMaterial({ color: 0xffffff, opacity: 1, linewidth: 1, vertexColors: THREE.VertexColors });
-		var lineMesh = new THREE.Line(lineGeom, lineMat); // Create a line mesh
-		scene.add(lineMesh); // Add the line mesh to the scene
-		lineMeshes.push(lineMesh); // Store the reference to the new line mesh
 	}
 
 	function NewUpdateDown1(ind, nodePos, connectedRows, connectedCols) {
