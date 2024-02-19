@@ -502,21 +502,6 @@
 		      if (layerNum[interID]==0) {
 			  // inp layer
 		      } else if (layerNum[interID]==1) {
-				// var connectedRows =[]
-				// var connectedCols =[]
-				// // add row to connectedRows
-				// connectedRows.push(row)
-				// // add col to connectedCols
-				// connectedCols.push(col)
-				// var connectedNodePositions = []
-				// connectedNodePositions.push({
-				// 		x: posX[ind],
-				// 		y: posY[ind],
-				// 		z: posZ[ind]
-				// });
-				// connectedNodePositions.forEach(connectedNodePos => {
-				// 	NewUpdateConv1(ind, connectedNodePos, connectedRows, connectedCols);
-				// })
 				updateConv1(ind, nodePos);
 		      } else if (layerNum[interID]==2) {
 			  // down1
@@ -525,6 +510,17 @@
 				updateCov2(ind, nodePos);
 		      } else if (layerNum[interID]==4) {
 			  // down2
+			  // Additional variables for square drawing
+			let minX = Infinity;
+			let maxX = -Infinity;
+			let minY = Infinity;
+			let maxY = -Infinity;
+
+			// min, max values for connected rows and columns
+			let minRow = Infinity;
+			let maxRow = -Infinity;
+			let minCol = Infinity;
+			let maxCol = -Infinity;
 			  for (j=1; j<=nConvNodes_1; j++){
 			      ind_below = nPixels+nConvNodes_1+nConvNodes_1_down+j-1;								
 			      temp_below = allNodeNums[ind_below]-1;
@@ -533,6 +529,19 @@
 			      var col_below = math.floor(temp_below/10);
 			      if (filterNum_below==filterNum) {
 				  if (math.floor(row_below/2) == row && math.floor(col_below/2)==col) {
+
+					// Update min and max values for X and Y
+					minX = Math.min(minX, posX[ind_below]);
+					maxX = Math.max(maxX, posX[ind_below]);
+					minY = Math.min(minY, posY[ind_below]);
+					maxY = Math.max(maxY, posY[ind_below]);
+
+					// Update min and max values for connected rows and columns
+					minRow = Math.min(minRow, row_below);
+					maxRow = Math.max(maxRow, row_below);
+					minCol = Math.min(minCol, col_below);
+					maxCol = Math.max(maxCol, col_below);
+
 				      var ro=row_below - row;
 				      var co=col_below - col;
 				      
@@ -567,6 +576,22 @@
 				  }
 			      }
 			  }
+			  // Store connected rows and columns
+			connectedRows.push(minRow, maxRow);
+			connectedCols.push(minCol, maxCol);
+			connectedNodePos = {
+				x: posX[ind_below],
+				y: posY[ind_below],
+				z: posZ[ind_below]
+			};
+			//take the first ind_below and the last ind_below, and then use that to calculate the square
+			NewUpdateConv2(ind, connectedNodePos, connectedRows, connectedCols);
+
+			// Check and draw square if valid min and max values are found
+			if (minX < Infinity && maxX > -Infinity && minY < Infinity && maxY > -Infinity) {
+				drawSquare(minX, minY, maxX, maxY, 5, 0x33A5FF, 2);
+			} else {
+				console.log("Down2: Invalid min and max values for square");}
 		      } else if (layerNum[interID]==5) {
 			  // hidden layer 1
 			  for (j=1; j<=nConvNodes_2_down; j++){
@@ -752,8 +777,6 @@ function calculateConv1(row, col) {
 		let minCol = Infinity;
 		let maxCol = -Infinity;
 
-		//log filter num for this layer
-		console.log("Down1: filterNum: ", filterNum)
 		
 	  	for (j=1; j<=nConvNodes_1; j++){
 			ind_below = nPixels+j-1;								
@@ -953,9 +976,6 @@ function drawSquare(minRow, minCol, maxRow, maxCol, z=5, lineColor = 0xff0000, l
 		var connectedCols = [];
 		let connections = calculateCov2(row, col, filterNum);
 
-		//log filternum of rthis layer
-		console.log("Cov2: filterNum", filterNum)
-
 		var total_square = 6;
 		for (let i = 0; i< connections.length; i +=connections.length/total_square){
 			//for each group, find out the min and max of the row and col and then draw the square
@@ -1004,6 +1024,80 @@ function drawSquare(minRow, minCol, maxRow, maxCol, z=5, lineColor = 0xff0000, l
 		}
 	}
 
+	// conv2
+	function NewupdateCov2(connectedRows, connectedCols) {
+		// Initialization code similar to updateDown1...
+		var lineGeom = new THREE.Geometry();
+		lineGeom.dynamic = true;
+		var connectedRows = [];
+		var connectedCols = [];
+		//first calculate the minX and minY, then maxX, maxY. 
+		row1 = connectedRows[0]
+		row2 = connectedRows[1]
+		col1 = connectedCols[0]
+		col2 = connectedCols[1]
+		console.log("NewConv2: row1", row1,"col1", col1);
+		console.log("NewConv2: row2", row2,"col2", col2);
+
+
+		let connections1 = calculateCov2(row1, col1, filterNum);
+		let connections2 = calculateCov2(row2, col2, filterNum);
+
+
+		// then use the minX, minY of the first connections, and maxX maxY of the second
+		var total_square = 6;
+		for (let i = 0; i< connections.length; i +=connections.length/total_square){
+			//for each group, find out the min and max of the row and col and then draw the square
+			// store the min and max values for X and Y after the connection 
+			let minX = Infinity;
+			let maxX = -Infinity;
+			let minY = Infinity;
+			let maxY = -Infinity;
+
+			let minRow = Infinity;
+			let maxRow = -Infinity;
+			let minCol = Infinity;
+			let maxCol = -Infinity;
+
+			let filterNum_below = connections1[i].filterNum;
+
+			//loop through the group of 5*5 to find the min and max of the row and col, and store the min and max of the row and col
+			for (let j = i; j < i+connections1.length/total_square; j++) {
+				let conn1 = connections1[j];
+				let conn2 = connections2[j];
+				let posX_below1 = posX[conn1.index];
+				let posY_below1 = posY[conn1.index];
+				let posX_below2 = posX[conn2.index];
+				let posY_below2 = posY[conn2.index];
+				// Update min and max values for X and Y
+				minX = Math.min(minX, posX_below1);
+				maxX = Math.max(maxX, posX_below2);
+				minY = Math.min(minY, posY_below1);
+				maxY = Math.max(maxY, posY_below2);
+
+				// Update min and max values for connected rows and columns
+				minRow = Math.min(minRow, conn.row1);
+				maxRow = Math.max(maxRow, conn.row2);
+				minCol = Math.min(minCol, conn.col1);
+				maxCol = Math.max(maxCol, conn.col2);
+			}
+
+			//draw the square
+			if (minX < Infinity && maxX > -Infinity && minY < Infinity && maxY > -Infinity) {
+				drawSquare(minX, minY, maxX, maxY, 5, 0xff0000, 2);
+			} else {
+				console.log("NewConv2: Invalid min and max values for square");
+			}
+			//connect to the lower level from here
+			connectedRows.push(minRow, maxRow);
+			connectedCols.push(minCol, maxCol);
+			//TODO need to pass down the correct filterNum. 
+			NewUpdateDown1(connectedRows, connectedCols, filterNum_below);
+		}
+			
+		
+	}
+
 	function NewUpdateDown1(connectedRows, connectedCols, this_filterNum) {
 		var lineGeom = new THREE.Geometry();
 		lineGeom.dynamic = true;
@@ -1037,10 +1131,27 @@ function drawSquare(minRow, minCol, maxRow, maxCol, z=5, lineColor = 0xff0000, l
 						maxX1 = Math.max(maxX1, posX_below);
 						minY1 = Math.min(minY1, posY_below);
 						maxY1 = Math.max(maxY1, posY_below);
+
+						// Update min and max values for connected rows and columns
+						minRow = Math.min(minRow, row_below);
+						maxRow = Math.max(maxRow, row_below);
+						minCol = Math.min(minCol, col_below);
+						maxCol = Math.max(maxCol, col_below);
 					}
 				}
 			}
 		})
+
+		// Store connected rows and columns
+		connectedRows.push(minRow, maxRow);
+		connectedCols.push(minCol, maxCol);
+		connectedNodePos = {
+			x: posX[ind_below],
+			y: posY[ind_below],
+			z: posZ[ind_below]
+		};
+
+		NewUpdateConv1(ind, connectedNodePos, connectedRows, connectedCols);
 		//draw the square
 		if (minX1 < Infinity && maxX1 > -Infinity && minY1 < Infinity && maxY1 > -Infinity) {
 			drawSquare(minX1, minY1, maxX1, maxY1, 5, 0xff0000, 2);
