@@ -751,6 +751,9 @@ function calculateConv1(row, col) {
 		let maxRow = -Infinity;
 		let minCol = Infinity;
 		let maxCol = -Infinity;
+
+		//log filter num for this layer
+		console.log("Down1: filterNum: ", filterNum)
 		
 	  	for (j=1; j<=nConvNodes_1; j++){
 			ind_below = nPixels+j-1;								
@@ -950,6 +953,9 @@ function drawSquare(minRow, minCol, maxRow, maxCol, z=5, lineColor = 0xff0000, l
 		var connectedCols = [];
 		let connections = calculateCov2(row, col, filterNum);
 
+		//log filternum of rthis layer
+		console.log("Cov2: filterNum", filterNum)
+
 		var total_square = 6;
 		for (let i = 0; i< connections.length; i +=connections.length/total_square){
 			//for each group, find out the min and max of the row and col and then draw the square
@@ -1006,8 +1012,12 @@ function drawSquare(minRow, minCol, maxRow, maxCol, z=5, lineColor = 0xff0000, l
     	let minY1 = Infinity;
 		let maxY1 = -Infinity;
 
+		//log filternum of this layer
+		console.log("NewDOwn 1: filterNum", filterNum)
+
 		connectedRows.forEach((row,i) => {
 			let col = connectedCols[i];
+			console.log("row and col", row, col)
 			for (j=1; j<=nConvNodes_1; j++){
 				ind_below = nPixels+j-1;								
 				temp_below = allNodeNums[ind_below]-1;
@@ -1019,6 +1029,8 @@ function drawSquare(minRow, minCol, maxRow, maxCol, z=5, lineColor = 0xff0000, l
 
 						let posX_below = posX[row_below];
 						let posY_below = posY[col_below];
+						//log
+						console.log("posX_below, posY_below", posX_below, posY_below)
 						// Update min and max values for X and Y
 						minX1 = Math.min(minX1, posX_below);
 						maxX1 = Math.max(maxX1, posX_below);
