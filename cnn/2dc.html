@@ -1012,9 +1012,8 @@ function drawSquare(minRow, minCol, maxRow, maxCol, z=5, lineColor = 0xff0000, l
     	let minY1 = Infinity;
 		let maxY1 = -Infinity;
 
-		//log filternum of this layer
-		console.log("NewDOwn 1: filterNum", filterNum)
 
+		this_filterNum = 0; // filternum for updateDown1 is 0
 		connectedRows.forEach((row,i) => {
 			let col = connectedCols[i];
 			console.log("row and col", row, col)
@@ -1024,7 +1023,7 @@ function drawSquare(minRow, minCol, maxRow, maxCol, z=5, lineColor = 0xff0000, l
 				filterNum_below = math.floor((ind_below-nPixels)/(28*28));
 				var row_below = temp_below % 28;
 				var col_below = math.floor(temp_below/28);
-				if (filterNum_below==filterNum) {
+				if (filterNum_below==this_filterNum) {
 					if (math.floor(row_below/2) == row && math.floor(col_below/2)==col) {
 
 						let posX_below = posX[row_below];
