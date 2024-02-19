@@ -997,11 +997,12 @@ function drawSquare(minRow, minCol, maxRow, maxCol, z=5, lineColor = 0xff0000, l
 			//connect to the lower level from here
 			connectedRows.push(minRow, maxRow);
 			connectedCols.push(minCol, maxCol);
-			NewUpdateDown1(connectedRows, connectedCols);
+			//TODO need to pass down the correct filterNum. 
+			NewUpdateDown1(connectedRows, connectedCols, filterNum);
 		}
 	}
 
-	function NewUpdateDown1(connectedRows, connectedCols) {
+	function NewUpdateDown1(connectedRows, connectedCols, this_filterNum) {
 		var lineGeom = new THREE.Geometry();
 		lineGeom.dynamic = true;
 
@@ -1012,11 +1013,11 @@ function drawSquare(minRow, minCol, maxRow, maxCol, z=5, lineColor = 0xff0000, l
     	let minY1 = Infinity;
 		let maxY1 = -Infinity;
 
+		//log the filternum
+		console.log("NewDown1: filterNum", this_filterNum)
 
-		this_filterNum = 0; // filternum for updateDown1 is 0
 		connectedRows.forEach((row,i) => {
 			let col = connectedCols[i];
-			console.log("row and col", row, col)
 			for (j=1; j<=nConvNodes_1; j++){
 				ind_below = nPixels+j-1;								
 				temp_below = allNodeNums[ind_below]-1;
@@ -1028,8 +1029,7 @@ function drawSquare(minRow, minCol, maxRow, maxCol, z=5, lineColor = 0xff0000, l
 
 						let posX_below = posX[row_below];
 						let posY_below = posY[col_below];
-						//log
-						console.log("posX_below, posY_below", posX_below, posY_below)
+						
 						// Update min and max values for X and Y
 						minX1 = Math.min(minX1, posX_below);
 						maxX1 = Math.max(maxX1, posX_below);
