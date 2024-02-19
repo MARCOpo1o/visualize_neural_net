@@ -1105,6 +1105,12 @@ function drawSquare(minRow, minCol, maxRow, maxCol, z=5, lineColor = 0xff0000, l
     	let minY1 = Infinity;
 		let maxY1 = -Infinity;
 
+		// min, max values for connected rows and columns
+		let minRow = Infinity;
+		let maxRow = -Infinity;
+		let minCol = Infinity;
+		let maxCol = -Infinity;
+
 		//log the filternum
 		console.log("NewDown1: filterNum", this_filterNum)
 
