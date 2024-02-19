@@ -894,8 +894,7 @@ function updateConv1(ind, nodePos) {
     lineMeshes.push(lineMesh);
 
 	drawSquare(minRow, minCol, maxRow, maxCol, z, 0xff0000, 2);
-	//log the current location
-	console.log("current location: ", posX[ind], posY[ind]-3, posZ[ind]+zAdjust);
+	
 }
 
 function drawSquare(minRow, minCol, maxRow, maxCol, z=5, lineColor = 0xff0000, lineWidth = 2) {
@@ -955,7 +954,6 @@ function drawSquare(minRow, minCol, maxRow, maxCol, z=5, lineColor = 0xff0000, l
 		for (let i = 0; i< connections.length; i +=connections.length/total_square){
 			//for each group, find out the min and max of the row and col and then draw the square
 			// store the min and max values for X and Y after the connection 
-			console.log("i", i)
 			let minX = Infinity;
 			let maxX = -Infinity;
 			let minY = Infinity;
@@ -968,7 +966,6 @@ function drawSquare(minRow, minCol, maxRow, maxCol, z=5, lineColor = 0xff0000, l
 
 			//loop through the group of 5*5 to find the min and max of the row and col, and store the min and max of the row and col
 			for (let j = i; j < i+connections.length/total_square; j++) {
-				console.log("j", j)
 				let conn = connections[j];
 				let posX_below = posX[conn.index];
 				let posY_below = posY[conn.index];
@@ -996,16 +993,11 @@ function drawSquare(minRow, minCol, maxRow, maxCol, z=5, lineColor = 0xff0000, l
 			//connect to the lower level from here
 			connectedRows.push(minRow, maxRow);
 			connectedCols.push(minCol, maxCol);
-			connectedNodePos = {
-				x: posX_below,
-				y: posY_below,
-				z: posZ_below
-			};
-			NewUpdateDown1(ind, connectedNodePos, connectedRows, connectedCols);
+			NewUpdateDown1(connectedRows, connectedCols);
 		}
 	}
 
-	function NewUpdateDown1(ind, nodePos, connectedRows, connectedCols) {
+	function NewUpdateDown1(connectedRows, connectedCols) {
 		var lineGeom = new THREE.Geometry();
 		lineGeom.dynamic = true;
 
