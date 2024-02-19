@@ -937,7 +937,7 @@ function drawSquare(minRow, minCol, maxRow, maxCol, z=5, lineColor = 0xff0000, l
 			let col_below = Math.floor(temp_below / 14);
 
 			if (row_below > row - 1 && row_below < row + 5 && col_below > col - 1 && col_below < col + 5) {
-				connections.push({ row: row_below, col: col_below, index: ind_below });
+				connections.push({ row: row_below, col: col_below, index: ind_below, filterNum: filterNum_below});
 			}
 		}
 
@@ -970,6 +970,8 @@ function drawSquare(minRow, minCol, maxRow, maxCol, z=5, lineColor = 0xff0000, l
 			let minCol = Infinity;
 			let maxCol = -Infinity;
 
+			let filterNum_below = connections[i].filterNum;
+
 			//loop through the group of 5*5 to find the min and max of the row and col, and store the min and max of the row and col
 			for (let j = i; j < i+connections.length/total_square; j++) {
 				let conn = connections[j];
@@ -998,7 +1000,7 @@ function drawSquare(minRow, minCol, maxRow, maxCol, z=5, lineColor = 0xff0000, l
 			connectedRows.push(minRow, maxRow);
 			connectedCols.push(minCol, maxCol);
 			//TODO need to pass down the correct filterNum. 
-			NewUpdateDown1(connectedRows, connectedCols, filterNum);
+			NewUpdateDown1(connectedRows, connectedCols, filterNum_below);
 		}
 	}
 
