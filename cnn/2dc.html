@@ -1029,8 +1029,8 @@ function drawSquare(minRow, minCol, maxRow, maxCol, z=5, lineColor = 0xff0000, l
 				if (filterNum_below==this_filterNum) {
 					if (math.floor(row_below/2) == row && math.floor(col_below/2)==col) {
 
-						let posX_below = posX[row_below];
-						let posY_below = posY[col_below];
+						let posX_below = posX[ind_below];
+						let posY_below = posY[ind_below];
 						
 						// Update min and max values for X and Y
 						minX1 = Math.min(minX1, posX_below);
