@@ -1067,16 +1067,16 @@ function drawSquare(minRow, minCol, maxRow, maxCol, z=5, lineColor = 0xff0000, l
 				let posX_below2 = posX[conn2.index];
 				let posY_below2 = posY[conn2.index];
 				// Update min and max values for X and Y
-				minX = Math.min(minX, posX_below1);
-				maxX = Math.max(maxX, posX_below2);
-				minY = Math.min(minY, posY_below1);
-				maxY = Math.max(maxY, posY_below2);
+				minX = Math.min(minX, posX_below1, posX_below2);
+				maxX = Math.max(maxX, posX_below1, posX_below2);
+				minY = Math.min(minY, posY_below1, posY_below2);
+				maxY = Math.max(maxY, posY_below1, posY_below2);
 
 				// Update min and max values for connected rows and columns
-				minRow = Math.min(minRow, conn1.row);
-				maxRow = Math.max(maxRow, conn2.row);
-				minCol = Math.min(minCol, conn1.col);
-				maxCol = Math.max(maxCol, conn2.col);
+				minRow = Math.min(minRow, conn1.row, conn2.row);
+				maxRow = Math.max(maxRow, conn1.row, conn2.row);
+				minCol = Math.min(minCol, conn1.col, conn2.col);
+				maxCol = Math.max(maxCol, conn1.col, conn2.col);
 			}
 
 			//draw the square
@@ -1098,9 +1098,6 @@ function drawSquare(minRow, minCol, maxRow, maxCol, z=5, lineColor = 0xff0000, l
 	function NewUpdateDown1(connectedRows, connectedCols, this_filterNum) {
 		var lineGeom = new THREE.Geometry();
 		lineGeom.dynamic = true;
-
-		var connectedRows = [];
-		var connectedCols = [];
 		// Additional variables for square drawing
 		let minX1 = Infinity;
 		let maxX1 = -Infinity;
