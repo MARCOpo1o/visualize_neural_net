@@ -887,7 +887,14 @@ function updateConv1(ind, nodePos) {
         maxRow = Math.max(maxRow, posX_below);
         maxCol = Math.max(maxCol, posY_below);
     }
+
+    var lineMat = new THREE.LineBasicMaterial({ color: 0xffffff, opacity: 1, linewidth: 1, vertexColors: THREE.VertexColors });
+    var lineMesh = new THREE.Line(lineGeom, lineMat);
+    scene.add(lineMesh);
+    lineMeshes.push(lineMesh);
+
 	drawSquare(minRow, minCol, maxRow, maxCol, z, 0xff0000, 2);
+	
 }
 
 function drawSquare(minRow, minCol, maxRow, maxCol, z=5, lineColor = 0xff0000, lineWidth = 2) {
@@ -1003,6 +1010,9 @@ function drawSquare(minRow, minCol, maxRow, maxCol, z=5, lineColor = 0xff0000, l
 		row2 = Math.max(connectedRows[0], connectedRows[1]);
 		col1 = Math.min(connectedCols[0], connectedCols[1]);
 		col2 = Math.max(connectedCols[0], connectedCols[1]);
+		console.log("NewConv2: row1", row1,"col1", col1);
+		console.log("NewConv2: row2", row2,"col2", col2);
+
 
 		let connections1 = calculateConv2(row1, col1, filterNum);
 		let connections2 = calculateConv2(row2, col2, filterNum);
@@ -1079,6 +1089,9 @@ function drawSquare(minRow, minCol, maxRow, maxCol, z=5, lineColor = 0xff0000, l
 		let minCol = Infinity;
 		let maxCol = -Infinity;
 
+		//log the filternum
+		console.log("NewDown1: filterNum", this_filterNum)
+
 		connectedRows.forEach((row,i) => {
 			let col = connectedCols[i];
 			for (j=1; j<=nConvNodes_1; j++){
@@ -1125,6 +1138,8 @@ function drawSquare(minRow, minCol, maxRow, maxCol, z=5, lineColor = 0xff0000, l
 		//draw the square
 		if (minX1 < Infinity && maxX1 > -Infinity && minY1 < Infinity && maxY1 > -Infinity) {
 			drawSquare(minX1, minY1, maxX1, maxY1, 5, 0xff0000, 2);
+			//log min max x y
+			console.log("minX1, minY1, maxX1, maxY1", minX1, minY1, maxX1, maxY1)
 		} else {
 			console.log("NewDown1: Invalid min and max values for square");
 		}
