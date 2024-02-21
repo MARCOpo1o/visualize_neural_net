@@ -1029,10 +1029,10 @@ function drawSquare(minRow, minCol, maxRow, maxCol, z=5, lineColor = 0xff0000, l
 		// var connectedRows = [];
 		// var connectedCols = [];
 		//first calculate the minX and minY, then maxX, maxY. 
-		row1 = connectedRows[0]
-		row2 = connectedRows[1]
-		col1 = connectedCols[0]
-		col2 = connectedCols[1]
+		row1 = Math.min(connectedRows[0], connectedRows[1]);
+		row2 = Math.max(connectedRows[0], connectedRows[1]);
+		col1 = Math.min(connectedCols[0], connectedCols[1]);
+		col2 = Math.max(connectedCols[0], connectedCols[1]);
 		console.log("NewConv2: row1", row1,"col1", col1);
 		console.log("NewConv2: row2", row2,"col2", col2);
 
@@ -1144,15 +1144,18 @@ function drawSquare(minRow, minCol, maxRow, maxCol, z=5, lineColor = 0xff0000, l
 		})
 
 		// Store connected rows and columns
-		connectedRows.push(minRow, maxRow);
-		connectedCols.push(minCol, maxCol);
+		// ... existing initialization code ...
+		var connectedRows1 = [];
+    	var connectedCols1 = [];	
+		connectedRows1.push(minRow, maxRow);
+		connectedCols1.push(minCol, maxCol);
 		connectedNodePos = {
 			x: posX[ind_below],
 			y: posY[ind_below],
 			z: posZ[ind_below]
 		};
 
-		NewUpdateConv1(ind, connectedNodePos, connectedRows, connectedCols);
+		NewUpdateConv1(ind, connectedNodePos, connectedRows1, connectedCols1);
 		//draw the square
 		if (minX1 < Infinity && maxX1 > -Infinity && minY1 < Infinity && maxY1 > -Infinity) {
 			drawSquare(minX1, minY1, maxX1, maxY1, 5, 0xff0000, 2);
