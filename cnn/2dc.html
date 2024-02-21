@@ -205,7 +205,6 @@
       var nHiddenLayers = 2;
       var nFinalNodes = 10;
       var nNodes = nPixels + nConvNodes_1 + nConvNodes_1_down + nConvNodes_2 + nConvNodes_2_down + nHiddenNodes_1 + nHiddenNodes_2 + nFinalNodes;
-      console.log('nNodes = ' + nNodes);
       var allNodeNums = new Array(nNodes);
       var allNodeInputs = new Array(nNodes);
       var allNodeOutputs = new Array(nNodes);
@@ -480,7 +479,6 @@
 		clearOldLineMeshes(); // Call this function to remove old line meshes
 
 	  var r=1, g=1, b=1, rw=1, gw, bw, i, j, v, colorNum, weight;
-	  //console.log('updating edges');
 	  var vertAdjust = 0;
 	  var zAdjust = 5;
 	  var numChildren = scene.children.length;
@@ -703,8 +701,6 @@
 		  object.material.needsUpdate = true;
 		  object.geometry.colorsNeedUpdate = true;
 		  object.geometry.verticesNeedUpdate = true;
-		  //print something
-		  console.log("reached break")
 		  break; 
 	      }
 	  }
@@ -990,8 +986,6 @@ function drawSquare(minRow, minCol, maxRow, maxCol, z=5, lineColor = 0xff0000, l
 		// Initialization code similar to updateDown1...
 		var lineGeom = new THREE.Geometry();
 		lineGeom.dynamic = true;
-		// var connectedRows = [];
-		// var connectedCols = [];
 		//first calculate the minX and minY, then maxX, maxY. 
 		row1 = Math.min(connectedRows[0], connectedRows[1]);
 		row2 = Math.max(connectedRows[0], connectedRows[1]);
@@ -1178,7 +1172,6 @@ function drawSquare(minRow, minCol, maxRow, maxCol, z=5, lineColor = 0xff0000, l
 
 	  if ( data && pixelBuffer[3]) {
 	      var temp = pickingData[id].id;
-	      //console.log('id = ' + id);
 	      if (!((input_hide && temp < nPixels) ||
 		    (conv1_hide && temp >= nPixels && temp < nPixels+nConvNodes_1) ||
 		    (down1_hide && temp >= nPixels+nConvNodes_1 && temp < nPixels+nConvNodes_1+nConvNodes_1_down) ||
@@ -1307,7 +1300,6 @@ function drawSquare(minRow, minCol, maxRow, maxCol, z=5, lineColor = 0xff0000, l
 	  var infobox = document.getElementById("infobox");
 	  var v,colorNum,r,g,b;
 	  //infobox.style.opacity = 0.9;
-	  //console.log('interID = ' + interID);
 	  var str;
 	  var nodePos = posY[interID];
 	  
@@ -1339,7 +1331,7 @@ function drawSquare(minRow, minCol, maxRow, maxCol, z=5, lineColor = 0xff0000, l
 	  g = math.round(greenLookup[colorNum]*255);
 	  b = math.round(blueLookup[colorNum]*255);
 	  var bkgStr = "rgb(" + r + "," + g + "," + b + ")";
-	  console.log(bkgStr);
+	//   console.log(bkgStr);
 	  document.getElementById("nodeOutput").style.color = bkgStr;
 	  
 	  if (nodeType != "Input layer"){
