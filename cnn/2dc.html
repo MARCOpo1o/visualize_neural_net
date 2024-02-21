@@ -497,8 +497,6 @@
 		  if (highlightBox.visible) {
 		      ind = interID;
 		      var nodePos = posY[interID];
-			  //print row and cols 
-			  console.log("beginning: row and col", row, col)
 		      if (layerNum[interID]==0) {
 			  // inp layer
 		      } else if (layerNum[interID]==1) {
@@ -863,31 +861,27 @@ function calculateConv1(row, col) {
 function updateConv1(ind, nodePos) {
     var lineGeom = new THREE.Geometry();
     lineGeom.dynamic = true;
-    var colors = [];
-    var vertCount = 0;
-    var vertAdjust = 0;
-    var zAdjust = 5;
-    var r, g, b, rw, gw, bw, v, colorNum;
-	var z = 0;
 
     let connections = calculateConv1(row, col);
 
     // Initialize variables to track min and max rows and columns
-    let minRow = Infinity, minCol = Infinity;
-    let maxRow = -Infinity, maxCol = -Infinity;
+    let minX = Infinity, minY = Infinity;
+    let maxX = -Infinity, maxY = -Infinity;
 
     for (let conn of connections) {
         let posX_below = posX[conn.index];
         let posY_below = posY[conn.index];
-        let posZ_below = posZ[conn.index];
 
-        // Update min and max row and column values
-        minRow = Math.min(minRow, posX_below);
-        minCol = Math.min(minCol, posY_below);
-        maxRow = Math.max(maxRow, posX_below);
-        maxCol = Math.max(maxCol, posY_below);
+        // Update min and max values for X and Y
+		minX = Math.min(minX, posX_below);
+		maxX = Math.max(maxX, posX_below);
+		minY = Math.min(minY, posY_below);
+		maxY = Math.max(maxY, posY_below)
     }
-	drawSquare(minRow, minCol, maxRow, maxCol, z, 0xff0000, 2);
+	if (minX < Infinity && maxX > -Infinity && minY < Infinity && maxY > -Infinity) {
+		drawSquare(minX, minY, maxX, maxY, 5, 0x33A5FF, 2);
+	} else {
+		console.log("Conv1: Invalid min and max values for square");}
 }
 
 function drawSquare(minRow, minCol, maxRow, maxCol, z=5, lineColor = 0xff0000, lineWidth = 2) {
