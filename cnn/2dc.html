@@ -880,29 +880,54 @@ function updateConv1(ind, nodePos) {
 		console.log("Conv1: Invalid min and max values for square");}
 }
 
-function drawSquare(minRow, minCol, maxRow, maxCol, z=5, lineColor = 0xFFA500, lineWidth = 100) {
-    // Define the coordinates of the rectangle corners
-    var topLeft = new THREE.Vector3(minRow, maxCol, z);
-    var topRight = new THREE.Vector3(maxRow, maxCol, z);
-    var bottomRight = new THREE.Vector3(maxRow, minCol, z);
-    var bottomLeft = new THREE.Vector3(minRow, minCol, z);
+// function drawSquare(minRow, minCol, maxRow, maxCol, z=5, lineColor = 0xFFA500, lineWidth = 100) {
+//     // Define the coordinates of the rectangle corners
+//     var topLeft = new THREE.Vector3(minRow, maxCol, z);
+//     var topRight = new THREE.Vector3(maxRow, maxCol, z);
+//     var bottomRight = new THREE.Vector3(maxRow, minCol, z);
+//     var bottomLeft = new THREE.Vector3(minRow, minCol, z);
 
-    // Create the rectangle geometry
-    var rectGeometry = new THREE.Geometry();
-    rectGeometry.vertices.push(topLeft, topRight, bottomRight, bottomLeft, topLeft); // Closed loop
+//     // Create the rectangle geometry
+//     var rectGeometry = new THREE.Geometry();
+//     rectGeometry.vertices.push(topLeft, topRight, bottomRight, bottomLeft, topLeft); // Closed loop
 
-    // Create a line material
-    var material = new THREE.LineBasicMaterial({ color: lineColor, linewidth: 100 });
+//     // Create a line material
+//     var material = new THREE.LineBasicMaterial({ color: lineColor, linewidth: 100 });
 
-    // Create a line using the geometry and material
-    var rectangle = new THREE.Line(rectGeometry, material);
+//     // Create a line using the geometry and material
+//     var rectangle = new THREE.Line(rectGeometry, material);
 
-    // Add the rectangle to the scene
-    scene.add(rectangle);
-	lineMeshes.push(rectangle);
+//     // Add the rectangle to the scene
+//     scene.add(rectangle);
+// 	lineMeshes.push(rectangle);
 
-    return rectangle; // Return the rectangle if needed for further manipulation
+//     return rectangle; // Return the rectangle if needed for further manipulation
+// }
+
+function drawSquare(minRow, minCol, maxRow, maxCol, z=5, lineColor = 0xFFA500, thickness = 5) {
+    // Create a closed path for the square
+    const path = new THREE.CurvePath();
+    path.add(new THREE.LineCurve3(new THREE.Vector3(minRow, minCol, z), new THREE.Vector3(maxRow, minCol, z)));
+    path.add(new THREE.LineCurve3(new THREE.Vector3(maxRow, minCol, z), new THREE.Vector3(maxRow, maxCol, z)));
+    path.add(new THREE.LineCurve3(new THREE.Vector3(maxRow, maxCol, z), new THREE.Vector3(minRow, maxCol, z)));
+    path.add(new THREE.LineCurve3(new THREE.Vector3(minRow, maxCol, z), new THREE.Vector3(minRow, minCol, z)));
+
+    // Create the tube geometry based on the path
+    const tubeGeometry = new THREE.TubeGeometry(path, 64, thickness, 8, false);
+
+    // Create a material
+    const material = new THREE.MeshBasicMaterial({ color: lineColor });
+
+    // Create a mesh using the geometry and material
+    const tube = new THREE.Mesh(tubeGeometry, material);
+
+    // Add the tube to the scene
+    scene.add(tube);
+	lineMeshes.push(tube);
+
+    return tube; // Return the tube if needed for further manipulation
 }
+
 
 
 
