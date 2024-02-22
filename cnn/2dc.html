@@ -582,7 +582,7 @@
 
 			// Check and draw square if valid min and max values are found
 			if (minX < Infinity && maxX > -Infinity && minY < Infinity && maxY > -Infinity) {
-				drawSquare(minX, minY, maxX, maxY, 5, 0x33A5FF, 2);
+				drawSquare(minX, minY, maxX, maxY);
 			} else {
 				console.log("Down2: Invalid min and max values for square");}
 		      } else if (layerNum[interID]==5) {
@@ -807,7 +807,7 @@ function calculateConv1(row, col) {
 
 		// Check and draw square if valid min and max values are found
 		if (minX < Infinity && maxX > -Infinity && minY < Infinity && maxY > -Infinity) {
-			drawSquare(minX, minY, maxX, maxY, 5, 0x33A5FF, 2);
+			drawSquare(minX, minY, maxX, maxY);
 		} else {
 			console.log("Down1: Invalid min and max values for square");}
 
@@ -846,7 +846,7 @@ function calculateConv1(row, col) {
 
 		// Check and draw square if valid min and max values are found
 		if (minX1 < Infinity && maxX1 > -Infinity && minY1 < Infinity && maxY1 > -Infinity) {
-			drawSquare(minX1, minY1, maxX1, maxY1, 5, 0xff0000, 2);
+			drawSquare(minX1, minY1, maxX1, maxY1);
 		} else {
 			console.log("NewConv1: Invalid min and max values for square");
 		}
@@ -880,7 +880,7 @@ function updateConv1(ind, nodePos) {
 		console.log("Conv1: Invalid min and max values for square");}
 }
 
-function drawSquare(minRow, minCol, maxRow, maxCol, z=5, lineColor = 0xFFA500, lineWidth = 10) {
+function drawSquare(minRow, minCol, maxRow, maxCol, z=5, lineColor = 0xFFA500, lineWidth = 100) {
     // Define the coordinates of the rectangle corners
     var topLeft = new THREE.Vector3(minRow, maxCol, z);
     var topRight = new THREE.Vector3(maxRow, maxCol, z);
@@ -969,7 +969,7 @@ function drawSquare(minRow, minCol, maxRow, maxCol, z=5, lineColor = 0xFFA500, l
 
 			//draw the square
 			if (minX < Infinity && maxX > -Infinity && minY < Infinity && maxY > -Infinity) {
-				drawSquare(minX, minY, maxX, maxY, 5, 0xff0000, 2);
+				drawSquare(minX, minY, maxX, maxY);
 			} else {
 				console.log("NewConv2: Invalid min and max values for square");
 			}
@@ -1036,7 +1036,7 @@ function drawSquare(minRow, minCol, maxRow, maxCol, z=5, lineColor = 0xFFA500, l
 
 			//draw the square
 			if (minX < Infinity && maxX > -Infinity && minY < Infinity && maxY > -Infinity) {
-				drawSquare(minX, minY, maxX, maxY, 5, 0xff0000, 2);
+				drawSquare(minX, minY, maxX, maxY);
 			} else {
 				console.log("NewConv2: Invalid min and max values for square");
 			}
@@ -1112,7 +1112,7 @@ function drawSquare(minRow, minCol, maxRow, maxCol, z=5, lineColor = 0xFFA500, l
 		NewUpdateConv1(ind, connectedNodePos, connectedRows1, connectedCols1);
 		//draw the square
 		if (minX1 < Infinity && maxX1 > -Infinity && minY1 < Infinity && maxY1 > -Infinity) {
-			drawSquare(minX1, minY1, maxX1, maxY1, 5, 0xff0000, 2);
+			drawSquare(minX1, minY1, maxX1, maxY1);
 		} else {
 			console.log("NewDown1: Invalid min and max values for square");
 		}
