@@ -892,7 +892,7 @@ function drawSquare(minRow, minCol, maxRow, maxCol, z=5, lineColor = 0xFFA500, l
     rectGeometry.vertices.push(topLeft, topRight, bottomRight, bottomLeft, topLeft); // Closed loop
 
     // Create a line material
-    var material = new THREE.LineBasicMaterial({ color: lineColor, linewidth: lineWidth });
+    var material = new THREE.LineBasicMaterial({ color: lineColor, linewidth: 100 });
 
     // Create a line using the geometry and material
     var rectangle = new THREE.Line(rectGeometry, material);
