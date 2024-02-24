@@ -472,18 +472,18 @@
 	      }
 	      vertCount++;
 	  });
-      }
+    }
       
-      function updateEdges() {
+    function updateEdges() {
 
 		clearOldLineMeshes(); // Call this function to remove old line meshes
 
-	  var r=1, g=1, b=1, rw=1, gw, bw, i, j, v, colorNum, weight;
-	  var vertAdjust = 0;
-	  var zAdjust = 5;
-	  var numChildren = scene.children.length;
-	  var colors = [];
-	  vertCount = 0;
+		var r=1, g=1, b=1, rw=1, gw, bw, i, j, v, colorNum, weight;
+		var vertAdjust = 0;
+		var zAdjust = 5;
+		var numChildren = scene.children.length;
+		var colors = [];
+		vertCount = 0;
 	  for ( var c = 0; c<numChildren; c++) {
 	      if ( scene.children[c].name == 'edges' ){
 			var object = scene.children[c];
@@ -517,61 +517,28 @@
 			let maxRow = -Infinity;
 			let minCol = Infinity;
 			let maxCol = -Infinity;
-			  for (j=1; j<=nConvNodes_1; j++){
-			      ind_below = nPixels+nConvNodes_1+nConvNodes_1_down+j-1;								
-			      temp_below = allNodeNums[ind_below]-1;
-			      filterNum_below = math.floor((ind_below-nPixels-nConvNodes_1-nConvNodes_1_down)/(10*10));
-			      var row_below = temp_below % 10;
-			      var col_below = math.floor(temp_below/10);
-			      if (filterNum_below==filterNum) {
-				  if (math.floor(row_below/2) == row && math.floor(col_below/2)==col) {
+			for (j=1; j<=nConvNodes_1; j++){
+				ind_below = nPixels+nConvNodes_1+nConvNodes_1_down+j-1;								
+				temp_below = allNodeNums[ind_below]-1;
+				filterNum_below = math.floor((ind_below-nPixels-nConvNodes_1-nConvNodes_1_down)/(10*10));
+				var row_below = temp_below % 10;
+				var col_below = math.floor(temp_below/10);
+				if (filterNum_below==filterNum) {
+					if (math.floor(row_below/2) == row && math.floor(col_below/2)==col) {
+						// Update min and max values for X and Y
+						minX = Math.min(minX, posX[ind_below]);
+						maxX = Math.max(maxX, posX[ind_below]);
+						minY = Math.min(minY, posY[ind_below]);
+						maxY = Math.max(maxY, posY[ind_below]);
 
-					// Update min and max values for X and Y
-					minX = Math.min(minX, posX[ind_below]);
-					maxX = Math.max(maxX, posX[ind_below]);
-					minY = Math.min(minY, posY[ind_below]);
-					maxY = Math.max(maxY, posY[ind_below]);
-
-					// Update min and max values for connected rows and columns
-					minRow = Math.min(minRow, row_below);
-					maxRow = Math.max(maxRow, row_below);
-					minCol = Math.min(minCol, col_below);
-					maxCol = Math.max(maxCol, col_below);
-
-				      var ro=row_below - row;
-				      var co=col_below - col;
-				      
-				      if (conv2_hide)
-					  vertAdjust = 0;
-				      
-				      lineGeom.vertices.push(new THREE.Vector3(posX[ind_below], posY[ind_below]+vertAdjust, posZ[ind_below]+zAdjust));
-				      lineGeom.vertices.push(new THREE.Vector3(posX[ind], posY[ind]-3, posZ[ind]+zAdjust));
-				      
-				      if (isComputed){
-					  v = allNodeOutputs[ind_below];
-					  colorNum = math.round(v*99);
-					  r = redLookup[colorNum];
-					  g = greenLookup[colorNum];
-					  b = blueLookup[colorNum];
-					  v=1;
-				      colorNum = math.round(v*99);
-				      rw = 0;										
-				      gw = greenLookup[colorNum];
-				      bw = blueLookup[colorNum];
-				      
-				      colors[ vertCount ] = new THREE.Color( rw,gw,bw );
-				      vertCount++;
-				      colors[ vertCount ] = new THREE.Color( rw,gw,bw );
-				      vertCount++;
-				      } else {
-					  r=0.7; 
-					  g=0.7; 
-					  b=0.7;
-				      }
-				      
-				  }
-			      }
-			  }
+						// Update min and max values for connected rows and columns
+						minRow = Math.min(minRow, row_below);
+						maxRow = Math.max(maxRow, row_below);
+						minCol = Math.min(minCol, col_below);
+						maxCol = Math.max(maxCol, col_below);
+					}
+				}
+			}
 			  // Store connected rows and columns
 			let connectedRows = [];
 			let connectedCols = [];
@@ -880,29 +847,6 @@ function updateConv1(ind, nodePos) {
 		console.log("Conv1: Invalid min and max values for square");}
 }
 
-// function drawSquare(minRow, minCol, maxRow, maxCol, z=5, lineColor = 0xFFA500, lineWidth = 100) {
-//     // Define the coordinates of the rectangle corners
-//     var topLeft = new THREE.Vector3(minRow, maxCol, z);
-//     var topRight = new THREE.Vector3(maxRow, maxCol, z);
-//     var bottomRight = new THREE.Vector3(maxRow, minCol, z);
-//     var bottomLeft = new THREE.Vector3(minRow, minCol, z);
-
-//     // Create the rectangle geometry
-//     var rectGeometry = new THREE.Geometry();
-//     rectGeometry.vertices.push(topLeft, topRight, bottomRight, bottomLeft, topLeft); // Closed loop
-
-//     // Create a line material
-//     var material = new THREE.LineBasicMaterial({ color: lineColor, linewidth: 100 });
-
-//     // Create a line using the geometry and material
-//     var rectangle = new THREE.Line(rectGeometry, material);
-
-//     // Add the rectangle to the scene
-//     scene.add(rectangle);
-// 	lineMeshes.push(rectangle);
-
-//     return rectangle; // Return the rectangle if needed for further manipulation
-// }
 
 function drawSquare(minRow, minCol, maxRow, maxCol, z=5, lineColor = 0xFFA500, thickness = 5) {
     // Create a closed path for the square
@@ -1269,7 +1213,8 @@ function drawSquare(minRow, minCol, maxRow, maxCol, z=5, lineColor = 0xFFA500, t
 	  if (highlightBox.visible == true) {
 	      var r,g,b;
 	      if (isComputed){
-		  var v = allNodeOutputs[interID];
+			// the following code changes the color of the box based on the value of the node
+		  var v = allNodeOutputs[interID]; //this is the value of the node
 		  var colorNum = math.round(v*99);
 		  r = redLookup[colorNum];
 		  g = greenLookup[colorNum];
