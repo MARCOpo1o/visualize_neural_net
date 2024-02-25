@@ -285,8 +285,8 @@ function drawFilter() {
 	    }
 		// Draw dividing line
 		if (x == 0 && y == 0 && keeperCount >= 0) {
-			inputCtx.strokeStyle = "rgba(0, 0, 0, 1.0)"; // Change this to the color you want for the dividing line
-			inputCtx.lineWidth = 2; // Change this to the thickness you want for the dividing line
+			inputCtx.strokeStyle = "rgba(225, 225, 225, 1.0)"; // Change this to the color you want for the dividing line
+			inputCtx.lineWidth = 10; // Change this to the thickness you want for the dividing line
 			inputCtx.beginPath();
 			inputCtx.moveTo((keeperCount+1)*squareWidth, 0);
 			inputCtx.lineTo((keeperCount+1)*squareWidth, filterSize_1*pixelSize);
