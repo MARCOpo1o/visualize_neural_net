@@ -285,13 +285,7 @@ function drawFilter() {
         }
 	    }
 	}
-	// Draw horizontal dividing line at the bottom of filterCanvas
-	filterCtx.strokeStyle = "rgba(255, 255, 255, 1.0)"; // White color
-	filterCtx.lineWidth = 10; // Thicker line
-	filterCtx.beginPath();
-	filterCtx.moveTo(0, squareWidth);
-	filterCtx.lineTo(totalWidth, squareWidth);
-	filterCtx.stroke();
+
 	
 	inputCtx.canvas.width = totalWidth;
 	inputCtx.canvas.height = squareWidth;
@@ -299,13 +293,13 @@ function drawFilter() {
 	inputCanvasContainer.style.width = totalWidth + "px";
 	x=0;y=0;
 
-	// Draw horizontal dividing line at the top of inputCanvas
-	inputCtx.strokeStyle = "rgba(255, 255, 255, 1.0)"; // White color
-	inputCtx.lineWidth = 10; // Thicker line
-	inputCtx.beginPath();
-	inputCtx.moveTo(0, 0);
-	inputCtx.lineTo(totalWidth, 0);
-	inputCtx.stroke();
+	// Draw horizontal dividing line at the top of filterCanvas
+	filterCtx.strokeStyle = "rgba(255, 255, 255, 1.0)"; // White color
+	filterCtx.lineWidth = 10; // Thicker line
+	filterCtx.beginPath();
+	filterCtx.moveTo(0, 0);
+	filterCtx.lineTo(totalWidth, 0);
+	filterCtx.stroke();
 
 	keeperCount = nKeepers[filterNum]-1;
 	for (j=1; j<=nConvNodes_1_down; j++){
