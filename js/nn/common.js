@@ -208,6 +208,16 @@ function drawFilter() {
 		filterCtx.fillRect(i*pixelSize, j*pixelSize, pixelSize, pixelSize);
 	    }
 	}
+
+	// Draw dividing line on filterCanvas
+    filterCtx.strokeStyle = "rgba(255, 255, 255, 1.0)"; // White color
+    filterCtx.lineWidth = 10; // Thicker line
+    filterCtx.beginPath();
+    filterCtx.moveTo(totalWidth, 0);
+    filterCtx.lineTo(totalWidth, squareWidth);
+    filterCtx.stroke();
+
+	
 	inputCtx.canvas.width = totalWidth;
 	inputCtx.canvas.height = squareWidth;
 	inputCanvasContainer.style.width = totalWidth + "px";
