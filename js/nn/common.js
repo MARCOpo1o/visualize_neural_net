@@ -245,17 +245,27 @@ function drawFilter() {
 	    if (keepers.e(f+1,filterNum+1)){
 		for (i=0;i<filterSize_1;i++){
 		    for (j=0;j<filterSize_1;j++){
-			weight = conv_nodes[1][filterNum][keeperCount].e(i+1,j+1);
-			colorNum = math.round(conv_weights_2a[filterNum][f][i][j]*99);									
-			r=0;
-			g = math.round(greenLookup[colorNum]*255);
-			b = math.round(blueLookup[colorNum]*255);
-			filterCtx.fillStyle = "rgba(" + r + "," + g + "," + b + ", 1.0";
-			filterCtx.fillRect(reverseKeeperCount*squareWidth+i*pixelSize, j*pixelSize, pixelSize, pixelSize);
+				weight = conv_nodes[1][filterNum][keeperCount].e(i+1,j+1);
+				colorNum = math.round(conv_weights_2a[filterNum][f][i][j]*99);									
+				r=0;
+				g = math.round(greenLookup[colorNum]*255);
+				b = math.round(blueLookup[colorNum]*255);
+				filterCtx.fillStyle = "rgba(" + r + "," + g + "," + b + ", 1.0";
+				filterCtx.fillRect(reverseKeeperCount*squareWidth+i*pixelSize, j*pixelSize, pixelSize, pixelSize);
 		    }
 		}
 		keeperCount++;
 		reverseKeeperCount--;
+
+		// Draw dividing line
+        if (keeperCount < nKeepers[filterNum]) {
+            filterCtx.strokeStyle = "rgba(255, 255, 255, 1.0)"; // White color
+            filterCtx.lineWidth = 4; // Thicker line
+            filterCtx.beginPath();
+            filterCtx.moveTo((reverseKeeperCount+1)*squareWidth, 0);
+            filterCtx.lineTo((reverseKeeperCount+1)*squareWidth, filterSize_1*pixelSize);
+            filterCtx.stroke();
+        }
 	    }
 	}
 	
