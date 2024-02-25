@@ -217,7 +217,7 @@ function drawFilter() {
     filterCtx.lineTo(totalWidth, squareWidth);
     filterCtx.stroke();
 
-	
+
 	inputCtx.canvas.width = totalWidth;
 	inputCtx.canvas.height = squareWidth;
 	inputCanvasContainer.style.width = totalWidth + "px";
@@ -238,6 +238,13 @@ function drawFilter() {
 		x++; if (x == filterSize_1) { x=0; y++; }
 	    }
 	}
+	    // Draw dividing line on inputCanvas
+		inputCtx.strokeStyle = "rgba(255, 255, 255, 1.0)"; // White color
+		inputCtx.lineWidth = 10; // Thicker line
+		inputCtx.beginPath();
+		inputCtx.moveTo(totalWidth, 0);
+		inputCtx.lineTo(totalWidth, squareWidth);
+		inputCtx.stroke();
     } else if (layerNum[interID]==2) {
 	//nodeType = "Downsampling layer 1";
     } else if (layerNum[interID]==3) {
