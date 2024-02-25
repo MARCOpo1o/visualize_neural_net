@@ -260,7 +260,7 @@ function drawFilter() {
 		// Draw dividing line
         if (keeperCount < nKeepers[filterNum]) {
             filterCtx.strokeStyle = "rgba(255, 255, 255, 1.0)"; // White color
-            filterCtx.lineWidth = 4; // Thicker line
+            filterCtx.lineWidth = 10; // Thicker line
             filterCtx.beginPath();
             filterCtx.moveTo((reverseKeeperCount+1)*squareWidth, 0);
             filterCtx.lineTo((reverseKeeperCount+1)*squareWidth, filterSize_1*pixelSize);
