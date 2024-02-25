@@ -272,17 +272,26 @@ function drawFilter() {
 	    var row_below = temp_below % 14;
 	    var col_below = math.floor(temp_below/14);
 	    if (keepers.e(filterNum_below+1,filterNum+1)==1) {
-		if (row_below > row-1 && row_below < row + 5 && col_below > col-1 && col_below < col + 5) {
-		    colorNum = math.round(allNodeOutputs[ind_below]*99);
-		    r = math.round(redLookup[colorNum]*255);
-		    g = math.round(greenLookup[colorNum]*255);
-		    b = math.round(blueLookup[colorNum]*255);
-		    inputCtx.fillStyle = "rgba(" + r + "," + g + "," + b + ", 1.0";
-		    inputCtx.fillRect(keeperCount*squareWidth+x*pixelSize, y*pixelSize, pixelSize, pixelSize);
-		    x++; if (x == filterSize_1) { x=0; y++; }
-		    if (y == filterSize_1) { y=0; keeperCount--; }
-		}
+			if (row_below > row-1 && row_below < row + 5 && col_below > col-1 && col_below < col + 5) {
+				colorNum = math.round(allNodeOutputs[ind_below]*99);
+				r = math.round(redLookup[colorNum]*255);
+				g = math.round(greenLookup[colorNum]*255);
+				b = math.round(blueLookup[colorNum]*255);
+				inputCtx.fillStyle = "rgba(" + r + "," + g + "," + b + ", 1.0";
+				inputCtx.fillRect(keeperCount*squareWidth+x*pixelSize, y*pixelSize, pixelSize, pixelSize);
+				x++; if (x == filterSize_1) { x=0; y++; }
+				if (y == filterSize_1) { y=0; keeperCount--; }
+			}
 	    }
+		// Draw dividing line
+		if (x == 0 && y == 0 && keeperCount >= 0) {
+			inputCtx.strokeStyle = "rgba(0, 0, 0, 1.0)"; // Change this to the color you want for the dividing line
+			inputCtx.lineWidth = 2; // Change this to the thickness you want for the dividing line
+			inputCtx.beginPath();
+			inputCtx.moveTo((keeperCount+1)*squareWidth, 0);
+			inputCtx.lineTo((keeperCount+1)*squareWidth, filterSize_1*pixelSize);
+			inputCtx.stroke();
+		}
 	}
     } else if (layerNum[interID]==4) {
 	//nodeType = "Downsampling layer 2";
