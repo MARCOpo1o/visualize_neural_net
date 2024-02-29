@@ -1272,6 +1272,7 @@ function drawSquare(minRow, minCol, maxRow, maxCol, z=5, lineColor = 0xFFA500, t
 	  //infobox.style.opacity = 0.9;
 	  var str;
 	  var nodePos = posY[interID];
+	  var newWeight;
 	  
 	  if (layerNum[interID] >=1 && layerNum[interID] <=4)
 	      str = nodeType +  ", filter " + (filterNum+1) + ", unit " + allNodeNums[interID]
@@ -1280,14 +1281,20 @@ function drawSquare(minRow, minCol, maxRow, maxCol, z=5, lineColor = 0xFFA500, t
 	  $("#nodeType").html(str);
 
 	  if (!allZeroes) {
-	      str = allNodeInputs[interID].toFixed(2);
+	    //   str = allNodeInputs[interID].toFixed(2);
+		//I think this is where "weighted input" is
+		str = "put weighted input here";
+		//have a text box that can change the value of newWeight
+		newWeight = 0.3;
 	  } else {
 	      str = "0";					
 	  }
 	  document.getElementById("nodeInput").textContent=str;
 	  
 	  if (!allZeroes) {
-	      str = allNodeOutputsRaw[interID].toFixed(2);
+	    //   str = allNodeOutputsRaw[interID].toFixed(2);
+		// change this to adjusted weighted input
+		str = 1.7159 * Math.tanh(2/3 * newWeight).toFixed(2);
 	      if (nodeType == "Output layer" && interID == finalOutputID){
 		  str = str + " (max!)"
 	      }
@@ -1309,7 +1316,9 @@ function drawSquare(minRow, minCol, maxRow, maxCol, z=5, lineColor = 0xFFA500, t
 		  if (nodeType == "Downsampling layer 1" || nodeType == "Downsampling layer 2") {
 		      str = "max pooling";
 		  } else {
-		      str = "1.7159 tanh (2/3 * " + allNodeInputs[interID].toFixed(2) + ") = " + allNodeOutputsRaw[interID].toFixed(2);
+		    //   str = "1.7159 tanh (2/3 * " + allNodeInputs[interID].toFixed(2) + ") = " + allNodeOutputsRaw[interID].toFixed(2);
+			// change this to adjusted weighted input
+			str = "1.7159 tanh (2/3 * " + newWeight.toFixed(2) + ") = " + 1.7159 * Math.tanh(2/3 * newWeight).toFixed(2);
 		  }
 	      } else {
 		  str = "1.7159 tanh (2/3 * 0) = 0";
