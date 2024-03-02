@@ -96,80 +96,8 @@
     </div>
     <div id="canvasContainerRight">
       <div id="filterInterface">
-	<div class="instructions">Layer visibility</div>
-	<div class="settings">
-	  <div class="row">
-	    <div class="question">
-	      Input layer
-	    </div>
-	    <div class="switch">
-	      <input id="input_hide_button" class="cmn-toggle cmn-toggle-yes-no" type="checkbox">
-	      <label for="input_hide_button" data-on="Show" data-off="Hide"></label>
-	    </div>
-	  </div><!-- /row -->
-	  <div class="row">
-	    <div class="question">
-	      Convolution layer 1
-	    </div>
-	    <div class="switch">
-	      <input id="conv1_hide_button" class="cmn-toggle cmn-toggle-yes-no" type="checkbox">
-	      <label for="conv1_hide_button" data-on="Show" data-off="Hide"></label>
-	    </div>
-	  </div><!-- /row -->
-	  <div class="row">
-	    <div class="question">
-	      Downsampling layer 1
-	    </div>
-	    <div class="switch">
-	      <input id="down1_hide_button" class="cmn-toggle cmn-toggle-yes-no" type="checkbox">
-	      <label for="down1_hide_button" data-on="Show" data-off="Hide"></label>
-	    </div>
-	  </div><!-- /row -->
-	  <div class="row">
-	    <div class="question">
-	      Convolution layer 2
-	    </div>
-	    <div class="switch">
-	      <input id="conv2_hide_button" class="cmn-toggle cmn-toggle-yes-no" type="checkbox">
-	      <label for="conv2_hide_button" data-on="Show" data-off="Hide"></label>
-	    </div>
-	  </div><!-- /row -->
-	  <div class="row">
-	    <div class="question">
-	      Downsampling layer 2
-	    </div>
-	    <div class="switch">
-	      <input id="down2_hide_button" class="cmn-toggle cmn-toggle-yes-no" type="checkbox">
-	      <label for="down2_hide_button" data-on="Show" data-off="Hide"></label>
-	    </div>
-	  </div><!-- /row -->
-	  <div class="row">
-	    <div class="question">
-	      Fully-connected layer 1
-	    </div>
-	    <div class="switch">
-	      <input id="fc1_hide_button" class="cmn-toggle cmn-toggle-yes-no" type="checkbox">
-	      <label for="fc1_hide_button" data-on="Show" data-off="Hide"></label>
-	    </div>
-	  </div><!-- /row -->
-	  <div class="row">
-	    <div class="question">
-	      Fully-connected layer 2
-	    </div>
-	    <div class="switch">
-	      <input id="fc2_hide_button" class="cmn-toggle cmn-toggle-yes-no" type="checkbox">
-	      <label for="fc2_hide_button" data-on="Show" data-off="Hide"></label>
-	    </div>
-	  </div><!-- /row -->
-	  <div class="row">
-	    <div class="question">
-	      Output layer
-	    </div>
-	    <div class="switch">
-	      <input id="output_hide_button" class="cmn-toggle cmn-toggle-yes-no" type="checkbox">
-	      <label for="output_hide_button" data-on="Show" data-off="Hide"></label>
-	    </div>
-	  </div><!-- /row -->
+	<div class="instructions"></div>
+	
 	</div>				
       </div>
     </div>
@@ -1295,10 +1223,7 @@ function drawSquare(minRow, minCol, maxRow, maxCol, z=5, lineColor = 0xFFA500, t
 	  
 	  if (!allZeroes) {
 	      str = allNodeOutputsRaw[interID].toFixed(2);
-		// change this to adjusted weighted input
-		// var value = 1.7159 * Math.tanh(2/3 * newWeight)
-		// str = value.toFixed(2);
-		// allNodeOutputsRaw[interID] = value; //update the value to allNodeOutputsRaw
+
 	      if (nodeType == "Output layer" && interID == finalOutputID){
 		  str = str + " (max!)"
 	      }
@@ -1321,8 +1246,6 @@ function drawSquare(minRow, minCol, maxRow, maxCol, z=5, lineColor = 0xFFA500, t
 		      str = "max pooling";
 		  } else {
 		      str = "1.7159 tanh (2/3 * " + allNodeInputs[interID].toFixed(2) + ") = " + allNodeOutputsRaw[interID].toFixed(2);
-			// change this to adjusted weighted input
-			// str = "1.7159 tanh (2/3 * " + newWeight.toFixed(2) + ") = " + 1.7159 * Math.tanh(2/3 * newWeight).toFixed(2);
 		  }
 	      } else {
 		  str = "1.7159 tanh (2/3 * 0) = 0";
