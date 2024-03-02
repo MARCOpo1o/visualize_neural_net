@@ -259,31 +259,31 @@ function drawFilter() {
 	var keeperCount = 0
 	var reverseKeeperCount = nKeepers[filterNum]-1;;
 	for (f=0;f<nConvFilters_1;f++){
-	    if (keepers.e(f+1,filterNum+1)){
-		for (i=0;i<filterSize_1;i++){
-		    for (j=0;j<filterSize_1;j++){
-				weight = conv_nodes[1][filterNum][keeperCount].e(i+1,j+1);
-				colorNum = math.round(conv_weights_2a[filterNum][f][i][j]*99);									
-				r=0;
-				g = math.round(greenLookup[colorNum]*255);
-				b = math.round(blueLookup[colorNum]*255);
-				filterCtx.fillStyle = "rgba(" + r + "," + g + "," + b + ", 1.0";
-				filterCtx.fillRect(reverseKeeperCount*squareWidth+i*pixelSize, j*pixelSize, pixelSize, pixelSize);
-		    }
-		}
-		keeperCount++;
-		reverseKeeperCount--;
+	    // if (keepers.e(f+1,filterNum+1)){
+			for (i=0;i<filterSize_1;i++){
+				for (j=0;j<filterSize_1;j++){
+					weight = conv_nodes[1][filterNum][keeperCount].e(i+1,j+1);
+					colorNum = math.round(conv_weights_2a[filterNum][f][i][j]*99);									
+					r=0;
+					g = math.round(greenLookup[colorNum]*255);
+					b = math.round(blueLookup[colorNum]*255);
+					filterCtx.fillStyle = "rgba(" + r + "," + g + "," + b + ", 1.0";
+					filterCtx.fillRect(reverseKeeperCount*squareWidth+i*pixelSize, j*pixelSize, pixelSize, pixelSize);
+				}
+			}
+			keeperCount++;
+			reverseKeeperCount--;
 
-		// Draw dividing line
-        if (keeperCount < nKeepers[filterNum]) {
-            filterCtx.strokeStyle = "rgba(255, 255, 255, 1.0)"; // White color
-            filterCtx.lineWidth = 10; // Thicker line
-            filterCtx.beginPath();
-            filterCtx.moveTo((reverseKeeperCount+1)*squareWidth, 0);
-            filterCtx.lineTo((reverseKeeperCount+1)*squareWidth, filterSize_1*pixelSize);
-            filterCtx.stroke();
-        }
-	    }
+			// Draw dividing line
+			if (keeperCount < nKeepers[filterNum]) {
+				filterCtx.strokeStyle = "rgba(255, 255, 255, 1.0)"; // White color
+				filterCtx.lineWidth = 10; // Thicker line
+				filterCtx.beginPath();
+				filterCtx.moveTo((reverseKeeperCount+1)*squareWidth, 0);
+				filterCtx.lineTo((reverseKeeperCount+1)*squareWidth, filterSize_1*pixelSize);
+				filterCtx.stroke();
+			}
+	    // }
 	}
 
 	
@@ -308,7 +308,7 @@ function drawFilter() {
 	    filterNum_below = math.floor((ind_below-nPixels-nConvNodes_1)/(14*14));
 	    var row_below = temp_below % 14;
 	    var col_below = math.floor(temp_below/14);
-	    if (keepers.e(filterNum_below+1,filterNum+1)==1) {
+	    // if (keepers.e(filterNum_below+1,filterNum+1)==1) {
 			if (row_below > row-1 && row_below < row + 5 && col_below > col-1 && col_below < col + 5) {
 				colorNum = math.round(allNodeOutputs[ind_below]*99);
 				r = math.round(redLookup[colorNum]*255);
@@ -319,7 +319,7 @@ function drawFilter() {
 				x++; if (x == filterSize_1) { x=0; y++; }
 				if (y == filterSize_1) { y=0; keeperCount--; }
 			}
-	    }
+	    // }
 		// Draw dividing line
 		if (x == 0 && y == 0 && keeperCount >= 0) {
 			inputCtx.strokeStyle = "rgba(225, 225, 225, 1.0)"; // Change this to the color you want for the dividing line
