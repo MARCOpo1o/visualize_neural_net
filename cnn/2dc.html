@@ -74,7 +74,7 @@
     
     <div id="canvasContainer"> <!--style="visibility: hidden">-->
       <div id="drawingInterface">
-	<div class="instructions">Draw a one-digit number here</div>
+	<div class="instructions">Draw a one-digit number</div>
 	<div class="board" id="custom-board"></div>
 	<div class="drawingOutput">
 	  <div class="row">
@@ -813,8 +813,10 @@ function drawSquare(minRow, minCol, maxRow, maxCol, z=5, lineColor = 0xFFA500, t
 			let row_below = temp_below % 14;
 			let col_below = Math.floor(temp_below / 14);
 
-			if (row_below > row - 1 && row_below < row + 5 && col_below > col - 1 && col_below < col + 5) {
-				connections.push({ row: row_below, col: col_below, index: ind_below, filterNum: filterNum_below});
+			if (keepers.e(filterNum_below+1,filterNum+1)==1) {
+				if (row_below > row - 1 && row_below < row + 5 && col_below > col - 1 && col_below < col + 5) {
+					connections.push({ row: row_below, col: col_below, index: ind_below, filterNum: filterNum_below});
+				}
 			}
 		}
 
