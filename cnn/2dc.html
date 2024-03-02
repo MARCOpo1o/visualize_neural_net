@@ -836,9 +836,9 @@ function drawSquare(minRow, minCol, maxRow, maxCol, z=5, lineColor = 0xFFA500, t
 		console.log("con2 filterNum: ", filterNum);
 
 		var total_square = 4;
-		//if filter num > 5, total square is 3
+		//if filter num < 5, total square is 3
 		//if filter num is 15, total square is 6
-		if (filterNum > 5) {
+		if (filterNum < 5) {
 			total_square = 3;
 		} else if (filterNum == 15) {
 			total_square = 6;
