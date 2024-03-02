@@ -832,7 +832,7 @@ function drawSquare(minRow, minCol, maxRow, maxCol, z=5, lineColor = 0xFFA500, t
 		var connectedCols = [];
 		let connections = calculateConv2(row, col, filterNum);
 
-		var total_square = 6;
+		var total_square = 4;
 		for (let i = 0; i< connections.length; i +=connections.length/total_square){
 			//for each group, find out the min and max of the row and col and then draw the square
 			// store the min and max values for X and Y after the connection 
