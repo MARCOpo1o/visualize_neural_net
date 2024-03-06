@@ -2,19 +2,24 @@ html, body {
     height: 100%;
 }
 body {
-    font-family: Arial;
-    background: rgb(25,38,85); /* Deep blue */
-    background: -moz-radial-gradient(center, ellipse cover, rgb(25,38,85) 0%, rgb(56,118,191) 100%);
+    /* white background */
+    background: rgb(255,255,250);
+    color: #333333;
+
+    /* background: -moz-radial-gradient(center, ellipse cover, rgb(25,38,85) 0%, rgb(56,118,191) 100%);
     background: -webkit-radial-gradient(center, ellipse cover, rgb(25,38,85) 0%,rgb(56,118,191) 100%);
-    background: radial-gradient(ellipse at center, rgb(25,38,85) 0%,rgb(56,118,191) 100%);
+    background: radial-gradient(ellipse at center, rgb(25,38,85) 0%,rgb(56,118,191) 100%); */
 
     margin: 0;
-    font-family: Arial;
+    font-family: Arial, sans-serif;
     overflow: hidden;
 }
 #webgl_container {
     z-index: 10;
     overflow:hidden;
+    background-color: #f0f0f0; /* Light gray for container backgrounds */
+    color: #333; /* Darker gray for text */
+    border: 1px solid #cccccc; /* Slightly darker gray for borders */
 }
 #canvasContainer {
     z-index: 50;
@@ -35,7 +40,7 @@ body {
 }
 #canvasContainer:hover {
     opacity:1;
-    background-color: rgb(56, 118, 191);
+    background-color: #e6e6e6; /* A shade darker on hover to add interaction feedback */
 }
 #canvasContainerRight {
     z-index: 50;
@@ -76,7 +81,7 @@ body {
     
 }
 .instructions {
-    color: rgb(225, 170, 116);
+    color: #666666; /* Medium gray for readability and subtlety */
     font-size:24px;
     text-align:left;
     padding: 5px 0;
@@ -85,7 +90,7 @@ body {
     font-size:12px;
 }
 .info {
-    color: #abc;
+    color: #666666; /* Medium gray for readability and subtlety */
     font-size:18px;
     text-align:right;
     float:left;
@@ -110,7 +115,8 @@ body {
     position:absolute;
     bottom:100px;
     left:100px;	
-    background-color: rgb(243, 240, 202);
+    color: #666666; /* Medium gray for readability and subtlety */
+
     
     opacity: 1;	
     
@@ -179,7 +185,10 @@ body {
 #drawingInterface {	
     padding: 5px;
     margin-bottom: 5px;
-    background: rgb(255,170,116);
+    /* Subtle gradient from white to light gray */
+    background: linear-gradient(to bottom, rgb(255, 255, 255) 0%, rgb(247, 247, 247) 100%);
+    border: 1px solid rgb(225, 225, 225); /* Light gray border */
+    color: rgb(51, 51, 51); /* Dark gray for text */
 }
 #filterInterface {
     padding:5px;
