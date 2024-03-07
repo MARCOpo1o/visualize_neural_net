@@ -3,12 +3,14 @@ html, body {
 }
 body {
     /* white background */
-    background: rgb(255,255,250);
-    color: #333333;
-
-    /* background: -moz-radial-gradient(center, ellipse cover, rgb(25,38,85) 0%, rgb(56,118,191) 100%);
-    background: -webkit-radial-gradient(center, ellipse cover, rgb(25,38,85) 0%,rgb(56,118,191) 100%);
-    background: radial-gradient(ellipse at center, rgb(25,38,85) 0%,rgb(56,118,191) 100%); */
+    background-color: #222222;
+    background: rgb(25,38,85); /* Old browsers */
+    background: -moz-radial-gradient(center, ellipse cover,  rgba(25,38,85,1) 0%, rgba(20,20,20,1) 100%); /* FF3.6+ */
+    background: -webkit-gradient(radial, center center, 0px, center center, 100%, color-stop(0%,rgba(60,100,140,1)), color-stop(100%,rgba(20,20,20,1))); /* Chrome,Safari4+ */
+    background: -webkit-radial-gradient(center, ellipse cover,  rgba(25,38,85,1) 0%,rgba(20,20,20,1) 100%); /* Chrome10+,Safari5.1+ */
+    background: -o-radial-gradient(center, ellipse cover,  rgba(25,38,85,1) 0%,rgba(20,20,20,1) 100%); /* Opera 12+ */
+    background: -ms-radial-gradient(center, ellipse cover,  rgba(25,38,85,1) 0%,rgba(20,20,20,1) 100%); /* IE10+ */
+    background: radial-gradient(ellipse at center,  rgba(25,38,85,1) 0%,rgba(20,20,20,1) 100%); /* W3C */
 
     margin: 0;
     font-family: Arial, sans-serif;
@@ -17,7 +19,7 @@ body {
 #webgl_container {
     z-index: 10;
     overflow:hidden;
-    background-color: #f0f0f0; /* Light gray for container backgrounds */
+    background-color: #12372A; /* Light gray for container backgrounds */
     color: #333; /* Darker gray for text */
     border: 1px solid #cccccc; /* Slightly darker gray for borders */
 }
@@ -186,7 +188,7 @@ body {
     padding: 5px;
     margin-bottom: 5px;
     /* Subtle gradient from white to light gray */
-    background: linear-gradient(to bottom, rgb(255, 255, 255) 0%, rgb(247, 247, 247) 100%);
+    background: linear-gradient(to bottom, rgb(255, 255, 255) 0%, rgb(251, 250, 218) 100%);
     border: 1px solid rgb(225, 225, 225); /* Light gray border */
     color: rgb(51, 51, 51); /* Dark gray for text */
 }
