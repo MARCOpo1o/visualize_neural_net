@@ -884,7 +884,7 @@ function drawSquare(minRow, minCol, maxRow, maxCol, z=5, lineColor = 0xFFA500, t
 			// draw lines to the middle of the square
 			let midpointX = (minX + maxX) / 2;
 			let midpointY = (minY + maxY) / 2;
-			lineGeom.vertices.push(new THREE.Vector3(nodePos.x, nodePos.y, nodePos.z));
+			lineGeom.vertices.push(new THREE.Vector3(posX[ind], posY[ind]-3, posZ[ind]));
 			lineGeom.vertices.push(new THREE.Vector3(midpointX, midpointY, nodePos.z));
 			if (isComputed){
 						v = allNodeOutputs[ind_below];
@@ -893,9 +893,9 @@ function drawSquare(minRow, minCol, maxRow, maxCol, z=5, lineColor = 0xFFA500, t
 						g = greenLookup[colorNum];
 						b = blueLookup[colorNum];
 					} else {
-						r=0.7; 
-						g=0.7; 
-						b=0.7;
+						r=1; 
+						g=0; 
+						b=0;
 					}
 					v=1;
 					colorNum = math.round(v*99);
