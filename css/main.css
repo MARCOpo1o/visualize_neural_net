@@ -19,7 +19,7 @@ body {
 #webgl_container {
     z-index: 10;
     overflow:hidden;
-    background-color: #12372A; /* Light gray for container backgrounds */
+    background-color: #d3d3d3; /* Light gray for container backgrounds */
     color: #333; /* Darker gray for text */
     border: 1px solid #cccccc; /* Slightly darker gray for borders */
 }

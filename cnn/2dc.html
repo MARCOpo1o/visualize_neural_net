@@ -879,6 +879,17 @@ function drawSquare(minRow, minCol, maxRow, maxCol, z=5, lineColor = 0xFFA500, t
 			} else {
 				console.log("NewConv2: Invalid min and max values for square");
 			}
+
+			// draw lines to the middle of the square
+			let midpointX = (minX + maxX) / 2;
+			let midpointY = (minY + maxY) / 2;
+			lineGeom.vertices.push(new THREE.Vector3(nodePos.x, nodePos.y, nodePos.z));
+			lineGeom.vertices.push(new THREE.Vector3(midpointX, midpointY, nodePos.z));
+			var lineMat = new THREE.LineBasicMaterial( { color: 0xffffff, opacity: 1, linewidth: 1, vertexColors: THREE.VertexColors } );
+			lineGeom.colors.push(new THREE.Color( 0xffffff ));
+			lineGeom.colors.push(new THREE.Color( 0xffffff ));
+		
+
 			//connect to the lower level from here
 			connectedRows.push(minRow, maxRow);
 			connectedCols.push(minCol, maxCol);
