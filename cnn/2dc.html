@@ -828,6 +828,7 @@ function drawSquare(minRow, minCol, maxRow, maxCol, z=5, lineColor = 0xFFA500, t
 		// Initialization code similar to updateDown1...
 		var lineGeom = new THREE.Geometry();
 		lineGeom.dynamic = true;
+		var colors = [];
 		var connectedRows = [];
 		var connectedCols = [];
 		let connections = calculateConv2(row, col, filterNum);
