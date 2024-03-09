@@ -885,9 +885,27 @@ function drawSquare(minRow, minCol, maxRow, maxCol, z=5, lineColor = 0xFFA500, t
 			let midpointY = (minY + maxY) / 2;
 			lineGeom.vertices.push(new THREE.Vector3(nodePos.x, nodePos.y, nodePos.z));
 			lineGeom.vertices.push(new THREE.Vector3(midpointX, midpointY, nodePos.z));
-			var lineMat = new THREE.LineBasicMaterial( { color: 0xffffff, opacity: 1, linewidth: 1, vertexColors: THREE.VertexColors } );
-			lineGeom.colors.push(new THREE.Color( 0xffffff ));
-			lineGeom.colors.push(new THREE.Color( 0xffffff ));
+			if (isComputed){
+						v = allNodeOutputs[ind_below];
+						colorNum = math.round(v*99);
+						r = redLookup[colorNum];
+						g = greenLookup[colorNum];
+						b = blueLookup[colorNum];
+					} else {
+						r=0.7; 
+						g=0.7; 
+						b=0.7;
+					}
+					v=1;
+					colorNum = math.round(v*99);
+					rw = 0;										
+					gw = greenLookup[colorNum];
+					bw = blueLookup[colorNum];
+					
+					colors[ vertCount ] = new THREE.Color( rw,gw,bw );
+					vertCount++;
+					colors[ vertCount ] = new THREE.Color( rw,gw,bw );
+					vertCount++;
 		
 
 			//connect to the lower level from here
@@ -896,6 +914,11 @@ function drawSquare(minRow, minCol, maxRow, maxCol, z=5, lineColor = 0xFFA500, t
 			//TODO need to pass down the correct filterNum. 
 			NewUpdateDown1(connectedRows, connectedCols, filterNum_below);
 		}
+		// After adding vertices and colors
+		var lineMat = new THREE.LineBasicMaterial({ color: 0xffffff, opacity: 1, linewidth: 1, vertexColors: THREE.VertexColors });
+		var lineMesh = new THREE.Line(lineGeom, lineMat); // Create a line mesh
+		scene.add(lineMesh); // Add the line mesh to the scene
+		lineMeshes.push(lineMesh); // Store the reference to the new line mesh
 	}
 
 	// conv2
