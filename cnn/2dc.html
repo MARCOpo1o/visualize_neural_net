@@ -473,7 +473,7 @@
 			connectedRows.push(minRow, maxRow);
 			connectedCols.push(minCol, maxCol);
 			//take the first ind_below and the last ind_below, and then use that to calculate the square
-			NewupdateConv2(connectedRows, connectedCols,posX[ind_below], posY[ind_below]);
+			NewupdateConv2(connectedRows, connectedCols,minX, minY);
 
 			// Check and draw square if valid min and max values are found
 			if (minX < Infinity && maxX > -Infinity && minY < Infinity && maxY > -Infinity) {
@@ -908,7 +908,7 @@ function drawSquare(minRow, minCol, maxRow, maxCol, z=5, lineColor = 0xFFA500, t
 	}
 
 	// conv2
-	function NewupdateConv2(connectedRows, connectedCols, minX, minY) {
+	function NewupdateConv2(connectedRows, connectedCols, preX, preY) {
 		// Initialization code similar to updateDown1...
 		var lineGeom = new THREE.Geometry();
 		lineGeom.dynamic = true;
@@ -977,7 +977,7 @@ function drawSquare(minRow, minCol, maxRow, maxCol, z=5, lineColor = 0xFFA500, t
 			// draw lines to the middle of the square
 			let midpointX = (minX + maxX) / 2;
 			let midpointY = (minY + maxY) / 2;
-			lineGeom.vertices.push(new THREE.Vector3(minX, minY-3, 5));
+			lineGeom.vertices.push(new THREE.Vector3(preX, preY-3, 5));
 			lineGeom.vertices.push(new THREE.Vector3(midpointX, midpointY, 5));
 
 					
