@@ -976,8 +976,8 @@ function drawSquare(minRow, minCol, maxRow, maxCol, z=5, lineColor = 0xFFA500, t
 			// draw lines to the middle of the square
 			let midpointX = (minX + maxX) / 2;
 			let midpointY = (minY + maxY) / 2;
-			lineGeom.vertices.push(new THREE.Vector3(minX, minY-3, posZ[ind]));
-			lineGeom.vertices.push(new THREE.Vector3(midpointX, midpointY, nodePos.z));
+			lineGeom.vertices.push(new THREE.Vector3(minX, minY-3, 5));
+			lineGeom.vertices.push(new THREE.Vector3(midpointX, midpointY, 5));
 
 					
 			colors[ vertCount ] = new THREE.Color( 4,4,34 );
