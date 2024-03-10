@@ -132,7 +132,7 @@ function drawCubes() {
 	geometry.merge( geom, matrix );
 
 	// Create edges geometry and line material
-	var edges = new THREE.EdgesGeometry( geom );
+	var edges = new THREE.Geometry();
 	var lineMaterial = new THREE.LineBasicMaterial({ color: 0x000000 }); // Black color
 
 	// Create line segments and add them to the scene
