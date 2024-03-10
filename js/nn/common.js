@@ -92,8 +92,7 @@ function drawCubes() {
     var defaultMaterial = new THREE.MeshLambertMaterial({ color: 0xffffff, shading: THREE.FlatShading, vertexColors: THREE.VertexColors, transparent: true });
 
     var geom = new THREE.BoxGeometry(9, 9, 9);
-    var edgeGeom, edges; // Variables for edges geometry and edges themselves
-    var lineMaterial = new THREE.LineBasicMaterial({ color: 0x000000 , wireframe: true}); // Material for the edges (black)
+    var boundaryMaterial = new THREE.LineBasicMaterial({ color: 0x000000 , wireframe: true}); // Material for the edges (black)
     var matrix = new THREE.Matrix4();
     var quaternion = new THREE.Quaternion();
     var color = new THREE.Color();
