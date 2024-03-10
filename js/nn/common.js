@@ -130,19 +130,13 @@ function drawCubes() {
 
         geometry.merge(geom, matrix);
 
-		console.log(THREE.REVISION);
-
-		// Creating wireframe for each cube
-		var wireframeGeom = new THREE.WireframeGeometry(geom); // Create a wireframe geometry of the cube
-		var wireframe = new THREE.LineSegments(wireframeGeom, wireframeMaterial); // Create line segments to draw the wireframe
-		wireframe.applyMatrix4(matrix); // Apply the same transformation to the wireframe
-		scene.add(wireframe); // Add the wireframe to the scene
-
-		applyVertexColors(geom, color.setHex(i));
-
-
-
-
+		// Clone the geometry for wireframe so as not to affect the original geometry
+		var wireframeGeom = geom.clone();
+		var wireframeMat = new THREE.MeshBasicMaterial({ color: 0x000000, wireframe: true });
+		var wireframeMesh = new THREE.Mesh(wireframeGeom, wireframeMat);
+		wireframeMesh.applyMatrix(matrix);
+		scene.add(wireframeMesh);
+		geometry.merge(geom, matrix);
         pickingGeometry.merge(geom, matrix);
 
         pickingData[i] = {
