@@ -130,6 +130,8 @@ function drawCubes() {
 
         geometry.merge(geom, matrix);
 
+		console.log(THREE.REVISION);
+
 		// Creating wireframe for each cube
 		var wireframeGeom = new THREE.WireframeGeometry(geom); // Create a wireframe geometry of the cube
 		var wireframe = new THREE.LineSegments(wireframeGeom, wireframeMaterial); // Create line segments to draw the wireframe
@@ -138,7 +140,7 @@ function drawCubes() {
 
 		applyVertexColors(geom, color.setHex(i));
 
-		console.log(THREE.REVISION);
+
 
 
         pickingGeometry.merge(geom, matrix);
