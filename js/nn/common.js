@@ -129,12 +129,12 @@ function drawCubes() {
 
         geometry.merge(geom, matrix);
 
-		 // create a separate mesh for the boundary using wireframe material
-		 var boundaryMesh = new THREE.Mesh(geom.clone(), boundaryMaterial);
-		 boundaryMesh.position.copy(position);
-		 boundaryMesh.rotation.copy(rotation);
-		 boundaryMesh.scale.copy(scale);
-		 scene.add(boundaryMesh);
+		//  // create a separate mesh for the boundary using wireframe material
+		//  var boundaryMesh = new THREE.Mesh(geom.clone(), boundaryMaterial);
+		//  boundaryMesh.position.copy(position);
+		//  boundaryMesh.rotation.copy(rotation);
+		//  boundaryMesh.scale.copy(scale);
+		//  scene.add(boundaryMesh);
  
 
         pickingData[i] = {
