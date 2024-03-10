@@ -130,13 +130,14 @@ function drawCubes() {
 
         geometry.merge(geom, matrix);
 
-        // Create edges for the cube and merge them into the scene
-        edgeGeom = new THREE.Geometry(); // Create an edges geometry from the cube
-        edges = new THREE.LineSegments(edgeGeom, lineMaterial); // Create line segments to draw the edges
-        edges.applyMatrix4(matrix); // Apply the same transformation to the edges
-        scene.add(edges); // Add the edges to the scene
+		// Creating wireframe for each cube
+		var wireframeGeom = new THREE.WireframeGeometry(geom); // Create a wireframe geometry of the cube
+		var wireframe = new THREE.LineSegments(wireframeGeom, wireframeMaterial); // Create line segments to draw the wireframe
+		wireframe.applyMatrix4(matrix); // Apply the same transformation to the wireframe
+		scene.add(wireframe); // Add the wireframe to the scene
 
-        applyVertexColors(geom, color.setHex(i));
+		applyVertexColors(geom, color.setHex(i));
+
 
         pickingGeometry.merge(geom, matrix);
 
