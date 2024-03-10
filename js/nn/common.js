@@ -93,7 +93,7 @@ function drawCubes() {
 
     var geom = new THREE.BoxGeometry(9, 9, 9);
     var edgeGeom, edges; // Variables for edges geometry and edges themselves
-    var lineMaterial = new THREE.LineBasicMaterial({ color: 0x000000 }); // Material for the edges (black)
+    var lineMaterial = new THREE.LineBasicMaterial({ color: 0x000000 , wireframe: true}); // Material for the edges (black)
     var matrix = new THREE.Matrix4();
     var quaternion = new THREE.Quaternion();
     var color = new THREE.Color();
@@ -130,14 +130,13 @@ function drawCubes() {
 
         geometry.merge(geom, matrix);
 
-		// Clone the geometry for wireframe so as not to affect the original geometry
-		var wireframeGeom = geom.clone();
-		var wireframeMat = new THREE.MeshBasicMaterial({ color: 0x000000, wireframe: true });
-		var wireframeMesh = new THREE.Mesh(wireframeGeom, wireframeMat);
-		wireframeMesh.applyMatrix(matrix);
-		scene.add(wireframeMesh);
-		geometry.merge(geom, matrix);
-        pickingGeometry.merge(geom, matrix);
+		 // create a separate mesh for the boundary using wireframe material
+		 var boundaryMesh = new THREE.Mesh(geom.clone(), boundaryMaterial);
+		 boundaryMesh.position.copy(position);
+		 boundaryMesh.rotation.copy(rotation);
+		 boundaryMesh.scale.copy(scale);
+		 scene.add(boundaryMesh);
+ 
 
         pickingData[i] = {
             position: position,
