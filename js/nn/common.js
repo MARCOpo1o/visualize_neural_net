@@ -131,6 +131,15 @@ function drawCubes() {
 	
 	geometry.merge( geom, matrix );
 
+	// Create edges geometry and line material
+	var edges = new THREE.EdgesGeometry( geom );
+	var lineMaterial = new THREE.LineBasicMaterial({ color: 0x000000 }); // Black color
+
+	// Create line segments and add them to the scene
+	var lineSegments = new THREE.LineSegments(edges, lineMaterial);
+	lineSegments.applyMatrix(matrix);
+	scene.add(lineSegments);
+
 	// give the geom's vertices a color corresponding to the "id"
 
 	applyVertexColors( geom, color.setHex( i ) );
