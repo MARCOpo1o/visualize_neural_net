@@ -131,7 +131,7 @@ function drawCubes() {
         geometry.merge(geom, matrix);
 
         // Create edges for the cube and merge them into the scene
-        edgeGeom = new THREE.EdgesGeometry(geom); // Create an edges geometry from the cube
+        edgeGeom = new THREE.Geometry(); // Create an edges geometry from the cube
         edges = new THREE.LineSegments(edgeGeom, lineMaterial); // Create line segments to draw the edges
         edges.applyMatrix4(matrix); // Apply the same transformation to the edges
         scene.add(edges); // Add the edges to the scene
