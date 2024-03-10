@@ -138,6 +138,8 @@ function drawCubes() {
 
 		applyVertexColors(geom, color.setHex(i));
 
+		console.log(THREE.REVISION);
+
 
         pickingGeometry.merge(geom, matrix);
 
