@@ -86,70 +86,71 @@ function updateCubes() {
     }
 }
 function drawCubes() {
-    var geometry = new THREE.Geometry();
+	var geometry = new THREE.Geometry();
     var pickingGeometry = new THREE.Geometry();
-    var pickingMaterial = new THREE.MeshBasicMaterial({ vertexColors: THREE.VertexColors });
-    var defaultMaterial = new THREE.MeshLambertMaterial({ color: 0xffffff, shading: THREE.FlatShading, vertexColors: THREE.VertexColors, transparent: true });
+    var pickingMaterial = new THREE.MeshBasicMaterial( { vertexColors: THREE.VertexColors } );
+    var defaultMaterial = new THREE.MeshLambertMaterial({ color: 0xffffff, shading: THREE.FlatShading, vertexColors: THREE.VertexColors, transparent: true} );
 
-    var geom = new THREE.BoxGeometry(9, 9, 9);
-    var boundaryMaterial = new THREE.LineBasicMaterial({ color: 0x000000 , wireframe: true}); // Material for the edges (black)
-    var matrix = new THREE.Matrix4();
-    var quaternion = new THREE.Quaternion();
+    var geom = new THREE.BoxGeometry( 9,9,9 );
+    var hideGeom = new THREE.BoxGeometry(1,1,1);
     var color = new THREE.Color();
 
-    for (var i = 0; i < nNodes; i++) {
-        var position = new THREE.Vector3();
-        position.x = posX[i];
-        position.y = posY[i];
-        position.z = posZ[i];
+    var matrix = new THREE.Matrix4();
+    var quaternion = new THREE.Quaternion();
 
-        var rotation = new THREE.Euler();
-        rotation.x = 0;
-        rotation.y = 0;
-        rotation.z = 0;
+    for ( var i = 0; i < nNodes; i ++ ) {
 
-        var scale = new THREE.Vector3();
-        scale.x = 1;
-        scale.y = 1;
-        scale.z = 1;
+	var position = new THREE.Vector3();
+	position.x = posX[i];
+	position.y = posY[i];
+	position.z = posZ[i];
 
-        quaternion.setFromEuler(rotation, false);
-        matrix.compose(position, quaternion, scale);
+	var rotation = new THREE.Euler();
+	rotation.x = 0;
+	rotation.y = 0;
+	rotation.z = 0;
 
-        if (isComputed) {
-            var v = allNodeOutputs[i];
-            var colorNum = Math.round(v * 99);
-            var r = redLookup[colorNum];
-            var g = greenLookup[colorNum];
-            var b = blueLookup[colorNum];
-            applyVertexColors(geom, color.setRGB(r, g, b));
-        } else {
-            applyVertexColors(geom, color.setRGB(0, 0, 0));
-        }
+	var scale = new THREE.Vector3();
+	scale.x = 1;
+	scale.y = 1;
+	scale.z = 1;
+	
+	quaternion.setFromEuler( rotation, false );
+	matrix.compose( position, quaternion, scale );
+	
+	if (isComputed){
+	    var v = allNodeOutputs[i];
+	    var colorNum = math.round(v*99);
+	    r = redLookup[colorNum];
+	    g = greenLookup[colorNum];
+	    b = blueLookup[colorNum];
+	    applyVertexColors( geom, color.setRGB( r,g,b ) );
+	} else {
+	    applyVertexColors( geom, color.setRGB( 0,0,0 ) );
+	}
+	
+	geometry.merge( geom, matrix );
 
-        geometry.merge(geom, matrix);
+	// give the geom's vertices a color corresponding to the "id"
 
-		//  // create a separate mesh for the boundary using wireframe material
-		//  var boundaryMesh = new THREE.Mesh(geom.clone(), boundaryMaterial);
-		//  boundaryMesh.position.copy(position);
-		//  boundaryMesh.rotation.copy(rotation);
-		//  boundaryMesh.scale.copy(scale);
-		//  scene.add(boundaryMesh);
- 
+	applyVertexColors( geom, color.setHex( i ) );
 
-        pickingData[i] = {
-            position: position,
-            rotation: rotation,
-            scale: scale,
-            id: i
-        };
+	pickingGeometry.merge( geom, matrix );
+
+	pickingData[ i ] = {
+	    position: position,
+	    rotation: rotation,
+	    scale: scale, 
+	    id: i
+	};
+
     }
 
-    var drawnObject = new THREE.Mesh(geometry, defaultMaterial);
+    var drawnObject = new THREE.Mesh( geometry, defaultMaterial);
     drawnObject.name = 'cubes';
-    scene.add(drawnObject);
+    scene.add( drawnObject );
 
-    pickingScene.add(new THREE.Mesh(pickingGeometry, pickingMaterial));
+    pickingScene.add( new THREE.Mesh( pickingGeometry, pickingMaterial ) );		
 }
 
 function drawEdges() {
