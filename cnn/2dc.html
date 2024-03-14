@@ -96,10 +96,12 @@
     </div>
     <div id="canvasContainerRight">
       <div id="filterInterface">
-	<div class="instructions"></div>
-	
-	</div>				
+	<div class="instructions">Connected Image</div>
+	<button id="toggleImage">Hide/Show Image</button>
+	</div>	
+	<img id="myImage" src="../images/cnn_2dc.png">	
       </div>
+	  
     </div>
     
     <script>
@@ -166,6 +168,16 @@
       var filterCanvas = document.getElementById("filterCanvas");
       var inputCtx = inputCanvas.getContext("2d");
       var filterCtx = filterCanvas.getContext("2d");
+
+	  //for the image
+	  document.getElementById('toggleImage').addEventListener('click', function() {
+    var img = document.getElementById('myImage');
+    if (img.style.display === 'none') {
+        img.style.display = 'block';
+    } else {
+        img.style.display = 'none';
+    }
+});
 
 	  //keep track of all line meshes
 	  var lineMeshes = []; //track all lines

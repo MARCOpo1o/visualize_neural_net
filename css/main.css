@@ -47,7 +47,8 @@ body {
 #canvasContainerRight {
     z-index: 50;
     opacity: 0.5;
-    width:292px;
+    width:auto;
+    max-width: 100%;
     position:absolute;
     top: 0px;
     right: 0px;
@@ -63,6 +64,11 @@ body {
 }
 #canvasContainerRight:hover {
     opacity:1;
+}
+
+img#myImage {
+    width: 700px; /* Make the image scale to the width of its container */
+    height: auto; /* Maintain the aspect ratio */
 }
 .drawingOutput {
     display:block;
@@ -325,3 +331,4 @@ input.cmn-toggle-yes-no:checked + label:after {
 a {
     color:#06c;
 }
+
