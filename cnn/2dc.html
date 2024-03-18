@@ -944,7 +944,7 @@ function drawSquare(minRow, minCol, maxRow, maxCol, z=5, lineColor = 0xFFA500, t
 			connectedRows.push(minRow, maxRow);
 			connectedCols.push(minCol, maxCol);
 			//TODO need to pass down the correct filterNum. 
-			NewUpdateDown1(connectedRows, connectedCols, filterNum_below);
+			NewUpdateDown1(connectedRows, connectedCols, filterNum_below, preX, preY);
 		}
 	}
 
@@ -1018,7 +1018,7 @@ function drawSquare(minRow, minCol, maxRow, maxCol, z=5, lineColor = 0xFFA500, t
 			// draw lines to the middle of the square
 			let midpointX = (minX + maxX) / 2;
 			let midpointY = (minY + maxY) / 2;
-			drawLine(preX, preY-3, midpointX, midpointY, nodePos.z);
+			drawLine(preX, preY-3, midpointX, midpointY, 5);
 
 			
 			//connect to the lower level from here
@@ -1031,7 +1031,7 @@ function drawSquare(minRow, minCol, maxRow, maxCol, z=5, lineColor = 0xFFA500, t
 		}	
 	}
 
-	function NewUpdateDown1(connectedRows, connectedCols, this_filterNum) {
+	function NewUpdateDown1(connectedRows, connectedCols, this_filterNum, preX, preY) {
 		var lineGeom = new THREE.Geometry();
 		lineGeom.dynamic = true;
 		// Additional variables for square drawing
@@ -1079,7 +1079,7 @@ function drawSquare(minRow, minCol, maxRow, maxCol, z=5, lineColor = 0xFFA500, t
 		// connect the lines to the middle of the square
 		let midpointX = (minX1 + maxX1) / 2;
 		let midpointY = (minY1 + maxY1) / 2;
-		drawLine(posX[ind], posY[ind]-3, midpointX, midpointY, posZ[ind]+5);
+		drawLine(preX, preY, midpointX, midpointY, posZ[ind]+5);
 
 		// Store connected rows and columns
 		// ... existing initialization code ...
