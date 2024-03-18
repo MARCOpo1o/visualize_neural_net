@@ -787,6 +787,31 @@ function updateConv1(ind, nodePos) {
 		console.log("Conv1: Invalid min and max values for square");}
 }
 
+function drawLine(xStart, yStart, xEnd, yEnd, z = 5, lineColor = 0xFFA500, thickness = 5) {
+    // Create a path for the line
+    const path = new THREE.CurvePath();
+    path.add(new THREE.LineCurve3(new THREE.Vector3(xStart, yStart, z), new THREE.Vector3(xEnd, yEnd, z)));
+
+    // Create the tube geometry based on the path, with 64 segments along the path
+    // and 8 segments around the circumference of the tube. The last parameter is false,
+    // indicating that the tube is not closed.
+    const tubeGeometry = new THREE.TubeGeometry(path, 64, thickness, 8, false);
+
+    // Create a material with the specified color
+    const material = new THREE.MeshBasicMaterial({ color: lineColor });
+
+    // Create a mesh using the geometry and material
+    const tube = new THREE.Mesh(tubeGeometry, material);
+
+    // Add the mesh to the scene
+    scene.add(tube);
+	lineMeshes.push(tube);
+
+    // Return the tube if needed for further manipulation
+    return tube;
+}
+
+
 
 function drawSquare(minRow, minCol, maxRow, maxCol, z=5, lineColor = 0xFFA500, thickness = 5) {
     // Create a closed path for the square
@@ -896,15 +921,9 @@ function drawSquare(minRow, minCol, maxRow, maxCol, z=5, lineColor = 0xFFA500, t
 			// draw lines to the middle of the square
 			let midpointX = (minX + maxX) / 2;
 			let midpointY = (minY + maxY) / 2;
-			lineGeom.vertices.push(new THREE.Vector3(posX[ind], posY[ind]-3, posZ[ind]));
-			lineGeom.vertices.push(new THREE.Vector3(midpointX, midpointY, nodePos.z));
-
-					
-			colors[ vertCount ] = new THREE.Color( 4,4,34 );
-			vertCount++;
-			colors[ vertCount ] = new THREE.Color( 26,27,100 );
-			vertCount++;
-		
+			// lineGeom.vertices.push(new THREE.Vector3(posX[ind], posY[ind]-3, posZ[ind]));
+			// lineGeom.vertices.push(new THREE.Vector3(midpointX, midpointY, nodePos.z));
+			drawLine(posX[ind], posY[ind]-3, midpointX, midpointY, nodePos.z);
 
 			//connect to the lower level from here
 			connectedRows.push(minRow, maxRow);
@@ -912,11 +931,6 @@ function drawSquare(minRow, minCol, maxRow, maxCol, z=5, lineColor = 0xFFA500, t
 			//TODO need to pass down the correct filterNum. 
 			NewUpdateDown1(connectedRows, connectedCols, filterNum_below);
 		}
-		// After adding vertices and colors
-		var lineMat = new THREE.LineBasicMaterial({ color: 0xffffff, opacity: 1, linewidth: 1, vertexColors: THREE.VertexColors });
-		var lineMesh = new THREE.Line(lineGeom, lineMat); // Create a line mesh
-		scene.add(lineMesh); // Add the line mesh to the scene
-		lineMeshes.push(lineMesh); // Store the reference to the new line mesh
 	}
 
 	// conv2
