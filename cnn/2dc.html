@@ -765,6 +765,8 @@ function calculateConv1(row, col) {
 		let midX = (minX1 + maxX1) / 2;
 		let midY = (minY1 + maxY1) / 2;
 		drawLine(preX, preY, midX, midY);
+		// log the preX and preY
+		console.log("preX: " + preX + " preY: " + preY);
 
 		// Check and draw square if valid min and max values are found
 		if (minX1 < Infinity && maxX1 > -Infinity && minY1 < Infinity && maxY1 > -Infinity) {
@@ -1082,7 +1084,7 @@ function drawSquare(minRow, minCol, maxRow, maxCol, z=5, lineColor = 0xFFA500, t
 		// connect the lines to the middle of the square
 		let midpointX = (minX1 + maxX1) / 2;
 		let midpointY = (minY1 + maxY1) / 2;
-		drawLine(preX, preY, midpointX, midpointY, posZ[ind]+5);
+		drawLine(preX, preY, midpointX, midpointY);
 
 		// Store connected rows and columns
 		// ... existing initialization code ...
@@ -1095,6 +1097,9 @@ function drawSquare(minRow, minCol, maxRow, maxCol, z=5, lineColor = 0xFFA500, t
 			y: posY[ind_below],
 			z: posZ[ind_below]
 		};
+
+		//log the midpointX and midpointY
+		console.log("midpointX: " + midpointX + " midpointY: " + midpointY);
 
 		NewUpdateConv1(ind, connectedNodePos, connectedRows1, connectedCols1, midpointX, midpointY);
 		//draw the square
