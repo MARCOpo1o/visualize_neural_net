@@ -796,6 +796,12 @@ function updateConv1(ind, nodePos) {
 		minY = Math.min(minY, posY_below);
 		maxY = Math.max(maxY, posY_below)
     }
+
+	// Connect the node with the mid point of the square
+	let midX = (minX + maxX) / 2;
+	let midY = (minY + maxY) / 2;
+	drawLine(posX[ind], posY[ind]-3, midX, midY, nodePos.z+5);
+
 	if (minX < Infinity && maxX > -Infinity && minY < Infinity && maxY > -Infinity) {
 		drawSquare(minX, minY, maxX, maxY);
 	} else {
@@ -936,15 +942,12 @@ function drawSquare(minRow, minCol, maxRow, maxCol, z=5, lineColor = 0xFFA500, t
 			// draw lines to the middle of the square
 			let midpointX = (minX + maxX) / 2;
 			let midpointY = (minY + maxY) / 2;
-			// lineGeom.vertices.push(new THREE.Vector3(posX[ind], posY[ind]-3, posZ[ind]));
-			// lineGeom.vertices.push(new THREE.Vector3(midpointX, midpointY, nodePos.z));
 			drawLine(posX[ind], posY[ind]-3, midpointX, midpointY, nodePos.z);
 
 			//connect to the lower level from here
 			connectedRows.push(minRow, maxRow);
 			connectedCols.push(minCol, maxCol);
-			//TODO need to pass down the correct filterNum. 
-			NewUpdateDown1(connectedRows, connectedCols, filterNum_below, preX, preY);
+			NewUpdateDown1(connectedRows, connectedCols, filterNum_below, midpointX, midpointY);
 		}
 	}
 
