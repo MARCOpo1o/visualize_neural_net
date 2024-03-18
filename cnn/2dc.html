@@ -418,6 +418,9 @@
 
 		clearOldLineMeshes(); // Call this function to remove old line meshes
 
+		//log the interID
+		console.log(interID);
+
 		var r=1, g=1, b=1, rw=1, gw, bw, i, j, v, colorNum, weight;
 		var vertAdjust = 0;
 		var zAdjust = 5;
@@ -810,7 +813,7 @@ function updateConv1(ind, nodePos) {
 		console.log("Conv1: Invalid min and max values for square");}
 }
 
-function drawLine(xStart, yStart, xEnd, yEnd, z = 5, lineColor = 0xFFA500, thickness = 5) {
+function drawLine(xStart, yStart, xEnd, yEnd, z = 5, lineColor = 0xFFA500, thickness = 3) {
     // Create a path for the line
     const path = new THREE.CurvePath();
     path.add(new THREE.LineCurve3(new THREE.Vector3(xStart, yStart, z), new THREE.Vector3(xEnd, yEnd, z)));
@@ -858,6 +861,14 @@ function drawSquare(minRow, minCol, maxRow, maxCol, z=5, lineColor = 0xFFA500, t
 	lineMeshes.push(tube);
 
     return tube; // Return the tube if needed for further manipulation
+}
+
+//this function use coordinates of the 4 edges of a cube to draw a boarder for all the cubes
+// the color is black by default
+function drawBoarder(lineColor = 0x000000, thickness = 4){
+	//hardcode the coordinates of the 4 edges of the first cube
+	var x1, x2, y1, y2 = 0;
+	drawSquare(x1, y1, x2, y2, 5, lineColor, thickness);
 }
 
 
