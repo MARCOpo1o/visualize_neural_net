@@ -764,7 +764,7 @@ function calculateConv1(row, col) {
 		//connect the node with the mid point of the square
 		let midX = (minX1 + maxX1) / 2;
 		let midY = (minY1 + maxY1) / 2;
-		drawLine(preX, preY, midX, midY);
+		drawLine(preX, preY-3, midX, midY, posZ[ind]+5);
 		// log the preX and preY
 		console.log("preX: " + preX + " preY: " + preY);
 
