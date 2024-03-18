@@ -483,7 +483,7 @@
 				//draw the line from the node to the mid point of the square
 				let midX = (minX + maxX) / 2;
 				let midY = (minY + maxY) / 2;
-				drawLine(posX[ind], posY[ind]-3, midX, midY, posZ[ind]+zAdjust);
+				drawLine(posX[ind], posY[ind]-3, midX, midY, posZ[ind]+5);
 				
 				// Store connected rows and columns
 				let connectedRows = [];
@@ -710,7 +710,7 @@ function calculateConv1(row, col) {
 		//connect the node with the mid point of the square
 		let midX = (minX + maxX) / 2;
 		let midY = (minY + maxY) / 2;
-		drawLine(posX[ind],posY[ind]-3, midX, midY, posZ[ind]+zAdjust);
+		drawLine(posX[ind],posY[ind]-3, midX, midY, posZ[ind]+5);
 
 		// Store connected rows and columns
 		connectedRows.push(minRow, maxRow);
@@ -1079,7 +1079,7 @@ function drawSquare(minRow, minCol, maxRow, maxCol, z=5, lineColor = 0xFFA500, t
 		// connect the lines to the middle of the square
 		let midpointX = (minX1 + maxX1) / 2;
 		let midpointY = (minY1 + maxY1) / 2;
-		drawLine(posX[ind], posY[ind]-3, midpointX, midpointY, posZ[ind]+zAdjust);
+		drawLine(posX[ind], posY[ind]-3, midpointX, midpointY, posZ[ind]+5);
 
 		// Store connected rows and columns
 		// ... existing initialization code ...
