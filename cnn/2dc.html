@@ -871,6 +871,17 @@ function drawBoarder(lineColor = 0x000000, thickness = 4){
 	var i1 = 0
 	var i2 = 1023
 	drawSquare(posX[i1], posY[i1], posX[i2], posY[i2], lineColor, thickness);
+
+	//conv1 layer
+	var c1_a = 4944
+	var c1_b = 5727
+	var c1_diff = 784// each cube is 784 in difference
+	var c1_count = 6
+	for (var i = 0; i < c1_count; i++){
+		drawSquare(posX[c1_a], posY[c1_a], posX[c1_b], posY[c1_b], lineColor, thickness);
+		c1_a += c1_diff
+		c1_b += c1_diff
+	}
 }
 
 
