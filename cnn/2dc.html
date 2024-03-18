@@ -1279,6 +1279,8 @@ function drawBoarder(lineColor = 0x000000, thickness = 4){
 	  if (!rotatingCam) {
 	      pick();
 	      updateEdges();
+		//draw the boarder here 
+		drawBoarder();
 	  }
 	  
 	  if (!highlightBox.visible) {	// if we intersected something
@@ -1306,9 +1308,6 @@ function drawBoarder(lineColor = 0x000000, thickness = 4){
 	      createText(nums, 0, 100);
 	      drawCubes();
 	      drawEdges();
-		  //draw the boarder here 
-		  drawBoarder();
-
 	      uncheckAll();
 	  });
       }
