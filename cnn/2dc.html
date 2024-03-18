@@ -447,51 +447,57 @@
 		      } else if (layerNum[interID]==4) {
 			  // down2
 			  // Additional variables for square drawing
-			let minX = Infinity;
-			let maxX = -Infinity;
-			let minY = Infinity;
-			let maxY = -Infinity;
+				let minX = Infinity;
+				let maxX = -Infinity;
+				let minY = Infinity;
+				let maxY = -Infinity;
 
-			// min, max values for connected rows and columns
-			let minRow = Infinity;
-			let maxRow = -Infinity;
-			let minCol = Infinity;
-			let maxCol = -Infinity;
-			for (j=1; j<=nConvNodes_1; j++){
-				ind_below = nPixels+nConvNodes_1+nConvNodes_1_down+j-1;								
-				temp_below = allNodeNums[ind_below]-1;
-				filterNum_below = math.floor((ind_below-nPixels-nConvNodes_1-nConvNodes_1_down)/(10*10));
-				var row_below = temp_below % 10;
-				var col_below = math.floor(temp_below/10);
-				if (filterNum_below==filterNum) {
-					if (math.floor(row_below/2) == row && math.floor(col_below/2)==col) {
-						// Update min and max values for X and Y
-						minX = Math.min(minX, posX[ind_below]);
-						maxX = Math.max(maxX, posX[ind_below]);
-						minY = Math.min(minY, posY[ind_below]);
-						maxY = Math.max(maxY, posY[ind_below]);
+				// min, max values for connected rows and columns
+				let minRow = Infinity;
+				let maxRow = -Infinity;
+				let minCol = Infinity;
+				let maxCol = -Infinity;
+				for (j=1; j<=nConvNodes_1; j++){
+					ind_below = nPixels+nConvNodes_1+nConvNodes_1_down+j-1;								
+					temp_below = allNodeNums[ind_below]-1;
+					filterNum_below = math.floor((ind_below-nPixels-nConvNodes_1-nConvNodes_1_down)/(10*10));
+					var row_below = temp_below % 10;
+					var col_below = math.floor(temp_below/10);
+					if (filterNum_below==filterNum) {
+						if (math.floor(row_below/2) == row && math.floor(col_below/2)==col) {
+							// Update min and max values for X and Y
+							minX = Math.min(minX, posX[ind_below]);
+							maxX = Math.max(maxX, posX[ind_below]);
+							minY = Math.min(minY, posY[ind_below]);
+							maxY = Math.max(maxY, posY[ind_below]);
 
-						// Update min and max values for connected rows and columns
-						minRow = Math.min(minRow, row_below);
-						maxRow = Math.max(maxRow, row_below);
-						minCol = Math.min(minCol, col_below);
-						maxCol = Math.max(maxCol, col_below);
+							// Update min and max values for connected rows and columns
+							minRow = Math.min(minRow, row_below);
+							maxRow = Math.max(maxRow, row_below);
+							minCol = Math.min(minCol, col_below);
+							maxCol = Math.max(maxCol, col_below);
+						}
 					}
 				}
-			}
-			  // Store connected rows and columns
-			let connectedRows = [];
-			let connectedCols = [];
-			connectedRows.push(minRow, maxRow);
-			connectedCols.push(minCol, maxCol);
-			//take the first ind_below and the last ind_below, and then use that to calculate the square
-			NewupdateConv2(connectedRows, connectedCols,minX, minY);
 
-			// Check and draw square if valid min and max values are found
-			if (minX < Infinity && maxX > -Infinity && minY < Infinity && maxY > -Infinity) {
-				drawSquare(minX, minY, maxX, maxY);
-			} else {
-				console.log("Down2: Invalid min and max values for square");}
+				//draw the line from the node to the mid point of the square
+				let midX = (minX + maxX) / 2;
+				let midY = (minY + maxY) / 2;
+				drawLine(posX[ind], posY[ind]-3, midX, midY, posZ[ind]+zAdjust);
+				
+				// Store connected rows and columns
+				let connectedRows = [];
+				let connectedCols = [];
+				connectedRows.push(minRow, maxRow);
+				connectedCols.push(minCol, maxCol);
+				//take the first ind_below and the last ind_below, and then use that to calculate the square
+				NewupdateConv2(connectedRows, connectedCols,minX, minY);
+
+				// Check and draw square if valid min and max values are found
+				if (minX < Infinity && maxX > -Infinity && minY < Infinity && maxY > -Infinity) {
+					drawSquare(minX, minY, maxX, maxY);
+				} else {
+					console.log("Down2: Invalid min and max values for square");}
 		      } else if (layerNum[interID]==5) {
 			  // hidden layer 1
 			  for (j=1; j<=nConvNodes_2_down; j++){
@@ -701,6 +707,11 @@ function calculateConv1(row, col) {
 			}
 		}
 
+		//connect the node with the mid point of the square
+		let midX = (minX + maxX) / 2;
+		let midY = (minY + maxY) / 2;
+		drawLine(posX[ind],posY[ind]-3, midX, midY, posZ[ind]+zAdjust);
+
 		// Store connected rows and columns
 		connectedRows.push(minRow, maxRow);
 		connectedCols.push(minCol, maxCol);
@@ -750,6 +761,10 @@ function calculateConv1(row, col) {
 			});
 		});
 
+		//connect the node with the mid point of the square
+		let midX = (minX1 + maxX1) / 2;
+		let midY = (minY1 + maxY1) / 2;
+		drawLine(nodePos.x, nodePos.y-3, midX, midY);
 
 		// Check and draw square if valid min and max values are found
 		if (minX1 < Infinity && maxX1 > -Infinity && minY1 < Infinity && maxY1 > -Infinity) {
@@ -1003,14 +1018,8 @@ function drawSquare(minRow, minCol, maxRow, maxCol, z=5, lineColor = 0xFFA500, t
 			// draw lines to the middle of the square
 			let midpointX = (minX + maxX) / 2;
 			let midpointY = (minY + maxY) / 2;
-			lineGeom.vertices.push(new THREE.Vector3(preX, preY-3, 5));
-			lineGeom.vertices.push(new THREE.Vector3(midpointX, midpointY, 5));
+			drawLine(preX, preY-3, midpointX, midpointY, nodePos.z);
 
-					
-			colors[ vertCount ] = new THREE.Color( 4,4,34 );
-			vertCount++;
-			colors[ vertCount ] = new THREE.Color( 26,27,100 );
-			vertCount++;
 			
 			//connect to the lower level from here
 			var connectedRows1 = [];
@@ -1019,14 +1028,7 @@ function drawSquare(minRow, minCol, maxRow, maxCol, z=5, lineColor = 0xFFA500, t
 			connectedCols1.push(minCol, maxCol);
 			//TODO need to pass down the correct filterNum. 
 			NewUpdateDown1(connectedRows1, connectedCols1, filterNum_below);
-		}
-				// After adding vertices and colors
-				var lineMat = new THREE.LineBasicMaterial({ color: 0xffffff, opacity: 1, linewidth: 1, vertexColors: THREE.VertexColors });
-		var lineMesh = new THREE.Line(lineGeom, lineMat); // Create a line mesh
-		scene.add(lineMesh); // Add the line mesh to the scene
-		lineMeshes.push(lineMesh); // Store the reference to the new line mesh
-			
-		
+		}	
 	}
 
 	function NewUpdateDown1(connectedRows, connectedCols, this_filterNum) {
@@ -1073,6 +1075,11 @@ function drawSquare(minRow, minCol, maxRow, maxCol, z=5, lineColor = 0xFFA500, t
 				}
 			}
 		})
+
+		// connect the lines to the middle of the square
+		let midpointX = (minX1 + maxX1) / 2;
+		let midpointY = (minY1 + maxY1) / 2;
+		drawLine(posX[ind], posY[ind]-3, midpointX, midpointY, posZ[ind]+zAdjust);
 
 		// Store connected rows and columns
 		// ... existing initialization code ...
