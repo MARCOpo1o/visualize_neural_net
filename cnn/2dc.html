@@ -830,6 +830,9 @@ function drawLine(xStart, yStart, xEnd, yEnd, z = 5, lineColor = 0xFFA500, thick
     // Add the mesh to the scene
     scene.add(tube);
 	lineMeshes.push(tube);
+	
+	//test
+	drawBoarder();	
 
     // Return the tube if needed for further manipulation
     return tube;
@@ -1294,7 +1297,7 @@ function drawBoarder(lineColor = 0x000000, thickness = 4){
 	      drawEdges();
 		  //draw the boarder here 
 		  drawBoarder();
-		  
+
 	      uncheckAll();
 	  });
       }
