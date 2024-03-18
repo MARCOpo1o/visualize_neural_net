@@ -864,9 +864,10 @@ function drawSquare(minRow, minCol, maxRow, maxCol, z=5, lineColor = 0xFFA500, t
 //this function use coordinates of the 4 edges of a cube to draw a boarder for all the cubes
 // the color is black by default
 function drawBoarder(lineColor = 0x000000, thickness = 4){
-	//hardcode the coordinates of the 4 edges of the first cube
-	var x1, x2, y1, y2 = 0;
-	drawSquare(x1, y1, x2, y2, 5, lineColor, thickness);
+	//hardcode the coordinates of the 4 edges of the first cube input
+	var i1 = 0
+	var i2 = 1023
+	drawSquare(posX[i1], posY[i1], posX[i2], posY[i2], lineColor, thickness);
 }
 
 
@@ -1291,6 +1292,9 @@ function drawBoarder(lineColor = 0x000000, thickness = 4){
 	      createText(nums, 0, 100);
 	      drawCubes();
 	      drawEdges();
+		  //draw the boarder here 
+		  drawBoarder();
+		  
 	      uncheckAll();
 	  });
       }
