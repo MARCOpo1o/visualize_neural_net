@@ -721,7 +721,7 @@ function calculateConv1(row, col) {
 			z: posZ[ind_below]
 		};
 		//take the first ind_below and the last ind_below, and then use that to calculate the square
-		NewUpdateConv1(ind, connectedNodePos, connectedRows, connectedCols);
+		NewUpdateConv1(ind, connectedNodePos, connectedRows, connectedCols, midX, midY);
 
 		// Check and draw square if valid min and max values are found
 		if (minX < Infinity && maxX > -Infinity && minY < Infinity && maxY > -Infinity) {
