@@ -768,8 +768,6 @@ function calculateConv1(row, col) {
 		let midX = (minX1 + maxX1) / 2;
 		let midY = (minY1 + maxY1) / 2;
 		drawLine(preX, preY-3, midX, midY, posZ[ind]+5);
-		// log the preX and preY
-		console.log("preX: " + preX + " preY: " + preY);
 
 		// Check and draw square if valid min and max values are found
 		if (minX1 < Infinity && maxX1 > -Infinity && minY1 < Infinity && maxY1 > -Infinity) {
@@ -1108,9 +1106,6 @@ function drawBoarder(lineColor = 0x000000, thickness = 4){
 			y: posY[ind_below],
 			z: posZ[ind_below]
 		};
-
-		//log the midpointX and midpointY
-		console.log("midpointX: " + midpointX + " midpointY: " + midpointY);
 
 		NewUpdateConv1(ind, connectedNodePos, connectedRows1, connectedCols1, midpointX, midpointY);
 		//draw the square
