@@ -879,8 +879,8 @@ function drawBoarder(lineColor = 0x000000, thickness = 4){
 	var c1_count = 6
 	for (var i = 0; i < c1_count; i++){
 		drawSquare(posX[c1_a], posY[c1_a], posX[c1_b], posY[c1_b], lineColor, thickness);
-		c1_a += c1_diff
-		c1_b += c1_diff
+		c1_a -= c1_diff
+		c1_b -= c1_diff
 	}
 }
 
