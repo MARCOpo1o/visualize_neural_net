@@ -91,7 +91,7 @@ function drawCubes() {
     var pickingMaterial = new THREE.MeshBasicMaterial( { vertexColors: THREE.VertexColors } );
     var defaultMaterial = new THREE.MeshLambertMaterial({ color: 0xffffff, shading: THREE.FlatShading, vertexColors: THREE.VertexColors, transparent: true} );
 
-    var geom = new THREE.BoxGeometry( 9,9,9 );
+    var geom = new THREE.BoxGeometry( 20,20,20 ); //this is where the size of the cube is determined 9,9,9 originally 
     var hideGeom = new THREE.BoxGeometry(1,1,1);
     var color = new THREE.Color();
 
