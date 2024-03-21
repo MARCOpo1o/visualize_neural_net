@@ -91,7 +91,15 @@ function drawCubes() {
     var pickingMaterial = new THREE.MeshBasicMaterial( { vertexColors: THREE.VertexColors } );
     var defaultMaterial = new THREE.MeshLambertMaterial({ color: 0xffffff, shading: THREE.FlatShading, vertexColors: THREE.VertexColors, transparent: true} );
 
-    var geom = new THREE.BoxGeometry( 20,20,20 ); //this is where the size of the cube is determined 9,9,9 originally 
+    // var geom = new THREE.BoxGeometry( 20,20,20 ); //this is where the size of the cube is determined 9,9,9 originally 
+	 // Check if the current cube belongs to the output layer
+	 if (layerNum[i] == 7) {
+		// For cubes in the output layer, use a larger size
+		geom = new THREE.BoxGeometry(100, 100, 100); // Adjust the size as needed
+	} else {
+		// For other cubes, use the original size
+		geom = new THREE.BoxGeometry(9, 9, 9);
+	}
     var hideGeom = new THREE.BoxGeometry(1,1,1);
     var color = new THREE.Color();
 
@@ -100,49 +108,49 @@ function drawCubes() {
 
     for ( var i = 0; i < nNodes; i ++ ) {
 
-	var position = new THREE.Vector3();
-	position.x = posX[i];
-	position.y = posY[i];
-	position.z = posZ[i];
+		var position = new THREE.Vector3();
+		position.x = posX[i];
+		position.y = posY[i];
+		position.z = posZ[i];
 
-	var rotation = new THREE.Euler();
-	rotation.x = 0;
-	rotation.y = 0;
-	rotation.z = 0;
+		var rotation = new THREE.Euler();
+		rotation.x = 0;
+		rotation.y = 0;
+		rotation.z = 0;
 
-	var scale = new THREE.Vector3();
-	scale.x = 1;
-	scale.y = 1;
-	scale.z = 1;
+		var scale = new THREE.Vector3();
+		scale.x = 1;
+		scale.y = 1;
+		scale.z = 1;
 	
-	quaternion.setFromEuler( rotation, false );
-	matrix.compose( position, quaternion, scale );
+		quaternion.setFromEuler( rotation, false );
+		matrix.compose( position, quaternion, scale );
 	
-	if (isComputed){
-	    var v = allNodeOutputs[i];
-	    var colorNum = math.round(v*99);
-	    r = redLookup[colorNum];
-	    g = greenLookup[colorNum];
-	    b = blueLookup[colorNum];
-	    applyVertexColors( geom, color.setRGB( r,g,b ) );
-	} else {
-	    applyVertexColors( geom, color.setRGB( 0,0,0 ) );
-	}
-	
-	geometry.merge( geom, matrix );
+		if (isComputed){
+			var v = allNodeOutputs[i];
+			var colorNum = math.round(v*99);
+			r = redLookup[colorNum];
+			g = greenLookup[colorNum];
+			b = blueLookup[colorNum];
+			applyVertexColors( geom, color.setRGB( r,g,b ) );
+		} else {
+			applyVertexColors( geom, color.setRGB( 0,0,0 ) );
+		}
+		
+		geometry.merge( geom, matrix );
 
-	// give the geom's vertices a color corresponding to the "id"
+		// give the geom's vertices a color corresponding to the "id"
 
-	applyVertexColors( geom, color.setHex( i ) );
+		applyVertexColors( geom, color.setHex( i ) );
 
-	pickingGeometry.merge( geom, matrix );
+		pickingGeometry.merge( geom, matrix );
 
-	pickingData[ i ] = {
-	    position: position,
-	    rotation: rotation,
-	    scale: scale, 
-	    id: i
-	};
+		pickingData[ i ] = {
+			position: position,
+			rotation: rotation,
+			scale: scale, 
+			id: i
+		};
 
     }
 
