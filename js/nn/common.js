@@ -91,16 +91,8 @@ function drawCubes() {
     var pickingMaterial = new THREE.MeshBasicMaterial( { vertexColors: THREE.VertexColors } );
     var defaultMaterial = new THREE.MeshLambertMaterial({ color: 0xffffff, shading: THREE.FlatShading, vertexColors: THREE.VertexColors, transparent: true} );
 
-	var geom = new THREE.BoxGeometry( 9, 9, 9 );
     // var geom = new THREE.BoxGeometry( 20,20,20 ); //this is where the size of the cube is determined 9,9,9 originally 
-	 // Check if the current cube belongs to the output layer
-	 if (layerNum[i] == 7) {
-		// For cubes in the output layer, use a larger size
-		geom = new THREE.BoxGeometry(100, 100, 100); // Adjust the size as needed
-	} else {
-		// For other cubes, use the original size
-		geom = new THREE.BoxGeometry(9, 9, 9);
-	}
+
     var hideGeom = new THREE.BoxGeometry(1,1,1);
     var color = new THREE.Color();
 
@@ -126,7 +118,17 @@ function drawCubes() {
 	
 		quaternion.setFromEuler( rotation, false );
 		matrix.compose( position, quaternion, scale );
-	
+		var geom;
+
+		// Check if the current cube belongs to the output layer
+		if (layerNum[i] == 7) {
+			// For cubes in the output layer, use a larger size
+			geom = new THREE.BoxGeometry(100, 100, 100); // Adjust the size as needed
+		} else {
+			// For other cubes, use the original size
+			geom = new THREE.BoxGeometry(9, 9, 9);
+		}
+
 		if (isComputed){
 			var v = allNodeOutputs[i];
 			var colorNum = math.round(v*99);
