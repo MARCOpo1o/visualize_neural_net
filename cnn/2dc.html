@@ -904,6 +904,19 @@ function drawBoarder(lineColor = 0x000000, thickness = 4){
 		c2_a -= c2_diff
 		c2_b -= c2_diff
 	}
+
+	//down2 layer
+	var d2_a = 8879
+	var d2_b = 8903
+	var d2_diff = d2_a-8854
+	var d2_count = 16
+	for (var i = 0; i < d2_count; i++){
+		drawSquare(posX[d2_a], posY[d2_a], posX[d2_b], posY[d2_b], lineColor, thickness);
+		d2_a -= d2_diff
+		d2_b -= d2_diff
+	}
+
+
 }
 
 
