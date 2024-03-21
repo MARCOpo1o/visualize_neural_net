@@ -886,12 +886,23 @@ function drawBoarder(lineColor = 0x000000, thickness = 4){
 	//down1 layer
 	var d1_a = 6708
 	var d1_b = 6903
-	var d1_diff = 6512-d1_a
+	var d1_diff = d1_a- 6512
 	var d1_count = 6
 	for (var i = 0; i < d1_count; i++){
 		drawSquare(posX[d1_a], posY[d1_a], posX[d1_b], posY[d1_b], lineColor, thickness);
 		d1_a -= d1_diff
 		d1_b -= d1_diff
+	}
+
+	//conv2 layer
+	var c2_a = 8404
+	var c2_b = 8503
+	var c2_diff = c2_a-8304
+	var c2_count = 16
+	for (var i = 0; i < c2_count; i++){
+		drawSquare(posX[c2_a], posY[c2_a], posX[c2_b], posY[c2_b], lineColor, thickness);
+		c2_a -= c2_diff
+		c2_b -= c2_diff
 	}
 }
 
