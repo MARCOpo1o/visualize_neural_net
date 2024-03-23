@@ -101,7 +101,7 @@ function drawCubes() {
 
     for ( var i = 0; i < nNodes; i ++ ) {
 
-		var marco = 13;
+		var marco = 8;
 		var position = new THREE.Vector3();
 		if (layerNum[i] == 7){
 		position.x = posX[i]*marco;} else {position.x = posX[i]} //change this only for layernum[i]==7
@@ -125,7 +125,7 @@ function drawCubes() {
 		// Check if the current cube belongs to the output layer
 		if (layerNum[i] == 7) {
 			// For cubes in the output layer, use a larger size
-			geom = new THREE.BoxGeometry(100, 100, 100); // Adjust the size as needed
+			geom = new THREE.BoxGeometry(50, 50, 50); // Adjust the size as needed
 		} else {
 			// For other cubes, use the original size
 			geom = new THREE.BoxGeometry(9, 9, 9);
