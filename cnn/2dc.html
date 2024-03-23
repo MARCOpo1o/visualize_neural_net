@@ -148,7 +148,7 @@
 
       var keeperIndices;
       var nKeepers;
-      
+      var marco = 13;
       var interID, row, col, ind_below;
       var intersected = false;
       
@@ -575,7 +575,7 @@
 			      if (fc2_hide)
 				  vertAdjust = 0;
 
-			      lineGeom.vertices.push(new THREE.Vector3(posX[ind_below], posY[ind_below]+vertAdjust, posZ[ind_below]+zAdjust));
+			      lineGeom.vertices.push(new THREE.Vector3(posX[ind_below]*marco, posY[ind_below]+vertAdjust, posZ[ind_below]+zAdjust));
 			      lineGeom.vertices.push(new THREE.Vector3(posX[ind], posY[ind]-3, posZ[ind]+zAdjust));
 			      if (isComputed){
 				  v = allNodeOutputs[ind_below];
