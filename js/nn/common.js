@@ -103,7 +103,7 @@ function drawCubes() {
 
 		var position = new THREE.Vector3();
 		if (layerNum[i] == 7){
-		position.x = posX[i]-100;} else {position.x = posX[i]} //change this only for layernum[i]==7
+		position.x = posX[i]*100;} else {position.x = posX[i]} //change this only for layernum[i]==7
 		position.y = posY[i];
 		position.z = posZ[i];
 
