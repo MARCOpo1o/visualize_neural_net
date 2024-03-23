@@ -576,7 +576,7 @@
 				  vertAdjust = 0;
 
 			      lineGeom.vertices.push(new THREE.Vector3(posX[ind_below], posY[ind_below]+vertAdjust, posZ[ind_below]+zAdjust));
-			      lineGeom.vertices.push(new THREE.Vector3(posX[ind]*marco, posY[ind]-3, posZ[ind]+zAdjust));
+			      lineGeom.vertices.push(new THREE.Vector3(posX[ind]*marco, posY[ind]-10, posZ[ind]+zAdjust));
 			      if (isComputed){
 				  v = allNodeOutputs[ind_below];
 				  colorNum = math.round(v*99);
@@ -1337,7 +1337,7 @@ function drawBoarder(lineColor = 0x000000, thickness = 4){
 	      console.log('error');
 	  }).done(function(){
 	      setupWeightArrays();
-	      createText(nums, 0, 130);
+	      createText(nums, 0, 150);
 	      drawCubes();
 	      drawEdges();
 	      uncheckAll();
