@@ -575,8 +575,8 @@
 			      if (fc2_hide)
 				  vertAdjust = 0;
 
-			      lineGeom.vertices.push(new THREE.Vector3(posX[ind_below]*marco, posY[ind_below]+vertAdjust, posZ[ind_below]+zAdjust));
-			      lineGeom.vertices.push(new THREE.Vector3(posX[ind], posY[ind]-3, posZ[ind]+zAdjust));
+			      lineGeom.vertices.push(new THREE.Vector3(posX[ind_below], posY[ind_below]+vertAdjust, posZ[ind_below]+zAdjust));
+			      lineGeom.vertices.push(new THREE.Vector3(posX[ind]*marco, posY[ind]-3, posZ[ind]+zAdjust));
 			      if (isComputed){
 				  v = allNodeOutputs[ind_below];
 				  colorNum = math.round(v*99);
