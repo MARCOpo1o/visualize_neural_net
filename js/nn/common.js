@@ -104,8 +104,16 @@ function drawCubes() {
 		var marco = 7;
 		var position = new THREE.Vector3();
 		if (layerNum[i] == 7){
-		position.x = posX[i]*marco;} else {position.x = posX[i]} //change this only for layernum[i]==7
-		position.y = posY[i];
+			position.x = posX[i]*marco;
+			position.y = posY[i] - 5;
+
+	
+		} else {
+			position.x = posX[i];
+			position.y = posY[i];
+		}
+		
+		//change this only for layernum[i]==7
 		position.z = posZ[i];
 
 		var rotation = new THREE.Euler();
