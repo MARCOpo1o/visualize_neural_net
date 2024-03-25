@@ -6,8 +6,9 @@ function createText(text, x, y) {
 	scene.add( group );
 
 	material = new THREE.MeshFaceMaterial( [ 
-		new THREE.MeshPhongMaterial( { color: 0xFFFFFF, shading: THREE.FlatShading } ), // front
-		new THREE.MeshPhongMaterial( { color: 0xFFFFFF, shading: THREE.SmoothShading } ) // side
+		//change color to black
+		new THREE.MeshPhongMaterial( { color: 0x000000, shading: THREE.FlatShading } ), // front
+		new THREE.MeshPhongMaterial( { color: 0x000000, shading: THREE.SmoothShading } ) // side
 	]);
 	
 	textGeo = new THREE.TextGeometry( text, {

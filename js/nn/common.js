@@ -86,12 +86,13 @@ function updateCubes() {
     }
 }
 function drawCubes() {
-    var geometry = new THREE.Geometry();
+	var geometry = new THREE.Geometry();
     var pickingGeometry = new THREE.Geometry();
     var pickingMaterial = new THREE.MeshBasicMaterial( { vertexColors: THREE.VertexColors } );
     var defaultMaterial = new THREE.MeshLambertMaterial({ color: 0xffffff, shading: THREE.FlatShading, vertexColors: THREE.VertexColors, transparent: true} );
 
-    var geom = new THREE.BoxGeometry( 9,9,9 );
+    // var geom = new THREE.BoxGeometry( 20,20,20 ); //this is where the size of the cube is determined 9,9,9 originally 
+
     var hideGeom = new THREE.BoxGeometry(1,1,1);
     var color = new THREE.Color();
 
@@ -100,49 +101,69 @@ function drawCubes() {
 
     for ( var i = 0; i < nNodes; i ++ ) {
 
-	var position = new THREE.Vector3();
-	position.x = posX[i];
-	position.y = posY[i];
-	position.z = posZ[i];
+		var marco = 7;
+		var position = new THREE.Vector3();
+		if (layerNum[i] == 7){
+			position.x = posX[i]*marco;
+			position.y = posY[i] - 30;
 
-	var rotation = new THREE.Euler();
-	rotation.x = 0;
-	rotation.y = 0;
-	rotation.z = 0;
-
-	var scale = new THREE.Vector3();
-	scale.x = 1;
-	scale.y = 1;
-	scale.z = 1;
 	
-	quaternion.setFromEuler( rotation, false );
-	matrix.compose( position, quaternion, scale );
+		} else {
+			position.x = posX[i];
+			position.y = posY[i];
+		}
+		
+		//change this only for layernum[i]==7
+		position.z = posZ[i];
+
+		var rotation = new THREE.Euler();
+		rotation.x = 0;
+		rotation.y = 0;
+		rotation.z = 0;
+
+		var scale = new THREE.Vector3();
+		scale.x = 1;
+		scale.y = 1;
+		scale.z = 1;
 	
-	if (isComputed){
-	    var v = allNodeOutputs[i];
-	    var colorNum = math.round(v*99);
-	    r = redLookup[colorNum];
-	    g = greenLookup[colorNum];
-	    b = blueLookup[colorNum];
-	    applyVertexColors( geom, color.setRGB( r,g,b ) );
-	} else {
-	    applyVertexColors( geom, color.setRGB( 0,0,0 ) );
-	}
-	
-	geometry.merge( geom, matrix );
+		quaternion.setFromEuler( rotation, false );
+		matrix.compose( position, quaternion, scale );
+		var geom;
 
-	// give the geom's vertices a color corresponding to the "id"
+		// Check if the current cube belongs to the output layer
+		if (layerNum[i] == 7) {
+			// For cubes in the output layer, use a larger size
+			geom = new THREE.BoxGeometry(50, 50, 50); // Adjust the size as needed
+		} else {
+			// For other cubes, use the original size
+			geom = new THREE.BoxGeometry(9, 9, 9);
+		}
 
-	applyVertexColors( geom, color.setHex( i ) );
+		if (isComputed){
+			var v = allNodeOutputs[i];
+			var colorNum = math.round(v*99);
+			r = redLookup[colorNum];
+			g = greenLookup[colorNum];
+			b = blueLookup[colorNum];
+			applyVertexColors( geom, color.setRGB( r,g,b ) );
+		} else {
+			applyVertexColors( geom, color.setRGB( 0,0,0 ) );
+		}
+		
+		geometry.merge( geom, matrix );
 
-	pickingGeometry.merge( geom, matrix );
+		// give the geom's vertices a color corresponding to the "id"
 
-	pickingData[ i ] = {
-	    position: position,
-	    rotation: rotation,
-	    scale: scale, 
-	    id: i
-	};
+		applyVertexColors( geom, color.setHex( i ) );
+
+		pickingGeometry.merge( geom, matrix );
+
+		pickingData[ i ] = {
+			position: position,
+			rotation: rotation,
+			scale: scale, 
+			id: i
+		};
 
     }
 
@@ -150,8 +171,9 @@ function drawCubes() {
     drawnObject.name = 'cubes';
     scene.add( drawnObject );
 
-    pickingScene.add( new THREE.Mesh( pickingGeometry, pickingMaterial ) );			
+    pickingScene.add( new THREE.Mesh( pickingGeometry, pickingMaterial ) );		
 }
+
 function drawEdges() {
     //console.log('draw edges');
     var lineMat = new THREE.LineBasicMaterial({
@@ -208,6 +230,16 @@ function drawFilter() {
 		filterCtx.fillRect(i*pixelSize, j*pixelSize, pixelSize, pixelSize);
 	    }
 	}
+
+	// Draw dividing line on filterCanvas
+    filterCtx.strokeStyle = "rgba(255, 255, 255, 1.0)"; // White color
+    filterCtx.lineWidth = 10; // Thicker line
+    filterCtx.beginPath();
+    filterCtx.moveTo(totalWidth, 0);
+    filterCtx.lineTo(totalWidth, squareWidth);
+    filterCtx.stroke();
+
+
 	inputCtx.canvas.width = totalWidth;
 	inputCtx.canvas.height = squareWidth;
 	inputCanvasContainer.style.width = totalWidth + "px";
@@ -228,6 +260,13 @@ function drawFilter() {
 		x++; if (x == filterSize_1) { x=0; y++; }
 	    }
 	}
+	    // Draw dividing line on inputCanvas
+		inputCtx.strokeStyle = "rgba(255, 255, 255, 1.0)"; // White color
+		inputCtx.lineWidth = 10; // Thicker line
+		inputCtx.beginPath();
+		inputCtx.moveTo(totalWidth, 0);
+		inputCtx.lineTo(totalWidth, squareWidth);
+		inputCtx.stroke();
     } else if (layerNum[interID]==2) {
 	//nodeType = "Downsampling layer 1";
     } else if (layerNum[interID]==3) {
@@ -243,27 +282,47 @@ function drawFilter() {
 	var reverseKeeperCount = nKeepers[filterNum]-1;;
 	for (f=0;f<nConvFilters_1;f++){
 	    if (keepers.e(f+1,filterNum+1)){
-		for (i=0;i<filterSize_1;i++){
-		    for (j=0;j<filterSize_1;j++){
-			weight = conv_nodes[1][filterNum][keeperCount].e(i+1,j+1);
-			colorNum = math.round(conv_weights_2a[filterNum][f][i][j]*99);									
-			r=0;
-			g = math.round(greenLookup[colorNum]*255);
-			b = math.round(blueLookup[colorNum]*255);
-			filterCtx.fillStyle = "rgba(" + r + "," + g + "," + b + ", 1.0";
-			filterCtx.fillRect(reverseKeeperCount*squareWidth+i*pixelSize, j*pixelSize, pixelSize, pixelSize);
-		    }
-		}
-		keeperCount++;
-		reverseKeeperCount--;
+			for (i=0;i<filterSize_1;i++){
+				for (j=0;j<filterSize_1;j++){
+					weight = conv_nodes[1][filterNum][keeperCount].e(i+1,j+1);
+					colorNum = math.round(conv_weights_2a[filterNum][f][i][j]*99);									
+					r=0;
+					g = math.round(greenLookup[colorNum]*255);
+					b = math.round(blueLookup[colorNum]*255);
+					filterCtx.fillStyle = "rgba(" + r + "," + g + "," + b + ", 1.0";
+					filterCtx.fillRect(reverseKeeperCount*squareWidth+i*pixelSize, j*pixelSize, pixelSize, pixelSize);
+				}
+			}
+			keeperCount++;
+			reverseKeeperCount--;
+
+			// Draw dividing line
+			if (keeperCount < nKeepers[filterNum]) {
+				filterCtx.strokeStyle = "rgba(255, 255, 255, 1.0)"; // White color
+				filterCtx.lineWidth = 10; // Thicker line
+				filterCtx.beginPath();
+				filterCtx.moveTo((reverseKeeperCount+1)*squareWidth, 0);
+				filterCtx.lineTo((reverseKeeperCount+1)*squareWidth, filterSize_1*pixelSize);
+				filterCtx.stroke();
+			}
 	    }
 	}
+
 	
 	inputCtx.canvas.width = totalWidth;
 	inputCtx.canvas.height = squareWidth;
 	inputCanvasContainer.style.height = squareWidth + "px";
 	inputCanvasContainer.style.width = totalWidth + "px";
 	x=0;y=0;
+
+	// Draw horizontal dividing line at the top of filterCanvas
+	filterCtx.strokeStyle = "rgba(255, 255, 255, 1.0)"; // White color
+	filterCtx.lineWidth = 10; // Thicker line
+	filterCtx.beginPath();
+	filterCtx.moveTo(0, 0);
+	filterCtx.lineTo(totalWidth, 0);
+	filterCtx.stroke();
+
 	keeperCount = nKeepers[filterNum]-1;
 	for (j=1; j<=nConvNodes_1_down; j++){
 	    ind_below = nPixels+nConvNodes_1+j-1;
@@ -272,17 +331,26 @@ function drawFilter() {
 	    var row_below = temp_below % 14;
 	    var col_below = math.floor(temp_below/14);
 	    if (keepers.e(filterNum_below+1,filterNum+1)==1) {
-		if (row_below > row-1 && row_below < row + 5 && col_below > col-1 && col_below < col + 5) {
-		    colorNum = math.round(allNodeOutputs[ind_below]*99);
-		    r = math.round(redLookup[colorNum]*255);
-		    g = math.round(greenLookup[colorNum]*255);
-		    b = math.round(blueLookup[colorNum]*255);
-		    inputCtx.fillStyle = "rgba(" + r + "," + g + "," + b + ", 1.0";
-		    inputCtx.fillRect(keeperCount*squareWidth+x*pixelSize, y*pixelSize, pixelSize, pixelSize);
-		    x++; if (x == filterSize_1) { x=0; y++; }
-		    if (y == filterSize_1) { y=0; keeperCount--; }
-		}
+			if (row_below > row-1 && row_below < row + 5 && col_below > col-1 && col_below < col + 5) {
+				colorNum = math.round(allNodeOutputs[ind_below]*99);
+				r = math.round(redLookup[colorNum]*255);
+				g = math.round(greenLookup[colorNum]*255);
+				b = math.round(blueLookup[colorNum]*255);
+				inputCtx.fillStyle = "rgba(" + r + "," + g + "," + b + ", 1.0";
+				inputCtx.fillRect(keeperCount*squareWidth+x*pixelSize, y*pixelSize, pixelSize, pixelSize);
+				x++; if (x == filterSize_1) { x=0; y++; }
+				if (y == filterSize_1) { y=0; keeperCount--; }
+			}
 	    }
+		// Draw dividing line
+		if (x == 0 && y == 0 && keeperCount >= 0) {
+			inputCtx.strokeStyle = "rgba(225, 225, 225, 1.0)"; // Change this to the color you want for the dividing line
+			inputCtx.lineWidth = 10; // Change this to the thickness you want for the dividing line
+			inputCtx.beginPath();
+			inputCtx.moveTo((keeperCount+1)*squareWidth, 0);
+			inputCtx.lineTo((keeperCount+1)*squareWidth, filterSize_1*pixelSize);
+			inputCtx.stroke();
+		}
 	}
     } else if (layerNum[interID]==4) {
 	//nodeType = "Downsampling layer 2";

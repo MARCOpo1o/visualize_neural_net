@@ -2,7 +2,7 @@ html, body {
     height: 100%;
 }
 body {
-    /* white background */
+    font-family: Arial;
     background-color: #222222;
     background: rgb(25,38,85); /* Old browsers */
     background: -moz-radial-gradient(center, ellipse cover,  rgba(25,38,85,1) 0%, rgba(20,20,20,1) 100%); /* FF3.6+ */
@@ -13,15 +13,12 @@ body {
     background: radial-gradient(ellipse at center,  rgba(25,38,85,1) 0%,rgba(20,20,20,1) 100%); /* W3C */
 
     margin: 0;
-    font-family: Arial, sans-serif;
+    font-family: Arial;
     overflow: hidden;
 }
 #webgl_container {
     z-index: 10;
     overflow:hidden;
-    background-color: #d3d3d3; /* Light gray for container backgrounds */
-    color: #333; /* Darker gray for text */
-    border: 1px solid #cccccc; /* Slightly darker gray for borders */
 }
 #canvasContainer {
     z-index: 50;
@@ -42,7 +39,6 @@ body {
 }
 #canvasContainer:hover {
     opacity:1;
-    background-color: #e6e6e6; /* A shade darker on hover to add interaction feedback */
 }
 #canvasContainerRight {
     z-index: 50;
@@ -67,7 +63,7 @@ body {
 }
 
 img#myImage {
-    width: 700px; /* Make the image scale to the width of its container */
+    width: 100%; /* Make the image scale to the width of its container */
     height: auto; /* Maintain the aspect ratio */
 }
 .drawingOutput {
@@ -89,7 +85,7 @@ img#myImage {
     
 }
 .instructions {
-    color: #666666; /* Medium gray for readability and subtlety */
+    color: #fff;
     font-size:24px;
     text-align:left;
     padding: 5px 0;
@@ -98,7 +94,7 @@ img#myImage {
     font-size:12px;
 }
 .info {
-    color: #666666; /* Medium gray for readability and subtlety */
+    color: #abc;
     font-size:18px;
     text-align:right;
     float:left;
@@ -123,8 +119,7 @@ img#myImage {
     position:absolute;
     bottom:100px;
     left:100px;	
-    color: #666666; /* Medium gray for readability and subtlety */
-
+    background-color:#def;	
     
     opacity: 1;	
     
@@ -193,10 +188,7 @@ img#myImage {
 #drawingInterface {	
     padding: 5px;
     margin-bottom: 5px;
-    /* Subtle gradient from white to light gray */
-    background: linear-gradient(to bottom, rgb(255, 255, 255) 0%, rgb(251, 250, 218) 100%);
-    border: 1px solid rgb(225, 225, 225); /* Light gray border */
-    color: rgb(51, 51, 51); /* Dark gray for text */
+    background: rgb(255,170,116);
 }
 #filterInterface {
     padding:5px;
@@ -331,4 +323,3 @@ input.cmn-toggle-yes-no:checked + label:after {
 a {
     color:#06c;
 }
-
