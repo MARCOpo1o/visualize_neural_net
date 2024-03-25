@@ -187,7 +187,7 @@
 
       var nums = "output: 0  1  2  3  4  5  6  7  8  9          ",
 	  height = 3,
-	  size = 45,
+	  size = 46,
 	  hover = 460,
 
 	  curveSegments = 8,
@@ -576,7 +576,7 @@
 				  vertAdjust = 0;
 
 			      lineGeom.vertices.push(new THREE.Vector3(posX[ind_below], posY[ind_below]+vertAdjust, posZ[ind_below]+zAdjust));
-			      lineGeom.vertices.push(new THREE.Vector3(posX[ind]*marco, posY[ind]-20, posZ[ind]+zAdjust));
+			      lineGeom.vertices.push(new THREE.Vector3(posX[ind]*marco, posY[ind]-50, posZ[ind]+zAdjust));
 			      if (isComputed){
 				  v = allNodeOutputs[ind_below];
 				  colorNum = math.round(v*99);
