@@ -105,7 +105,7 @@ function drawCubes() {
 		var position = new THREE.Vector3();
 		if (layerNum[i] == 7){
 			position.x = posX[i]*marco;
-			position.y = posY[i] - 5;
+			position.y = posY[i] - 50;
 
 	
 		} else {
