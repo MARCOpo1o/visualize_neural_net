@@ -128,91 +128,39 @@
 	<div id="pageContent">
 	  <h1>Marco's Interactive Node-Link Visualization of Convolutional Neural Networks [with all layers connected]</h1>
 	  <p><a href="https://adamharley.com/">Original: Adam W. Harley</a></p>
-	  <p><a href="https://marcopo1o.github.io/">New: Marco Qin</a></p>
-	  <!-- <div class="feature">
-	    <p><strong>Featured in <a href="http://www.popsci.com/gaze-inside-mind-artificial-intelligence">Popular Science</a></strong></p>
-	    <a href="http://www.popsci.com/gaze-inside-mind-artificial-intelligence"><img src="images/popsci_graphic_flat.png" alt="3D neural network visualization" style="width:100%; max-width: 811px"></a>
-	  </div> -->
-	  <!-- <h2>Abstract</h2>
-	  <p>Convolutional neural networks are at the core of state-of-the-art approaches to a variety of computer vision tasks. Visualizations of neural networks typically take the form of static node-link diagrams, which illustrate only the structure of a network, rather than the behavior. Motivated by this observation, this paper presents a new interactive visualization of neural networks trained on handwritten digit recognition, with the intent of showing the actual behavior of the network given user-provided input. The user can interact with the network through a drawing pad, and watch the activation patterns of the network respond in real time.</p>
-	  <h2>Paper</h2>
-	  <div id="pdf">
-	    <a href="harley_vis_isvc15.pdf"><img src="images/paper_noshadow.png" alt="An Interactive Node-Link Visualization of Convolutional Neural Networks"></a>
-	  </div> -->
+	  <p><a href="https://marcoqin.com/">New: Marco Qin</a></p>
+	
 
 	  <h2>Demo</h2>
 	  <div class="projects">
-	    <!-- <div class="project">				
-	      <table>
-		<tr>
-		  <td class="image" style="background-color:#000"><a href="./mlp/3d.html"><img src="images/fcnet_480.png" alt="3D neural network visualization" style="width:100%"></a></td>
-		  <td class="text">
-		    <div class="projectTitle"><a href="./mlp/3d.html">3D fully-connected network visualization</a></div>
-		    This network has 784 nodes on the bottom layer (corresponding to pixels), 300 nodes in the first hidden layer, 100 nodes in the second hidden layer, and 10 nodes in the output layer (corresponding to the 10 digits). 
-		  </td>
-		</tr>
-	      </table>
-	    </div>
-	    <div class="project">
-	      <table>
-		<tr>
-		  <td class="image" style="background-color:#000"><a href="./cnn/3d.html"><img src="images/convnet_480.png" alt="3D neural network visualization" style="width:100%"></a></td>
-		  <td class="text">
-		    <div class="projectTitle"><a href="./cnn/3d.html">3D convolutional network visualization</a></div>
-		    This network has 1024 nodes on the bottom layer (corresponding to pixels), six 5x5 (stride 1) convolutional filters in the first hidden layer, followed by sixteen 5x5 (stride 1) convolutional filters in the second hidden layer, then three fully-connected layers, with 120 nodes in the first, 100 nodes in the second, and 10 nodes in the third. The convolutional layers are each followed by downsampling layer that does 2x2 max pooling (with stride 2).
-		  </td>
-		</tr>
-	      </table>
-	    </div>
-	    <div class="project">
-	      <table>
-		<tr>
-		  <td class="image" style="background-color:#000"><a href="./mlp/2d.html"><img src="images/fc_flat_480.png" alt="2D neural network visualization" style="width:100%"></a></td>
-		  <td class="text">
-		    <div class="projectTitle"><a href="./mlp/2d.html">2D fully-connected network visualization</a></div>
-		    This is the same as the first visualization, but with the nodes flattened on a plane so that they are easier to see all at once.
-		  </td>
-		</tr>
-	      </table>
-	    </div> -->
+
+		<div class="project">
+			<table>
+			  <tr>
+			  <td class="image" style="background-color:#000"><a href="./cnn/2d.html"><img src="images/cnn_2d.png" alt="2D neural network visualization" style="width:100%"></a></td>
+			  <td class="text">
+				  <div class="projectTitle"><a href="./cnn/2d.html">2D convolutional network visualization</a></div>
+				  This network has 1024 nodes on the bottom layer (corresponding to pixels), six 5x5 (stride 1) convolutional filters in the first hidden layer, followed by sixteen 5x5 (stride 1) convolutional filters in the second hidden layer, then three fully-connected layers, with 120 nodes in the first, 100 nodes in the second, and 10 nodes in the third. The convolutional layers are each followed by downsampling layer that does 2x2 max pooling (with stride 2).
+			  </td>
+			  </tr>
+			</table>
+		  </div>
+	    
 		<div class="project">
 			<table>
 		  <tr>
-			<td class="image" style="background-color:#000"><a href="./cnn/2dc.html"><img src="images/convnet_flat_480.png" alt="2D neural network visualization" style="width:100%"></a></td>
+			<td class="image" style="background-color:#000"><a href="./cnn/2dc.html"><img src="images/2dc.png" alt="2D neural network visualization" style="width:100%"></a></td>
 			<td class="text">
 			  <div class="projectTitle"><a href="./cnn/2dc.html">2D convolutional network visualization with all layers connected</a></div>
-			  This network has 1024 nodes on the bottom layer (corresponding to pixels), six 5x5 (stride 1) convolutional filters in the first hidden layer, followed by sixteen 5x5 (stride 1) convolutional filters in the second hidden layer, then three fully-connected layers, with 120 nodes in the first, 100 nodes in the second, and 10 nodes in the third. The convolutional layers are each followed by downsampling layer that does 2x2 max pooling (with stride 2).
+			  This is my modification on the original website where I connected all layers in the visualization, added an image to illustrate the different layers, and made the output layer more intuitive. 
 			</td>
 		  </tr>
 			</table>
 		  </div>
 
-	    <div class="project">
-	      <table>
-		<tr>
-		  <td class="image" style="background-color:#000"><a href="./cnn/2d.html"><img src="images/convnet_flat_480.png" alt="2D neural network visualization" style="width:100%"></a></td>
-		  <td class="text">
-		    <div class="projectTitle"><a href="./cnn/2d.html">2D convolutional network visualization</a></div>
-		    This is the same as the first visualization, but is the original version which does not connect all layers.
-		  </td>
-		</tr>
-	      </table>
-	    </div>
 	  </div>
 	  <h2>Citation</h2>
 	  <div class="cite">A. W. Harley, "An Interactive Node-Link Visualization of Convolutional Neural Networks," in ISVC, pages 867-877, 2015</div>
-	  <p>Bibtex format:</p>
-	  <div class="cite">
-	    <code>
-	      @inproceedings{harley2015isvc,<br/>
-	      &nbsp;&nbsp;&nbsp;&nbsp;title = {An Interactive Node-Link Visualization of Convolutional Neural Networks},<br/>
-	      &nbsp;&nbsp;&nbsp;&nbsp;author = {Adam W Harley},<br/>
-	      &nbsp;&nbsp;&nbsp;&nbsp;booktitle = {ISVC},<br/>
-	      &nbsp;&nbsp;&nbsp;&nbsp;pages = {867--877},<br/>
-	      &nbsp;&nbsp;&nbsp;&nbsp;year = {2015}<br/>
-	      }
-	    </code>
-	  </div>			
 	  <h2>Details</h2>
 	  <p>The networks were trained on an augmented version of MNIST, so they excel at categorizing centred upright numbers. The networks were trained in a custom neural network implementation in MATLAB; the math for the visualizations was written in Javascript; the visualization was created in WebGL. The source code for both visualizations is available <a href="https://github.com/MARCOpo1o/visualize_neural_net">here</a>.</p>
 	</div>
