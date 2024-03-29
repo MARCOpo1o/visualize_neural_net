@@ -96,7 +96,7 @@
     </div>
     <div id="canvasContainerRight">
       <div id="filterInterface">
-	<div class="instructions">Connected Image</div>
+	<div class="instructions">Overall Network Structure</div>
 	<button id="toggleImage">Hide/Show Image</button>
 	</div>	
 	<img id="myImage" src="../images/cnn_2dc.png">	
@@ -1345,107 +1345,107 @@ function drawBoarder(lineColor = 0x000000, thickness = 4){
       }
       
       function updateInfoBox() {
-	  var infobox = document.getElementById("infobox");
-	  var v,colorNum,r,g,b;
-	  //infobox.style.opacity = 0.9;
-	  var str;
-	  var nodePos = posY[interID];
-	  var newWeight;
-	  
-	  if (layerNum[interID] >=1 && layerNum[interID] <=4)
-	      str = nodeType +  ", filter " + (filterNum+1) + ", unit " + allNodeNums[interID]
-	  else 
-	      str = nodeType + ", unit " + allNodeNums[interID]
-	  $("#nodeType").html(str);
+		var infobox = document.getElementById("infobox");
+		var v,colorNum,r,g,b;
+		//infobox.style.opacity = 0.9;
+		var str;
+		var nodePos = posY[interID];
+		var newWeight;
+		
+		if (layerNum[interID] >=1 && layerNum[interID] <=4)
+			str = nodeType +  ", filter " + (filterNum+1) + ", unit " + allNodeNums[interID]
+		else 
+			str = nodeType + ", unit " + allNodeNums[interID]
+		$("#nodeType").html(str);
 
-	  if (!allZeroes) {
-	      str = allNodeInputs[interID].toFixed(2);
-	  } else {
-	      str = "0";					
-	  }
-	  document.getElementById("nodeInput").textContent=str;
-	  
-	  if (!allZeroes) {
-	      str = allNodeOutputsRaw[interID].toFixed(2);
+		if (!allZeroes) {
+			str = allNodeInputs[interID].toFixed(2);
+		} else {
+			str = "0";					
+		}
+		document.getElementById("nodeInput").textContent=str;
+		
+		if (!allZeroes) {
+			str = allNodeOutputsRaw[interID].toFixed(2);
 
-	      if (nodeType == "Output layer" && interID == finalOutputID){
-		  str = str + " (max!)"
-	      }
-	  } else {
-	      str = "0";
-	  }
-	  document.getElementById("nodeOutput").textContent=str;
-	  v = allNodeOutputs[interID];
-	  colorNum = math.round(v*99);
-	  r=0;
-	  g = math.round(greenLookup[colorNum]*255);
-	  b = math.round(blueLookup[colorNum]*255);
-	  var bkgStr = "rgb(" + r + "," + g + "," + b + ")";
-	//   console.log(bkgStr);
-	  document.getElementById("nodeOutput").style.color = bkgStr;
-	  
-	  if (nodeType != "Input layer"){
-	      if (!allZeroes) {
-		  if (nodeType == "Downsampling layer 1" || nodeType == "Downsampling layer 2") {
-		      str = "max pooling";
-		  } else {
-		      str = "1.7159 tanh (2/3 * " + allNodeInputs[interID].toFixed(2) + ") = " + allNodeOutputsRaw[interID].toFixed(2);
-		  }
-	      } else {
-		  str = "1.7159 tanh (2/3 * 0) = 0";
-	      }
-	  } else {
-	      if (!allZeroes) {
-		  str = "(" + allNodeInputs[interID].toFixed(2) + "/255) * 1.275 - 0.1 = " + allNodeOutputsRaw[interID].toFixed(2);
-	      } else {
-		  str = "none";
-	      }
-	  }
-	  document.getElementById("calc").textContent=str;
-	  drawFilter();
-      }
-      
-      $('#input_hide_button').click(function() {
-	  input_hide = !input_hide;
-	  console.log('hiding input layer');
-	  hideCubes();
-      });
-      $('#conv1_hide_button').click(function() {
-	  conv1_hide = !conv1_hide;
-	  hideCubes();
-      });
-      $('#down1_hide_button').click(function() {
-	  down1_hide = !down1_hide;
-	  hideCubes();
-      });
-      $('#conv2_hide_button').click(function() {
-	  conv2_hide = !conv2_hide;
-	  hideCubes();
-      });
-      $('#down2_hide_button').click(function() {
-	  down2_hide = !down2_hide;
-	  hideCubes();
-      });
-      $('#fc1_hide_button').click(function() {
-	  fc1_hide = !fc1_hide;
-	  hideCubes();
-      });
-      $('#fc2_hide_button').click(function() {
-	  fc2_hide = !fc2_hide;
-	  hideCubes();
-      });
-      $('#output_hide_button').click(function() {
-	  output_hide = !output_hide;
-	  hideCubes();
-      });
-      
-      function uncheckAll(){ 
-	  var w = document.getElementsByTagName('input'); 
-	  for(var i = 0; i < w.length; i++){ 
-	      if(w[i].type=='checkbox'){ 
-		  w[i].checked = false; 
-	      }
-	  }
+			if (nodeType == "Output layer" && interID == finalOutputID){
+				str = str + " (max!)"
+			}
+		} else {
+			str = "0";
+		}
+		document.getElementById("nodeOutput").textContent=str;
+		v = allNodeOutputs[interID];
+		colorNum = math.round(v*99);
+		r=0;
+		g = math.round(greenLookup[colorNum]*255);
+		b = math.round(blueLookup[colorNum]*255);
+		var bkgStr = "rgb(" + r + "," + g + "," + b + ")";
+		//   console.log(bkgStr);
+		document.getElementById("nodeOutput").style.color = bkgStr;
+		
+		if (nodeType != "Input layer"){
+			if (!allZeroes) {
+				if (nodeType == "Downsampling layer 1" || nodeType == "Downsampling layer 2") {
+					str = "max pooling";
+				} else {
+					str = "1.7159 tanh (2/3 * " + allNodeInputs[interID].toFixed(2) + ") = " + allNodeOutputsRaw[interID].toFixed(2);
+				}
+			} else {
+			str = "1.7159 tanh (2/3 * 0) = 0";
+			}
+		} else {
+			if (!allZeroes) {
+				str = "(" + allNodeInputs[interID].toFixed(2) + "/255) * 1.275 - 0.1 = " + allNodeOutputsRaw[interID].toFixed(2);
+			} else {
+				str = "none";
+			}
+		}
+		document.getElementById("calc").textContent=str;
+		drawFilter();
+		}
+		
+		$('#input_hide_button').click(function() {
+		input_hide = !input_hide;
+		console.log('hiding input layer');
+		hideCubes();
+		});
+		$('#conv1_hide_button').click(function() {
+		conv1_hide = !conv1_hide;
+		hideCubes();
+		});
+		$('#down1_hide_button').click(function() {
+		down1_hide = !down1_hide;
+		hideCubes();
+		});
+		$('#conv2_hide_button').click(function() {
+		conv2_hide = !conv2_hide;
+		hideCubes();
+		});
+		$('#down2_hide_button').click(function() {
+		down2_hide = !down2_hide;
+		hideCubes();
+		});
+		$('#fc1_hide_button').click(function() {
+		fc1_hide = !fc1_hide;
+		hideCubes();
+		});
+		$('#fc2_hide_button').click(function() {
+		fc2_hide = !fc2_hide;
+		hideCubes();
+		});
+		$('#output_hide_button').click(function() {
+		output_hide = !output_hide;
+		hideCubes();
+		});
+		
+		function uncheckAll(){ 
+		var w = document.getElementsByTagName('input'); 
+		for(var i = 0; i < w.length; i++){ 
+			if(w[i].type=='checkbox'){ 
+			w[i].checked = false; 
+			}
+		}
       } 			
       
     </script>
