@@ -42,12 +42,12 @@
     
     <div id="webgl_container">
       <div id="infobox">
-	<div id="nodeType"></div>
-	<div id="imageInputContainer">
-	  <div id="inputImage">
-	    <div class="label" id="imageLabel">Input image:</div>
-	    <div id="inputCanvasContainer">
-	      <canvas id="inputCanvas"></canvas>
+		<div id="nodeType"></div>
+		<div id="imageInputContainer">
+	  		<div id="inputImage">
+	    	<div class="label" id="imageLabel">Input image:</div>
+	    	<div id="inputCanvasContainer">
+	      	<canvas id="inputCanvas"></canvas>
 	    </div>
 	  </div>
 	  <div id="filterImage">					
@@ -68,8 +68,11 @@
 	<div id="nodeOutputContainer">
 	  <div class="label">Output: </div>
 	  <div id="nodeOutput" class="math"></div>
+
 	</div>
       </div>
+
+
     </div>
     
     <div id="canvasContainer"> <!--style="visibility: hidden">-->
@@ -91,9 +94,13 @@
 	    <div class="info cell">Second guess:</div>
 	    <div id="ans2" class="ans cell"></div>
 	  </div>
+	  <button id="updateWeightsButton">Update Weights and Refresh Output</button>
+
 	</div>
       </div>
     </div>
+
+
     <div id="canvasContainerRight">
       <div id="filterInterface">
 	<div class="instructions">Connected Image</div>
@@ -216,6 +223,24 @@
       
       var tinyCtx = $("#tiny")[0].getContext("2d");
       tinyCtx.scale(0.1,0.1);
+
+
+	   // Event listener for the "Update Weights and Refresh Output" button
+	   document.getElementById('updateWeightsButton').addEventListener('click', updateWeightsAndRefreshOutput);
+
+
+		function updateWeightsAndRefreshOutput() {
+			// Log current state
+			console.log("Updating weights...");
+			// Make all filters in the first convolutional layer the same as the first filter
+			for (var i = 1; i < conv_nodes[0].length; i++) {
+				conv_nodes[0][i] = conv_nodes[0][0];
+			}
+			// Call getNNOutput to refresh output with updated weights
+			getNNOutput();
+			// Log completion
+			console.log("Weights updated and output refreshed.");
+	}
 
       init();
       loadData();
