@@ -212,6 +212,8 @@ function drawFilter() {
 	//input
 	//filterImage.style.backgroundColor = "red";
     } else if (layerNum[interID]==1) {
+		//log
+		console.log("drawFilter() triggered");
 	// conv1
 	squareWidth = pixelSize*filterSize_1; 
 	totalWidth = squareWidth;
