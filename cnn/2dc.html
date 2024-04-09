@@ -231,7 +231,7 @@
 
 		function updateWeightsAndRefreshOutput() {
 			// Log current state
-			console.log("Updating weights...");
+			// console.log("Updating weights...");
 			// Make all filters in the first convolutional layer the same as the first filter
 			for (var i = 1; i < conv_nodes[0].length; i++) {
 				conv_nodes[0][i] = conv_nodes[0][0];
@@ -242,7 +242,7 @@
 			updateInfoBox();
 
 			// Log completion
-			console.log("Weights updated and output refreshed.");
+			// console.log("Weights updated and output refreshed.");
 	}
 
       init();
