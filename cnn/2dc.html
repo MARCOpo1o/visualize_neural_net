@@ -238,7 +238,9 @@
 			}
 			// Call getNNOutput to refresh output with updated weights
 			getNNOutput();
+			setupWeightArrays(); //to update weights for infobox
 			updateInfoBox();
+
 			// Log completion
 			console.log("Weights updated and output refreshed.");
 	}
