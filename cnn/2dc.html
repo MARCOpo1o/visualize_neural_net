@@ -42,12 +42,12 @@
     
     <div id="webgl_container">
       <div id="infobox">
-	<div id="nodeType"></div>
-	<div id="imageInputContainer">
-	  <div id="inputImage">
-	    <div class="label" id="imageLabel">Input image:</div>
-	    <div id="inputCanvasContainer">
-	      <canvas id="inputCanvas"></canvas>
+		<div id="nodeType"></div>
+		<div id="imageInputContainer">
+	  		<div id="inputImage">
+	    	<div class="label" id="imageLabel">Input image:</div>
+	    	<div id="inputCanvasContainer">
+	      	<canvas id="inputCanvas"></canvas>
 	    </div>
 	  </div>
 	  <div id="filterImage">					
@@ -68,8 +68,11 @@
 	<div id="nodeOutputContainer">
 	  <div class="label">Output: </div>
 	  <div id="nodeOutput" class="math"></div>
+
 	</div>
       </div>
+
+
     </div>
     
     <div id="canvasContainer"> <!--style="visibility: hidden">-->
@@ -91,9 +94,13 @@
 	    <div class="info cell">Second guess:</div>
 	    <div id="ans2" class="ans cell"></div>
 	  </div>
+	  <button id="toggleWeightsButton">Update Weights and Refresh Output</button>
+
 	</div>
       </div>
     </div>
+
+
     <div id="canvasContainerRight">
       <div id="filterInterface">
 	<div class="instructions">Overall Network Structure</div>
@@ -216,6 +223,64 @@
       
       var tinyCtx = $("#tiny")[0].getContext("2d");
       tinyCtx.scale(0.1,0.1);
+
+
+			// Global variables
+		var originalWeights = [];
+		var weightsUpdated = false;
+
+		// Event listener for the "Toggle Weights" button
+		document.getElementById('toggleWeightsButton').addEventListener('click', toggleWeights);
+
+		// Function to save the original weights
+		function saveOriginalWeights() {
+			originalWeights = [];
+			for (var i = 0; i < conv_nodes[0].length; i++) {
+				originalWeights.push(conv_nodes[0][i]);  // Store each layer directly
+			}
+		}
+
+		// Function to toggle weights based on current state
+		function toggleWeights() {
+			if (!weightsUpdated) {
+				// Update button text
+				document.getElementById('toggleWeightsButton').innerText = 'Revert to Original Weights';
+				updateWeightsAndRefreshOutput();
+				weightsUpdated = true;
+			} else {
+				// Update button text
+				document.getElementById('toggleWeightsButton').innerText = 'Update Weights and Refresh Output';
+				revertWeights();
+				weightsUpdated = false;
+			}
+		}
+
+		// Function to update weights and refresh output
+		function updateWeightsAndRefreshOutput() {
+			for (var i = 1; i < conv_nodes[0].length; i++) {
+				conv_nodes[0][i] = conv_nodes[0][0];  // Make all the same as the first
+			}
+			refreshOutput();
+		}
+
+		// Function to revert weights to their original state
+		function revertWeights() {
+			for (var i = 0; i < conv_nodes[0].length; i++) {
+				conv_nodes[0][i] = originalWeights[i];  // Restore each layer from backup
+			}
+			refreshOutput();
+		}
+
+		// Function to refresh the output, update weights for infobox, and update the info box
+		function refreshOutput() {
+			getNNOutput();
+			setupWeightArrays();
+			updateInfoBox();
+		}
+
+		// Initial call to save original weights
+		saveOriginalWeights();
+
 
       init();
       loadData();
@@ -1367,83 +1432,82 @@ function drawBoarder(lineColor = 0x000000, thickness = 4){
 		
 		if (!allZeroes) {
 			str = allNodeOutputsRaw[interID].toFixed(2);
-
-			if (nodeType == "Output layer" && interID == finalOutputID){
-				str = str + " (max!)"
-			}
-		} else {
-			str = "0";
-		}
-		document.getElementById("nodeOutput").textContent=str;
-		v = allNodeOutputs[interID];
-		colorNum = math.round(v*99);
-		r=0;
-		g = math.round(greenLookup[colorNum]*255);
-		b = math.round(blueLookup[colorNum]*255);
-		var bkgStr = "rgb(" + r + "," + g + "," + b + ")";
-		//   console.log(bkgStr);
-		document.getElementById("nodeOutput").style.color = bkgStr;
-		
-		if (nodeType != "Input layer"){
-			if (!allZeroes) {
-				if (nodeType == "Downsampling layer 1" || nodeType == "Downsampling layer 2") {
-					str = "max pooling";
-				} else {
-					str = "1.7159 tanh (2/3 * " + allNodeInputs[interID].toFixed(2) + ") = " + allNodeOutputsRaw[interID].toFixed(2);
-				}
-			} else {
-			str = "1.7159 tanh (2/3 * 0) = 0";
-			}
-		} else {
-			if (!allZeroes) {
-				str = "(" + allNodeInputs[interID].toFixed(2) + "/255) * 1.275 - 0.1 = " + allNodeOutputsRaw[interID].toFixed(2);
-			} else {
-				str = "none";
-			}
-		}
-		document.getElementById("calc").textContent=str;
-		drawFilter();
-		}
-		
-		$('#input_hide_button').click(function() {
+	      if (nodeType == "Output layer" && interID == finalOutputID){
+		  str = str + " (max!)"
+	      }
+	  } else {
+	      str = "0";
+	  }
+	  document.getElementById("nodeOutput").textContent=str;
+	  v = allNodeOutputs[interID];
+	  colorNum = math.round(v*99);
+	  r=0;
+	  g = math.round(greenLookup[colorNum]*255);
+	  b = math.round(blueLookup[colorNum]*255);
+	  var bkgStr = "rgb(" + r + "," + g + "," + b + ")";
+	//   console.log(bkgStr);
+	  document.getElementById("nodeOutput").style.color = bkgStr;
+	  
+	  if (nodeType != "Input layer"){
+	      if (!allZeroes) {
+		  if (nodeType == "Downsampling layer 1" || nodeType == "Downsampling layer 2") {
+		      str = "max pooling";
+		  } else {
+		      str = "1.7159 tanh (2/3 * " + allNodeInputs[interID].toFixed(2) + ") = " + allNodeOutputsRaw[interID].toFixed(2);
+		  }
+	      } else {
+		  	str = "1.7159 tanh (2/3 * 0) = 0";
+	      }
+	  } else {
+	      if (!allZeroes) {
+		  	str = "(" + allNodeInputs[interID].toFixed(2) + "/255) * 1.275 - 0.1 = " + allNodeOutputsRaw[interID].toFixed(2);
+	      } else {
+		  	str = "none";
+	      }
+	  }
+	  document.getElementById("calc").textContent=str;
+	  drawFilter();
+      }
+      
+      $('#input_hide_button').click(function() {
 		input_hide = !input_hide;
 		console.log('hiding input layer');
 		hideCubes();
-		});
+      });
 		$('#conv1_hide_button').click(function() {
 		conv1_hide = !conv1_hide;
 		hideCubes();
-		});
+      });
 		$('#down1_hide_button').click(function() {
 		down1_hide = !down1_hide;
 		hideCubes();
-		});
+      });
 		$('#conv2_hide_button').click(function() {
 		conv2_hide = !conv2_hide;
 		hideCubes();
-		});
+      });
 		$('#down2_hide_button').click(function() {
 		down2_hide = !down2_hide;
 		hideCubes();
-		});
+      });
 		$('#fc1_hide_button').click(function() {
 		fc1_hide = !fc1_hide;
 		hideCubes();
-		});
+      });
 		$('#fc2_hide_button').click(function() {
 		fc2_hide = !fc2_hide;
 		hideCubes();
-		});
+      });
 		$('#output_hide_button').click(function() {
 		output_hide = !output_hide;
 		hideCubes();
-		});
-		
-		function uncheckAll(){ 
+      });
+      
+      function uncheckAll(){ 
 		var w = document.getElementsByTagName('input'); 
 		for(var i = 0; i < w.length; i++){ 
 			if(w[i].type=='checkbox'){ 
-			w[i].checked = false; 
+				w[i].checked = false; 
 			}
 		}
       } 			
