@@ -232,9 +232,12 @@
 		// Event listener for the "Toggle Weights" button
 		document.getElementById('toggleWeightsButton').addEventListener('click', toggleWeights);
 
-				// Function to save the original weights
+		// Function to save the original weights
 		function saveOriginalWeights() {
-			originalWeights = conv_nodes[0].map(layer => cloneMatrix(layer));
+			originalWeights = [];
+			for (var i = 0; i < conv_nodes[0].length; i++) {
+				originalWeights.push(conv_nodes[0][i]);  // Store each layer directly
+			}
 		}
 
 		// Function to toggle weights based on current state
@@ -255,24 +258,18 @@
 		// Function to update weights and refresh output
 		function updateWeightsAndRefreshOutput() {
 			for (var i = 1; i < conv_nodes[0].length; i++) {
-				conv_nodes[0][i] = conv_nodes[0][0];
+				conv_nodes[0][i] = conv_nodes[0][0];  // Make all the same as the first
 			}
 			refreshOutput();
 		}
 
 		// Function to revert weights to their original state
 		function revertWeights() {
-			conv_nodes[0] = originalWeights.map(layer => cloneMatrix(layer));
+			for (var i = 0; i < conv_nodes[0].length; i++) {
+				conv_nodes[0][i] = originalWeights[i];  // Restore each layer from backup
+			}
 			refreshOutput();
 		}
-
-		function cloneMatrix(matrix) {
-			var clonedValues = matrix.values.map(function(arr) {
-				return arr.slice(); // This creates a copy of the array
-			});
-			return Matrix.create(clonedValues);
-}
-
 
 		// Function to refresh the output, update weights for infobox, and update the info box
 		function refreshOutput() {
