@@ -232,9 +232,9 @@
 		// Event listener for the "Toggle Weights" button
 		document.getElementById('toggleWeightsButton').addEventListener('click', toggleWeights);
 
-		// Function to save the original weights
+				// Function to save the original weights
 		function saveOriginalWeights() {
-			originalWeights = conv_nodes[0].map(layer => layer.clone());
+			originalWeights = conv_nodes[0].map(layer => cloneMatrix(layer));
 		}
 
 		// Function to toggle weights based on current state
@@ -262,9 +262,17 @@
 
 		// Function to revert weights to their original state
 		function revertWeights() {
-			conv_nodes[0] = originalWeights.map(layer => layer.clone());
+			conv_nodes[0] = originalWeights.map(layer => cloneMatrix(layer));
 			refreshOutput();
 		}
+
+		function cloneMatrix(matrix) {
+			var clonedValues = matrix.values.map(function(arr) {
+				return arr.slice(); // This creates a copy of the array
+			});
+			return Matrix.create(clonedValues);
+}
+
 
 		// Function to refresh the output, update weights for infobox, and update the info box
 		function refreshOutput() {
