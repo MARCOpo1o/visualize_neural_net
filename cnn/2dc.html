@@ -94,7 +94,7 @@
 	    <div class="info cell">Second guess:</div>
 	    <div id="ans2" class="ans cell"></div>
 	  </div>
-	  <button id="updateWeightsButton">Update Weights and Refresh Output</button>
+	  <button id="toggleWeightsButton">Update Weights and Refresh Output</button>
 
 	</div>
       </div>
@@ -225,25 +225,57 @@
       tinyCtx.scale(0.1,0.1);
 
 
-	   // Event listener for the "Update Weights and Refresh Output" button
-	   document.getElementById('updateWeightsButton').addEventListener('click', updateWeightsAndRefreshOutput);
+			// Global variables
+		var originalWeights = [];
+		var weightsUpdated = false;
 
+		// Event listener for the "Toggle Weights" button
+		document.getElementById('toggleWeightsButton').addEventListener('click', toggleWeights);
 
+		// Function to save the original weights
+		function saveOriginalWeights() {
+			originalWeights = conv_nodes[0].map(layer => layer.clone());
+		}
+
+		// Function to toggle weights based on current state
+		function toggleWeights() {
+			if (!weightsUpdated) {
+				// Update button text
+				document.getElementById('toggleWeightsButton').innerText = 'Revert to Original Weights';
+				updateWeightsAndRefreshOutput();
+				weightsUpdated = true;
+			} else {
+				// Update button text
+				document.getElementById('toggleWeightsButton').innerText = 'Update Weights and Refresh Output';
+				revertWeights();
+				weightsUpdated = false;
+			}
+		}
+
+		// Function to update weights and refresh output
 		function updateWeightsAndRefreshOutput() {
-			// Log current state
-			// console.log("Updating weights...");
-			// Make all filters in the first convolutional layer the same as the first filter
 			for (var i = 1; i < conv_nodes[0].length; i++) {
 				conv_nodes[0][i] = conv_nodes[0][0];
 			}
-			// Call getNNOutput to refresh output with updated weights
-			getNNOutput();
-			setupWeightArrays(); //to update weights for infobox
-			updateInfoBox();
+			refreshOutput();
+		}
 
-			// Log completion
-			// console.log("Weights updated and output refreshed.");
-	}
+		// Function to revert weights to their original state
+		function revertWeights() {
+			conv_nodes[0] = originalWeights.map(layer => layer.clone());
+			refreshOutput();
+		}
+
+		// Function to refresh the output, update weights for infobox, and update the info box
+		function refreshOutput() {
+			getNNOutput();
+			setupWeightArrays();
+			updateInfoBox();
+		}
+
+		// Initial call to save original weights
+		saveOriginalWeights();
+
 
       init();
       loadData();
