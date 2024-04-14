@@ -189,6 +189,12 @@
 	  //keep track of all line meshes
 	  var lineMeshes = []; //track all lines
 
+	  
+	// Initialize an object pool for square meshes
+	const squareMeshPool = {
+		available: [],
+		inUse: [],
+	};
       
       //var offset = new THREE.Vector3( 10, 10, 10 );
 
@@ -928,11 +934,7 @@ function drawLine(xStart, yStart, xEnd, yEnd, z = 5, lineColor = 0xFFA500, thick
 
 //     return tube; // Return the tube if needed for further manipulation
 // }
-// Initialize an object pool for square meshes
-const squareMeshPool = {
-    available: [],
-    inUse: [],
-};
+
 
 function initSquarePool(poolSize) {
     for (let i = 0; i < poolSize; i++) {
