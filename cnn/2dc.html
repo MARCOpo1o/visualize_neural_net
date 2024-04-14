@@ -229,6 +229,9 @@
 		var originalWeights = [];
 		var weightsUpdated = false;
 
+		// Initialize drawSquare function
+		initSquarePool(15);
+
 		// Event listener for the "Toggle Weights" button
 		document.getElementById('toggleWeightsButton').addEventListener('click', toggleWeights);
 
@@ -559,10 +562,10 @@
 				NewupdateConv2(connectedRows, connectedCols,minX, minY);
 
 				// Check and draw square if valid min and max values are found
-				if (minX < Infinity && maxX > -Infinity && minY < Infinity && maxY > -Infinity) {
-					drawSquare(minX, minY, maxX, maxY);
-				} else {
-					console.log("Down2: Invalid min and max values for square");}
+				// if (minX < Infinity && maxX > -Infinity && minY < Infinity && maxY > -Infinity) {
+				// 	drawSquare(minX, minY, maxX, maxY);
+				// } else {
+				// 	console.log("Down2: Invalid min and max values for square");}
 		      } else if (layerNum[interID]==5) {
 			  // hidden layer 1
 			  for (j=1; j<=nConvNodes_2_down; j++){
@@ -902,28 +905,81 @@ function drawLine(xStart, yStart, xEnd, yEnd, z = 5, lineColor = 0xFFA500, thick
 
 
 
-function drawSquare(minRow, minCol, maxRow, maxCol, z=5, lineColor = 0xFFA500, thickness = 5) {
-    // // Create a closed path for the square
-    // const path = new THREE.CurvePath();
-    // path.add(new THREE.LineCurve3(new THREE.Vector3(minRow, minCol, z), new THREE.Vector3(maxRow, minCol, z)));
-    // path.add(new THREE.LineCurve3(new THREE.Vector3(maxRow, minCol, z), new THREE.Vector3(maxRow, maxCol, z)));
-    // path.add(new THREE.LineCurve3(new THREE.Vector3(maxRow, maxCol, z), new THREE.Vector3(minRow, maxCol, z)));
-    // path.add(new THREE.LineCurve3(new THREE.Vector3(minRow, maxCol, z), new THREE.Vector3(minRow, minCol, z)));
+// function drawSquare(minRow, minCol, maxRow, maxCol, z=5, lineColor = 0xFFA500, thickness = 5) {
+//     // Create a closed path for the square
+//     const path = new THREE.CurvePath();
+//     path.add(new THREE.LineCurve3(new THREE.Vector3(minRow, minCol, z), new THREE.Vector3(maxRow, minCol, z)));
+//     path.add(new THREE.LineCurve3(new THREE.Vector3(maxRow, minCol, z), new THREE.Vector3(maxRow, maxCol, z)));
+//     path.add(new THREE.LineCurve3(new THREE.Vector3(maxRow, maxCol, z), new THREE.Vector3(minRow, maxCol, z)));
+//     path.add(new THREE.LineCurve3(new THREE.Vector3(minRow, maxCol, z), new THREE.Vector3(minRow, minCol, z)));
 
-    // // Create the tube geometry based on the path
-    // const tubeGeometry = new THREE.TubeGeometry(path, 64, thickness, 8, false);
+//     // Create the tube geometry based on the path
+//     const tubeGeometry = new THREE.TubeGeometry(path, 64, thickness, 8, false);
 
-    // // Create a material
-    // const material = new THREE.MeshBasicMaterial({ color: lineColor });
+//     // Create a material
+//     const material = new THREE.MeshBasicMaterial({ color: lineColor });
 
-    // // Create a mesh using the geometry and material
-    // const tube = new THREE.Mesh(tubeGeometry, material);
+//     // Create a mesh using the geometry and material
+//     const tube = new THREE.Mesh(tubeGeometry, material);
 
-    // // Add the tube to the scene
-    // scene.add(tube);
-	// lineMeshes.push(tube);
+//     // Add the tube to the scene
+//     scene.add(tube);
+// 	lineMeshes.push(tube);
 
-    // return tube; // Return the tube if needed for further manipulation
+//     return tube; // Return the tube if needed for further manipulation
+// }
+// Initialize an object pool for square meshes
+const squareMeshPool = {
+    available: [],
+    inUse: [],
+};
+
+function initSquarePool(poolSize) {
+    for (let i = 0; i < poolSize; i++) {
+        const path = new THREE.CurvePath(); // Define a general path, you might need to adjust its points later
+        const geometry = new THREE.TubeGeometry(path, 64, 5, 8, false);
+        const material = new THREE.MeshBasicMaterial({ color: 0xFFA500 });
+        const mesh = new THREE.Mesh(geometry, material);
+        squareMeshPool.available.push(mesh);
+    }
+}
+
+// Function to get a mesh from the pool
+function getSquareFromPool() {
+    if (squareMeshPool.available.length === 0) {
+        console.warn("No available squares in the pool, consider increasing pool size.");
+        return null;
+    }
+    const mesh = squareMeshPool.available.pop();
+    squareMeshPool.inUse.push(mesh);
+    return mesh;
+}
+
+// Function to release a mesh back to the pool
+function releaseSquareToPool(mesh) {
+    const index = squareMeshPool.inUse.indexOf(mesh);
+    if (index > -1) {
+        squareMeshPool.inUse.splice(index, 1);
+        squareMeshPool.available.push(mesh);
+        scene.remove(mesh); // Assuming 'scene' is your THREE.Scene object
+    }
+}
+
+// Example function to draw/update a square using a mesh from the pool
+function drawSquare(minRow, minCol, maxRow, maxCol, z=5) {
+    const mesh = getSquareFromPool();
+    if (!mesh) return;
+
+    // Update the path of the geometry
+    const path = new THREE.CurvePath();
+    path.add(new THREE.LineCurve3(new THREE.Vector3(minRow, minCol, z), new THREE.Vector3(maxRow, minCol, z)));
+    path.add(new THREE.LineCurve3(new THREE.Vector3(maxRow, minCol, z), new THREE.Vector3(maxRow, maxCol, z)));
+    path.add(new THREE.LineCurve3(new THREE.Vector3(maxRow, maxCol, z), new THREE.Vector3(minRow, maxCol, z)));
+    path.add(new THREE.LineCurve3(new THREE.Vector3(minRow, maxCol, z), new THREE.Vector3(minRow, minCol, z)));
+    mesh.geometry = new THREE.TubeGeometry(path, 64, 5, 8, false); // Re-use the geometry with a new path
+    scene.add(mesh);
+
+    return mesh;
 }
 
 //this function use coordinates of the 4 edges of a cube to draw a boarder for all the cubes
