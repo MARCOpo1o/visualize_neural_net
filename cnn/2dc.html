@@ -903,27 +903,27 @@ function drawLine(xStart, yStart, xEnd, yEnd, z = 5, lineColor = 0xFFA500, thick
 
 
 function drawSquare(minRow, minCol, maxRow, maxCol, z=5, lineColor = 0xFFA500, thickness = 5) {
-    // Create a closed path for the square
-    const path = new THREE.CurvePath();
-    path.add(new THREE.LineCurve3(new THREE.Vector3(minRow, minCol, z), new THREE.Vector3(maxRow, minCol, z)));
-    path.add(new THREE.LineCurve3(new THREE.Vector3(maxRow, minCol, z), new THREE.Vector3(maxRow, maxCol, z)));
-    path.add(new THREE.LineCurve3(new THREE.Vector3(maxRow, maxCol, z), new THREE.Vector3(minRow, maxCol, z)));
-    path.add(new THREE.LineCurve3(new THREE.Vector3(minRow, maxCol, z), new THREE.Vector3(minRow, minCol, z)));
+    // // Create a closed path for the square
+    // const path = new THREE.CurvePath();
+    // path.add(new THREE.LineCurve3(new THREE.Vector3(minRow, minCol, z), new THREE.Vector3(maxRow, minCol, z)));
+    // path.add(new THREE.LineCurve3(new THREE.Vector3(maxRow, minCol, z), new THREE.Vector3(maxRow, maxCol, z)));
+    // path.add(new THREE.LineCurve3(new THREE.Vector3(maxRow, maxCol, z), new THREE.Vector3(minRow, maxCol, z)));
+    // path.add(new THREE.LineCurve3(new THREE.Vector3(minRow, maxCol, z), new THREE.Vector3(minRow, minCol, z)));
 
-    // Create the tube geometry based on the path
-    const tubeGeometry = new THREE.TubeGeometry(path, 64, thickness, 8, false);
+    // // Create the tube geometry based on the path
+    // const tubeGeometry = new THREE.TubeGeometry(path, 64, thickness, 8, false);
 
-    // Create a material
-    const material = new THREE.MeshBasicMaterial({ color: lineColor });
+    // // Create a material
+    // const material = new THREE.MeshBasicMaterial({ color: lineColor });
 
-    // Create a mesh using the geometry and material
-    const tube = new THREE.Mesh(tubeGeometry, material);
+    // // Create a mesh using the geometry and material
+    // const tube = new THREE.Mesh(tubeGeometry, material);
 
-    // Add the tube to the scene
-    scene.add(tube);
-	lineMeshes.push(tube);
+    // // Add the tube to the scene
+    // scene.add(tube);
+	// lineMeshes.push(tube);
 
-    return tube; // Return the tube if needed for further manipulation
+    // return tube; // Return the tube if needed for further manipulation
 }
 
 //this function use coordinates of the 4 edges of a cube to draw a boarder for all the cubes
