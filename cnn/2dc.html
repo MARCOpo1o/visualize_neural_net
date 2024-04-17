@@ -189,6 +189,12 @@
 	  //keep track of all line meshes
 	  var lineMeshes = []; //track all lines
 
+
+	// Initialize an object pool for square meshes
+	const squareMeshPool = {
+		available: [],
+		inUse: [],
+	};
       
       //var offset = new THREE.Vector3( 10, 10, 10 );
 
@@ -228,6 +234,9 @@
 			// Global variables
 		var originalWeights = [];
 		var weightsUpdated = false;
+
+		// // Initialize drawSquare function
+		// initSquarePool(70);
 
 		// Event listener for the "Toggle Weights" button
 		document.getElementById('toggleWeightsButton').addEventListener('click', toggleWeights);
@@ -892,9 +901,6 @@ function drawLine(xStart, yStart, xEnd, yEnd, z = 5, lineColor = 0xFFA500, thick
     // Add the mesh to the scene
     scene.add(tube);
 	lineMeshes.push(tube);
-	
-	//test
-	drawBoarder();	
 
     // Return the tube if needed for further manipulation
     return tube;
@@ -925,6 +931,8 @@ function drawSquare(minRow, minCol, maxRow, maxCol, z=5, lineColor = 0xFFA500, t
 
     return tube; // Return the tube if needed for further manipulation
 }
+
+
 
 //this function use coordinates of the 4 edges of a cube to draw a boarder for all the cubes
 // the color is black by default
@@ -980,9 +988,6 @@ function drawBoarder(lineColor = 0x000000, thickness = 4){
 
 
 }
-
-
-
 
 	function calculateConv2(row, col, filterNum) {
 		let connections = [];
