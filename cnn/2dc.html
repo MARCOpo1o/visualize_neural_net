@@ -568,10 +568,10 @@
 				NewupdateConv2(connectedRows, connectedCols,minX, minY);
 
 				// Check and draw square if valid min and max values are found
-				// if (minX < Infinity && maxX > -Infinity && minY < Infinity && maxY > -Infinity) {
-				// 	drawSquare(minX, minY, maxX, maxY);
-				// } else {
-				// 	console.log("Down2: Invalid min and max values for square");}
+				if (minX < Infinity && maxX > -Infinity && minY < Infinity && maxY > -Infinity) {
+					drawSquare(minX, minY, maxX, maxY);
+				} else {
+					console.log("Down2: Invalid min and max values for square");}
 		      } else if (layerNum[interID]==5) {
 			  // hidden layer 1
 			  for (j=1; j<=nConvNodes_2_down; j++){
@@ -901,9 +901,6 @@ function drawLine(xStart, yStart, xEnd, yEnd, z = 5, lineColor = 0xFFA500, thick
     // Add the mesh to the scene
     scene.add(tube);
 	lineMeshes.push(tube);
-	
-	//test
-	// drawBoarder();	
 
     // Return the tube if needed for further manipulation
     return tube;
@@ -936,65 +933,6 @@ function drawSquare(minRow, minCol, maxRow, maxCol, z=5, lineColor = 0xFFA500, t
 }
 
 
-// function initSquarePool(poolSize) {
-//     for (let i = 0; i < poolSize; i++) {
-//         // Create a default path with dummy points
-//         const path = new THREE.CurvePath();
-//         path.add(new THREE.LineCurve3(new THREE.Vector3(0, 0, 0), new THREE.Vector3(1, 0, 0)));
-//         path.add(new THREE.LineCurve3(new THREE.Vector3(1, 0, 0), new THREE.Vector3(1, 1, 0)));
-//         path.add(new THREE.LineCurve3(new THREE.Vector3(1, 1, 0), new THREE.Vector3(0, 1, 0)));
-//         path.add(new THREE.LineCurve3(new THREE.Vector3(0, 1, 0), new THREE.Vector3(0, 0, 0)));
-
-//         const geometry = new THREE.TubeGeometry(path, 64, 5, 8, false);
-//         const material = new THREE.MeshBasicMaterial({ color: 0xFFA500 });
-//         const mesh = new THREE.Mesh(geometry, material);
-//         squareMeshPool.available.push(mesh);
-//     }
-// }
-
-// function updateSquareMesh(mesh, minRow, minCol, maxRow, maxCol, z=5) {
-//     // Update the path of the geometry
-//     const path = new THREE.CurvePath();
-//     path.add(new THREE.LineCurve3(new THREE.Vector3(minRow, minCol, z), new THREE.Vector3(maxRow, minCol, z)));
-//     path.add(new THREE.LineCurve3(new THREE.Vector3(maxRow, minCol, z), new THREE.Vector3(maxRow, maxCol, z)));
-//     path.add(new THREE.LineCurve3(new THREE.Vector3(maxRow, maxCol, z), new THREE.Vector3(minRow, maxCol, z)));
-//     path.add(new THREE.LineCurve3(new THREE.Vector3(minRow, maxCol, z), new THREE.Vector3(minRow, minCol, z)));
-
-//     mesh.geometry.dispose(); // Dispose old geometry
-//     mesh.geometry = new THREE.TubeGeometry(path, 64, 5, 8, false); // Create new geometry with updated path
-//     scene.add(mesh);
-// }
-
-
-// // Function to get a mesh from the pool
-// function getSquareFromPool() {
-//     if (squareMeshPool.available.length === 0) {
-//         console.warn("No available squares in the pool, consider increasing pool size.");
-//         return null;
-//     }
-//     const mesh = squareMeshPool.available.pop();
-//     squareMeshPool.inUse.push(mesh);
-//     return mesh;
-// }
-
-// // Function to release a mesh back to the pool
-// function releaseSquareToPool(mesh) {
-//     const index = squareMeshPool.inUse.indexOf(mesh);
-//     if (index > -1) {
-//         squareMeshPool.inUse.splice(index, 1);
-//         squareMeshPool.available.push(mesh);
-//         scene.remove(mesh); // Assuming 'scene' is your THREE.Scene object
-//     }
-// }
-
-// // Example function to draw/update a square using a mesh from the pool
-// function drawSquare(minRow, minCol, maxRow, maxCol, z=5) {
-//     const mesh = getSquareFromPool();
-//     if (!mesh) return;
-
-// 	updateSquareMesh(mesh, minRow, minCol, maxRow, maxCol, z);
-//     return mesh;
-// }
 
 //this function use coordinates of the 4 edges of a cube to draw a boarder for all the cubes
 // the color is black by default
@@ -1050,9 +988,6 @@ function drawBoarder(lineColor = 0x000000, thickness = 4){
 
 
 }
-
-
-
 
 	function calculateConv2(row, col, filterNum) {
 		let connections = [];
