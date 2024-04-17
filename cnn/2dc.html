@@ -903,7 +903,7 @@ function drawLine(xStart, yStart, xEnd, yEnd, z = 5, lineColor = 0xFFA500, thick
 	lineMeshes.push(tube);
 	
 	//test
-	drawBoarder();	
+	// drawBoarder();	
 
     // Return the tube if needed for further manipulation
     return tube;
@@ -911,7 +911,7 @@ function drawLine(xStart, yStart, xEnd, yEnd, z = 5, lineColor = 0xFFA500, thick
 
 
 
-function drawSquareb(minRow, minCol, maxRow, maxCol, z=5, lineColor = 0xFFA500, thickness = 5) {
+function drawSquare(minRow, minCol, maxRow, maxCol, z=5, lineColor = 0xFFA500, thickness = 5) {
     // Create a closed path for the square
     const path = new THREE.CurvePath();
     path.add(new THREE.LineCurve3(new THREE.Vector3(minRow, minCol, z), new THREE.Vector3(maxRow, minCol, z)));
@@ -936,65 +936,65 @@ function drawSquareb(minRow, minCol, maxRow, maxCol, z=5, lineColor = 0xFFA500, 
 }
 
 
-function initSquarePool(poolSize) {
-    for (let i = 0; i < poolSize; i++) {
-        // Create a default path with dummy points
-        const path = new THREE.CurvePath();
-        path.add(new THREE.LineCurve3(new THREE.Vector3(0, 0, 0), new THREE.Vector3(1, 0, 0)));
-        path.add(new THREE.LineCurve3(new THREE.Vector3(1, 0, 0), new THREE.Vector3(1, 1, 0)));
-        path.add(new THREE.LineCurve3(new THREE.Vector3(1, 1, 0), new THREE.Vector3(0, 1, 0)));
-        path.add(new THREE.LineCurve3(new THREE.Vector3(0, 1, 0), new THREE.Vector3(0, 0, 0)));
+// function initSquarePool(poolSize) {
+//     for (let i = 0; i < poolSize; i++) {
+//         // Create a default path with dummy points
+//         const path = new THREE.CurvePath();
+//         path.add(new THREE.LineCurve3(new THREE.Vector3(0, 0, 0), new THREE.Vector3(1, 0, 0)));
+//         path.add(new THREE.LineCurve3(new THREE.Vector3(1, 0, 0), new THREE.Vector3(1, 1, 0)));
+//         path.add(new THREE.LineCurve3(new THREE.Vector3(1, 1, 0), new THREE.Vector3(0, 1, 0)));
+//         path.add(new THREE.LineCurve3(new THREE.Vector3(0, 1, 0), new THREE.Vector3(0, 0, 0)));
 
-        const geometry = new THREE.TubeGeometry(path, 64, 5, 8, false);
-        const material = new THREE.MeshBasicMaterial({ color: 0xFFA500 });
-        const mesh = new THREE.Mesh(geometry, material);
-        squareMeshPool.available.push(mesh);
-    }
-}
+//         const geometry = new THREE.TubeGeometry(path, 64, 5, 8, false);
+//         const material = new THREE.MeshBasicMaterial({ color: 0xFFA500 });
+//         const mesh = new THREE.Mesh(geometry, material);
+//         squareMeshPool.available.push(mesh);
+//     }
+// }
 
-function updateSquareMesh(mesh, minRow, minCol, maxRow, maxCol, z=5) {
-    // Update the path of the geometry
-    const path = new THREE.CurvePath();
-    path.add(new THREE.LineCurve3(new THREE.Vector3(minRow, minCol, z), new THREE.Vector3(maxRow, minCol, z)));
-    path.add(new THREE.LineCurve3(new THREE.Vector3(maxRow, minCol, z), new THREE.Vector3(maxRow, maxCol, z)));
-    path.add(new THREE.LineCurve3(new THREE.Vector3(maxRow, maxCol, z), new THREE.Vector3(minRow, maxCol, z)));
-    path.add(new THREE.LineCurve3(new THREE.Vector3(minRow, maxCol, z), new THREE.Vector3(minRow, minCol, z)));
+// function updateSquareMesh(mesh, minRow, minCol, maxRow, maxCol, z=5) {
+//     // Update the path of the geometry
+//     const path = new THREE.CurvePath();
+//     path.add(new THREE.LineCurve3(new THREE.Vector3(minRow, minCol, z), new THREE.Vector3(maxRow, minCol, z)));
+//     path.add(new THREE.LineCurve3(new THREE.Vector3(maxRow, minCol, z), new THREE.Vector3(maxRow, maxCol, z)));
+//     path.add(new THREE.LineCurve3(new THREE.Vector3(maxRow, maxCol, z), new THREE.Vector3(minRow, maxCol, z)));
+//     path.add(new THREE.LineCurve3(new THREE.Vector3(minRow, maxCol, z), new THREE.Vector3(minRow, minCol, z)));
 
-    mesh.geometry.dispose(); // Dispose old geometry
-    mesh.geometry = new THREE.TubeGeometry(path, 64, 5, 8, false); // Create new geometry with updated path
-    scene.add(mesh);
-}
+//     mesh.geometry.dispose(); // Dispose old geometry
+//     mesh.geometry = new THREE.TubeGeometry(path, 64, 5, 8, false); // Create new geometry with updated path
+//     scene.add(mesh);
+// }
 
 
-// Function to get a mesh from the pool
-function getSquareFromPool() {
-    if (squareMeshPool.available.length === 0) {
-        console.warn("No available squares in the pool, consider increasing pool size.");
-        return null;
-    }
-    const mesh = squareMeshPool.available.pop();
-    squareMeshPool.inUse.push(mesh);
-    return mesh;
-}
+// // Function to get a mesh from the pool
+// function getSquareFromPool() {
+//     if (squareMeshPool.available.length === 0) {
+//         console.warn("No available squares in the pool, consider increasing pool size.");
+//         return null;
+//     }
+//     const mesh = squareMeshPool.available.pop();
+//     squareMeshPool.inUse.push(mesh);
+//     return mesh;
+// }
 
-// Function to release a mesh back to the pool
-function releaseSquareToPool(mesh) {
-    const index = squareMeshPool.inUse.indexOf(mesh);
-    if (index > -1) {
-        squareMeshPool.inUse.splice(index, 1);
-        squareMeshPool.available.push(mesh);
-        scene.remove(mesh); // Assuming 'scene' is your THREE.Scene object
-    }
-}
+// // Function to release a mesh back to the pool
+// function releaseSquareToPool(mesh) {
+//     const index = squareMeshPool.inUse.indexOf(mesh);
+//     if (index > -1) {
+//         squareMeshPool.inUse.splice(index, 1);
+//         squareMeshPool.available.push(mesh);
+//         scene.remove(mesh); // Assuming 'scene' is your THREE.Scene object
+//     }
+// }
 
-// Example function to draw/update a square using a mesh from the pool
-function drawSquare(minRow, minCol, maxRow, maxCol, z=5) {
-    const mesh = getSquareFromPool();
-    if (!mesh) return;
+// // Example function to draw/update a square using a mesh from the pool
+// function drawSquare(minRow, minCol, maxRow, maxCol, z=5) {
+//     const mesh = getSquareFromPool();
+//     if (!mesh) return;
 
-	updateSquareMesh(mesh, minRow, minCol, maxRow, maxCol, z);
-    return mesh;
-}
+// 	updateSquareMesh(mesh, minRow, minCol, maxRow, maxCol, z);
+//     return mesh;
+// }
 
 //this function use coordinates of the 4 edges of a cube to draw a boarder for all the cubes
 // the color is black by default
@@ -1002,7 +1002,7 @@ function drawBoarder(lineColor = 0x000000, thickness = 4){
 	//hardcode the coordinates of the 4 edges of the first cube input
 	var i1 = 0
 	var i2 = 1023
-	drawSquareb(posX[i1], posY[i1], posX[i2], posY[i2], lineColor, thickness);
+	drawSquare(posX[i1], posY[i1], posX[i2], posY[i2], lineColor, thickness);
 
 	//conv1 layer
 	var c1_a = 4944
@@ -1010,7 +1010,7 @@ function drawBoarder(lineColor = 0x000000, thickness = 4){
 	var c1_diff = 784// each cube is 784 in difference
 	var c1_count = 6
 	for (var i = 0; i < c1_count; i++){
-		drawSquareb(posX[c1_a], posY[c1_a], posX[c1_b], posY[c1_b], lineColor, thickness);
+		drawSquare(posX[c1_a], posY[c1_a], posX[c1_b], posY[c1_b], lineColor, thickness);
 		c1_a -= c1_diff
 		c1_b -= c1_diff
 	}
@@ -1021,7 +1021,7 @@ function drawBoarder(lineColor = 0x000000, thickness = 4){
 	var d1_diff = d1_a- 6512
 	var d1_count = 6
 	for (var i = 0; i < d1_count; i++){
-		drawSquareb(posX[d1_a], posY[d1_a], posX[d1_b], posY[d1_b], lineColor, thickness);
+		drawSquare(posX[d1_a], posY[d1_a], posX[d1_b], posY[d1_b], lineColor, thickness);
 		d1_a -= d1_diff
 		d1_b -= d1_diff
 	}
@@ -1032,7 +1032,7 @@ function drawBoarder(lineColor = 0x000000, thickness = 4){
 	var c2_diff = c2_a-8304
 	var c2_count = 16
 	for (var i = 0; i < c2_count; i++){
-		drawSquareb(posX[c2_a], posY[c2_a], posX[c2_b], posY[c2_b], lineColor, thickness);
+		drawSquare(posX[c2_a], posY[c2_a], posX[c2_b], posY[c2_b], lineColor, thickness);
 		c2_a -= c2_diff
 		c2_b -= c2_diff
 	}
@@ -1043,7 +1043,7 @@ function drawBoarder(lineColor = 0x000000, thickness = 4){
 	var d2_diff = d2_a-8854
 	var d2_count = 16
 	for (var i = 0; i < d2_count; i++){
-		drawSquareb(posX[d2_a], posY[d2_a], posX[d2_b], posY[d2_b], lineColor, thickness);
+		drawSquare(posX[d2_a], posY[d2_a], posX[d2_b], posY[d2_b], lineColor, thickness);
 		d2_a -= d2_diff
 		d2_b -= d2_diff
 	}
