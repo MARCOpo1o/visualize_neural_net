@@ -94,7 +94,8 @@
 	    <div class="info cell">Second guess:</div>
 	    <div id="ans2" class="ans cell"></div>
 	  </div>
-	  <button id="toggleWeightsButton">Update Weights and Refresh Output</button>
+	  <button id="toggleWeightsButton">[Conv layer 1] Update Weights and Refresh Output</button>
+	  <button id="toggleWeightsButton2">[Conv layer 2] Update Weights and Refresh Output</button>
 
 	</div>
       </div>
@@ -188,13 +189,6 @@
 
 	  //keep track of all line meshes
 	  var lineMeshes = []; //track all lines
-
-
-	// Initialize an object pool for square meshes
-	const squareMeshPool = {
-		available: [],
-		inUse: [],
-	};
       
       //var offset = new THREE.Vector3( 10, 10, 10 );
 
@@ -234,18 +228,27 @@
 			// Global variables
 		var originalWeights = [];
 		var weightsUpdated = false;
+		var originalWeights2 = [];
+		var weightsUpdated2 = false;
 
 		// // Initialize drawSquare function
 		// initSquarePool(70);
 
 		// Event listener for the "Toggle Weights" button
 		document.getElementById('toggleWeightsButton').addEventListener('click', toggleWeights);
+		document.getElementById('toggleWeightsButton2').addEventListener('click', toggleWeights2);
 
 		// Function to save the original weights
 		function saveOriginalWeights() {
-			originalWeights = [];
 			for (var i = 0; i < conv_nodes[0].length; i++) {
 				originalWeights.push(conv_nodes[0][i]);  // Store each layer directly
+			}
+			//store the original weights for the second layer which are conv_node[1][i][j]
+			for (var i = 0; i < conv_nodes[1].length; i++) {
+				originalWeights2.push([]);
+				for (var j = 0; j < conv_nodes[1][i].length; j++) {
+					originalWeights2[i].push(conv_nodes[1][i][j]);
+				}
 			}
 		}
 
@@ -253,14 +256,29 @@
 		function toggleWeights() {
 			if (!weightsUpdated) {
 				// Update button text
-				document.getElementById('toggleWeightsButton').innerText = 'Revert to Original Weights';
+				document.getElementById('toggleWeightsButton').innerText = '[Conv layer 1] Revert to Original Weights';
 				updateWeightsAndRefreshOutput();
 				weightsUpdated = true;
 			} else {
 				// Update button text
-				document.getElementById('toggleWeightsButton').innerText = 'Update Weights and Refresh Output';
+				document.getElementById('toggleWeightsButton').innerText = '[Conv layer 1] Update Weights and Refresh Output';
 				revertWeights();
 				weightsUpdated = false;
+			}
+		}
+
+		//function to toggle weights for the second layer
+		function toggleWeights2() {
+			if (!weightsUpdated2) {
+				// Update button text
+				document.getElementById('toggleWeightsButton2').innerText = '[Conv layer 2] Revert to Original Weights';
+				updateWeightsAndRefreshOutput2();
+				weightsUpdated2 = true;
+			} else {
+				// Update button text
+				document.getElementById('toggleWeightsButton2').innerText = '[Conv layer 2] Update Weights and Refresh Output';
+				revertWeights2();
+				weightsUpdated2 = false;
 			}
 		}
 
@@ -279,6 +297,28 @@
 			}
 			refreshOutput();
 		}
+
+		// Function to update weights and refresh output for the second layer
+		function updateWeightsAndRefreshOutput2() {
+			for (var i = 0; i < conv_nodes[1].length; i++) {
+				for (var j = 1; j < conv_nodes[1][i].length; j++) {
+					conv_nodes[1][i][j] = conv_nodes[1][i][0];  // Make all filters in each set the same as the first filter of the set
+				}
+			}
+			refreshOutput();
+		}
+
+		// Function to revert weights to their original state for the second layer
+		function revertWeights2() {
+			for (var i = 0; i < conv_nodes[1].length; i++) {
+				for (var j = 0; j < conv_nodes[1][i].length; j++) {
+					conv_nodes[1][i][j] = originalWeights2[i][j];  // Restore each filter from backup
+				}
+			}
+			refreshOutput();
+		}
+
+
 
 		// Function to refresh the output, update weights for infobox, and update the info box
 		function refreshOutput() {
