@@ -231,7 +231,6 @@
 		var weightsUpdated = false;
 		var originalWeights2 = [];
 		var weightsUpdated2 = false;
-		var originalWeights3 = [];
 		var weightsUpdated3 = false;
 
 
@@ -245,19 +244,18 @@
 
 		// Function to save the original weights
 		function saveOriginalWeights() {
-			console.log("Saving original weights")
+			console.log("Saving original weights");
 			for (var i = 0; i < conv_nodes[0].length; i++) {
-				originalWeights.push(conv_nodes[0][i]);  // Store each layer directly
-				originalWeights3.push(conv_nodes[0][i]);
-			}
-			//store the original weights for the second layer which are conv_node[1][i][j]
+				originalWeights.push(JSON.parse(JSON.stringify(conv_nodes[0][i])));			}
+			// Store the original weights for the second layer
 			for (var i = 0; i < conv_nodes[1].length; i++) {
 				originalWeights2.push([]);
 				for (var j = 0; j < conv_nodes[1][i].length; j++) {
-					originalWeights2[i].push(conv_nodes[1][i][j]);
+					originalWeights2[i].push(JSON.parse(JSON.stringify(conv_nodes[1][i][j])));
 				}
 			}
 		}
+
 
 		// Function to toggle weights based on current state
 		function toggleWeights() {
@@ -358,7 +356,7 @@
 
 		function revertWeights3() {
 			for (var i = 0; i < conv_nodes[0].length; i++) {
-				conv_nodes[0][i] = originalWeights3[i];  // Restore each layer from backup
+				conv_nodes[0][i] = originalWeights[i];  // Restore each layer from backup
 			}
 			refreshOutput();
 		}
