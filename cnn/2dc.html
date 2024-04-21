@@ -96,6 +96,7 @@
 	  </div>
 	  <button id="toggleWeightsButton">[Conv layer 1] Update Weights and Refresh Output</button>
 	  <button id="toggleWeightsButton2">[Conv layer 2] Update Weights and Refresh Output</button>
+	  <button id="toggleWeightsBUtton3">[Conv layer 1] Change Weights to Random</button>
 
 	</div>
       </div>
@@ -230,6 +231,9 @@
 		var weightsUpdated = false;
 		var originalWeights2 = [];
 		var weightsUpdated2 = false;
+		var originalWeights3 = [];
+		var weightsUpdated3 = false;
+
 
 		// // Initialize drawSquare function
 		// initSquarePool(70);
@@ -237,6 +241,7 @@
 		// Event listener for the "Toggle Weights" button
 		document.getElementById('toggleWeightsButton').addEventListener('click', toggleWeights);
 		document.getElementById('toggleWeightsButton2').addEventListener('click', toggleWeights2);
+		document.getElementById('toggleWeightsBUtton3').addEventListener('click', toggleWeights3);
 
 		// Function to save the original weights
 		function saveOriginalWeights() {
@@ -280,6 +285,29 @@
 				revertWeights2();
 				weightsUpdated2 = false;
 			}
+		}
+
+		// function to change weights to random for first layer
+		function toggleWeights3() {
+			if (!weightsUpdated3) {
+				// Update button text
+				document.getElementById('toggleWeightsBUtton3').innerText = '[Conv layer 1] Revert to Original Weights';
+				changeWeightsToRandom();
+				weightsUpdated3 = true;
+			} else {
+				// Update button text
+				document.getElementById('toggleWeightsBUtton3').innerText = '[Conv layer 1] Change Weights to Random';
+				revertWeights3();
+				weightsUpdated3 = false;
+			}
+		}
+
+		function changeWeightsToRandom() {
+			for (var i = 1; i < conv_nodes[0].length; i++) {
+				// make all the weights a random number from -1 to 1
+				conv_nodes[0][i] = math.random([5,5], -1, 1);
+			}
+			refreshOutput();
 		}
 
 		// Function to update weights and refresh output
