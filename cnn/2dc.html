@@ -303,10 +303,15 @@
 		}
 
 		function changeWeightsToRandom() {
-			for (var i = 1; i < conv_nodes[0].length; i++) {
-				// make all the weights a random number from -1 to 1
-				conv_nodes[0][i] = math.random([5,5], -1, 1);
-			}
+			for (var i = 0; i < conv_nodes[0].length; i++) {  // Adjust index to start at 0
+				var matrix = conv_nodes[0][i];
+				for (var row = 0; row < matrix.rows(); row++) {
+					for (var col = 0; col < matrix.cols(); col++) {
+						// Generate random number between -1 and 1
+						matrix.elements[row][col] = Math.random() * 2 - 1;
+					}
+       			}
+   			}
 			refreshOutput();
 		}
 
