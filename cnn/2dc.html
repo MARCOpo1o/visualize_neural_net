@@ -231,6 +231,7 @@
 		var weightsUpdated = false;
 		var originalWeights2 = [];
 		var weightsUpdated2 = false;
+		var originalWeights3 = [];
 		var weightsUpdated3 = false;
 
 
@@ -247,6 +248,7 @@
 			console.log("Saving original weights")
 			for (var i = 0; i < conv_nodes[0].length; i++) {
 				originalWeights.push(conv_nodes[0][i]);  // Store each layer directly
+				originalWeights3.push(conv_nodes[0][i]);
 			}
 			//store the original weights for the second layer which are conv_node[1][i][j]
 			for (var i = 0; i < conv_nodes[1].length; i++) {
@@ -297,7 +299,7 @@
 			} else {
 				// Update button text
 				document.getElementById('toggleWeightsBUtton3').innerText = '[Conv layer 1] Change Weights to Random';
-				revertWeights();
+				revertWeights3();
 				console.log("Reverting to original weights")
 				weightsUpdated3 = false;
 			}
@@ -350,6 +352,13 @@
 				for (var j = 0; j < conv_nodes[1][i].length; j++) {
 					conv_nodes[1][i][j] = originalWeights2[i][j];  // Restore each filter from backup
 				}
+			}
+			refreshOutput();
+		}
+
+		function revertWeights3() {
+			for (var i = 0; i < conv_nodes[0].length; i++) {
+				conv_nodes[0][i] = originalWeights3[i];  // Restore each layer from backup
 			}
 			refreshOutput();
 		}
