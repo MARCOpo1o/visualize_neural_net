@@ -231,7 +231,6 @@
 		var weightsUpdated = false;
 		var originalWeights2 = [];
 		var weightsUpdated2 = false;
-		var originalWeights3 = [];
 		var weightsUpdated3 = false;
 
 
@@ -298,6 +297,7 @@
 				// Update button text
 				document.getElementById('toggleWeightsBUtton3').innerText = '[Conv layer 1] Change Weights to Random';
 				revertWeights();
+				console.log("Reverting to original weights")
 				weightsUpdated3 = false;
 			}
 		}
@@ -325,6 +325,8 @@
 
 		// Function to revert weights to their original state
 		function revertWeights() {
+			// log length of originalWeights
+			console.log("Length of originalWeights: " + originalWeights.length);
 			for (var i = 0; i < conv_nodes[0].length; i++) {
 				conv_nodes[0][i] = originalWeights[i];  // Restore each layer from backup
 			}
