@@ -246,12 +246,13 @@
 		function saveOriginalWeights() {
 			console.log("Saving original weights");
 			for (var i = 0; i < conv_nodes[0].length; i++) {
-				originalWeights.push(JSON.parse(JSON.stringify(conv_nodes[0][i])));			}
+				originalWeights.push(structuredClone(conv_nodes[0][i]));
+			}
 			// Store the original weights for the second layer
 			for (var i = 0; i < conv_nodes[1].length; i++) {
 				originalWeights2.push([]);
 				for (var j = 0; j < conv_nodes[1][i].length; j++) {
-					originalWeights2[i].push(JSON.parse(JSON.stringify(conv_nodes[1][i][j])));
+					originalWeights2[i].push(structuredClone(conv_nodes[1][i][j]));
 				}
 			}
 		}
@@ -338,7 +339,7 @@
 		function updateWeightsAndRefreshOutput2() {
 			for (var i = 0; i < conv_nodes[1].length; i++) {
 				for (var j = 1; j < conv_nodes[1][i].length; j++) {
-					conv_nodes[1][i][j] = conv_nodes[1][i][0];  // Make all filters in each set the same as the first filter of the set
+					conv_nodes[1][i][j] = conv_nodes[1][0][0]; 
 				}
 			}
 			refreshOutput();
