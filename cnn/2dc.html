@@ -254,7 +254,7 @@
 		function saveOriginalWeights() {
 			// Deep copy the first layer (0th index layer)
 			conv_nodes[0].forEach((matrix, index) => {
-				originalWeights.push(Matrix.create(structuredClone(matrix)));
+				originalWeights1.push(Matrix.create(structuredClone(matrix)));
 			});
 
 			// Deep copy the second layer (1st index layer)
