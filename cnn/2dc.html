@@ -94,9 +94,13 @@
 	    <div class="info cell">Second guess:</div>
 	    <div id="ans2" class="ans cell"></div>
 	  </div>
-	  <button id="toggleWeightsButton">[Conv layer 1] Update Weights and Refresh Output</button>
-	  <button id="toggleWeightsButton2">[Conv layer 2] Update Weights and Refresh Output</button>
-	  <button id="toggleWeightsBUtton3">[Conv layer 1] Change Weights to Random</button>
+	  <button id="layer1SetSame">[Conv layer 1] Set Weights to Same</button>
+	  <button id="layer1Random">[Conv layer 1] Set Weights to Random</button>
+	  <button id="layer1Revert">[Conv layer 1] Revert to Original Weights</button>
+	  <button id="layer2SetSame">[Conv layer 2] Set Weights to Same</button>
+	  <button id="layer2Random">[Conv layer 2] Set Weights to Random</button>
+	  <button id="layer2Revert">[Conv layer 2] Revert to Original Weights</button>
+	  
 
 	</div>
       </div>
@@ -227,7 +231,7 @@
 
 
 			// Global variables
-		var originalWeights = [];
+		var originalWeights1 = [];
 		var weightsUpdated = false;
 		var originalWeights2 = [];
 		var weightsUpdated2 = false;
@@ -238,143 +242,78 @@
 		// initSquarePool(70);
 
 		// Event listener for the "Toggle Weights" button
-		document.getElementById('toggleWeightsButton').addEventListener('click', toggleWeights);
-		document.getElementById('toggleWeightsButton2').addEventListener('click', toggleWeights2);
-		document.getElementById('toggleWeightsBUtton3').addEventListener('click', toggleWeights3);
+		document.getElementById('layer1SetSame').addEventListener('click', () => updateWeightsAndRefreshOutput(1));
+		document.getElementById('layer1Random').addEventListener('click', () => changeWeightsToRandom(1));
+		document.getElementById('layer1Revert').addEventListener('click', () => revertWeights(1));
+		document.getElementById('layer2SetSame').addEventListener('click', () => updateWeightsAndRefreshOutput(2));
+		document.getElementById('layer2Random').addEventListener('click', () => changeWeightsToRandom(2));
+		document.getElementById('layer2Revert').addEventListener('click', () => revertWeights(2));
+
 
 		// Function to save the original weights
 		function saveOriginalWeights() {
-
-
 			// Deep copy the first layer (0th index layer)
 			conv_nodes[0].forEach((matrix, index) => {
-				originalWeights.push(Matrix.create(structuredClone(matrix)));
+				originalWeights1.push(Matrix.create(structuredClone(matrix)));
 			});
 
 			// Deep copy the second layer (1st index layer)
 			conv_nodes[1].forEach((subArray, index) => {
 				originalWeights2.push(subArray.map(matrix => Matrix.create(structuredClone(matrix))));
 			});
-
-			// Log the results (optional)
-			console.log("Original weights saved for first layer: ", originalWeights);
-			console.log("Original weights saved for second layer: ", originalWeights2);
 		}
 
-
-		// Function to toggle weights based on current state
-		function toggleWeights() {
-			if (!weightsUpdated) {
-				// Update button text
-				document.getElementById('toggleWeightsButton').innerText = '[Conv layer 1] Revert to Original Weights';
-				updateWeightsAndRefreshOutput();
-				weightsUpdated = true;
-			} else {
-				// Update button text
-				document.getElementById('toggleWeightsButton').innerText = '[Conv layer 1] Update Weights and Refresh Output';
-				revertWeights();
-				weightsUpdated = false;
-			}
-		}
-
-		//function to toggle weights for the second layer
-		function toggleWeights2() {
-			if (!weightsUpdated2) {
-				// Update button text
-				document.getElementById('toggleWeightsButton2').innerText = '[Conv layer 2] Revert to Original Weights';
-				updateWeightsAndRefreshOutput2();
-				weightsUpdated2 = true;
-			} else {
-				// Update button text
-				document.getElementById('toggleWeightsButton2').innerText = '[Conv layer 2] Update Weights and Refresh Output';
-				revertWeights2();
-				weightsUpdated2 = false;
-			}
-		}
-
-		// function to change weights to random for first layer
-		function toggleWeights3() {
-			if (!weightsUpdated3) {
-				// Update button text
-				document.getElementById('toggleWeightsBUtton3').innerText = '[Conv layer 1] Revert to Original Weights';
-				changeWeightsToRandom();
-				weightsUpdated3 = true;
-			} else {
-				// Update button text
-				document.getElementById('toggleWeightsBUtton3').innerText = '[Conv layer 1] Change Weights to Random';
-				revertWeights3();
-				console.log("Reverting to original weights")
-				weightsUpdated3 = false;
-			}
-		}
-
-		function changeWeightsToRandom() {
-			for (var i = 0; i < conv_nodes[0].length; i++) {
-				var matrix = conv_nodes[0][i];
-				var rows = matrix.rows();
-				var cols = matrix.cols();
-				var newMatrixElements = [];
-
-				for (var row = 0; row < rows; row++) {
-					newMatrixElements.push([]); // Create a new row
-					for (var col = 0; col < cols; col++) {
-						// Generate random number between -1 and 1 and add to the new row
-						newMatrixElements[row].push(Math.random() * 2 - 1);
+		function updateWeightsAndRefreshOutput(layer) {
+			if (layer === 1) {
+				let firstMatrix = conv_nodes[0][0];
+				for (let i = 0; i < conv_nodes[0].length; i++) {
+					conv_nodes[0][i] = firstMatrix;
+				}
+			} else if (layer === 2) {
+				for (let i = 0; i < conv_nodes[1].length; i++) {
+					let firstMatrixOfSubArray = conv_nodes[1][i][0];
+					for (let j = 0; j < conv_nodes[1][i].length; j++) {
+						conv_nodes[1][i][j] = firstMatrixOfSubArray;
 					}
 				}
-
-				// Use Sylvester's Matrix.create to create a new matrix from the nested list
-				conv_nodes[0][i] = Matrix.create(newMatrixElements);
-			}
-
-			refreshOutput(); // Refresh the output to reflect changes
-		}
-
-
-		// Function to update weights and refresh output
-		function updateWeightsAndRefreshOutput() {
-			for (var i = 1; i < conv_nodes[0].length; i++) {
-				conv_nodes[0][i] = conv_nodes[0][0];  // Make all the same as the first
 			}
 			refreshOutput();
 		}
 
-		// Function to revert weights to their original state
-		function revertWeights() {
-			// log length of originalWeights
-			console.log("Length of originalWeights: " + originalWeights.length);
-			for (var i = 0; i < conv_nodes[0].length; i++) {
-				conv_nodes[0][i] = originalWeights[i];  // Restore each layer from backup
-			}
-			refreshOutput();
-		}
 
-		// Function to update weights and refresh output for the second layer
-		function updateWeightsAndRefreshOutput2() {
-			for (var i = 0; i < conv_nodes[1].length; i++) {
-				for (var j = 1; j < conv_nodes[1][i].length; j++) {
-					conv_nodes[1][i][j] = conv_nodes[1][0][0]; 
+
+		function changeWeightsToRandom(layer) {
+			if (layer === 1) {
+        		for (let i = 0; i < conv_nodes[0].length; i++) {
+            		conv_nodes[0][i] = Matrix.create(Array.from({ length: 5 }, () => 
+                		Array.from({ length: 5 }, () => Math.random() * 2 - 1)));
+        		}
+			} else if (layer === 2) {
+				for (let i = 0; i < conv_nodes[1].length; i++) {
+					for (let j = 0; j < conv_nodes[1][i].length; j++) {
+						conv_nodes[1][i][j] = Matrix.create(Array.from({ length: 5 }, () => 
+							Array.from({ length: 5 }, () => Math.random() * 2 - 1)));
+					}
+				}
+			}
+    		refreshOutput();
+		}
+		function revertWeights(layer) {
+			if (layer === 1) {
+				for (let i = 0; i < conv_nodes[0].length; i++) {
+					conv_nodes[0][i] = originalWeights1[i];
+				}
+			} else if (layer === 2) {
+				for (let i = 0; i < conv_nodes[1].length; i++) {
+					for (let j = 0; j < conv_nodes[1][i].length; j++) {
+						conv_nodes[1][i][j] = originalWeights2[i][j];
+					}
 				}
 			}
 			refreshOutput();
 		}
 
-		// Function to revert weights to their original state for the second layer
-		function revertWeights2() {
-			for (var i = 0; i < conv_nodes[1].length; i++) {
-				for (var j = 0; j < conv_nodes[1][i].length; j++) {
-					conv_nodes[1][i][j] = originalWeights2[i][j];  // Restore each filter from backup
-				}
-			}
-			refreshOutput();
-		}
 
-		function revertWeights3() {
-			for (var i = 0; i < conv_nodes[0].length; i++) {
-				conv_nodes[0][i] = originalWeights[i];  // Restore each layer from backup
-			}
-			refreshOutput();
-		}
 
 
 
