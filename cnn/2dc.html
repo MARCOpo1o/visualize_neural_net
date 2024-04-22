@@ -264,50 +264,55 @@
 		}
 
 		function updateWeightsAndRefreshOutput(layer) {
-			const layerIndex = layer - 1; // Convert to zero-based index
-			const originalWeights = (layer === 1) ? originalWeights1 : originalWeights2;
-			const nodes = conv_nodes[layerIndex];
-			
-			for (let i = 0; i < nodes.length; i++) {
-				for (let j = 1; j < nodes[i].length; j++) {
-					nodes[i][j] = nodes[i][0];  // Make all weights the same as the first one
+			if (layer === 1) {
+				let firstMatrix = conv_nodes[0][0];
+				for (let i = 0; i < conv_nodes[0].length; i++) {
+					conv_nodes[0][i] = firstMatrix;
+				}
+			} else if (layer === 2) {
+				for (let i = 0; i < conv_nodes[1].length; i++) {
+					let firstMatrixOfSubArray = conv_nodes[1][i][0];
+					for (let j = 0; j < conv_nodes[1][i].length; j++) {
+						conv_nodes[1][i][j] = firstMatrixOfSubArray;
+					}
 				}
 			}
 			refreshOutput();
 		}
+
 
 
 		function changeWeightsToRandom(layer) {
-			const layerIndex = layer - 1; // Convert to zero-based index
-			const nodes = conv_nodes[layerIndex];
-			
-			for (let i = 0; i < nodes.length; i++) {
-				var matrix = nodes[i];
-				var rows = matrix.rows();
-				var cols = matrix.cols();
-				var newMatrixElements = [];
-				
-				for (var row = 0; row < rows; row++) {
-					newMatrixElements.push([]); // Create a new row
-					for (var col = 0; col < cols; col++) {
-						// Generate random number between -1 and 1
-						newMatrixElements[row].push(Math.random() * 2 - 1);
+			if (layer === 1) {
+        		for (let i = 0; i < conv_nodes[0].length; i++) {
+            		conv_nodes[0][i] = Matrix.create(Array.from({ length: 5 }, () => 
+                		Array.from({ length: 5 }, () => Math.random() * 2 - 1)));
+        		}
+			} else if (layer === 2) {
+				for (let i = 0; i < conv_nodes[1].length; i++) {
+					for (let j = 0; j < conv_nodes[1][i].length; j++) {
+						conv_nodes[1][i][j] = Matrix.create(Array.from({ length: 5 }, () => 
+							Array.from({ length: 5 }, () => Math.random() * 2 - 1)));
 					}
 				}
-				nodes[i] = Matrix.create(newMatrixElements);
 			}
-			refreshOutput();
+    		refreshOutput();
 		}
 		function revertWeights(layer) {
-			const layerIndex = layer - 1; // Convert to zero-based index
-			const originalWeights = (layer === 1) ? originalWeights1 : originalWeights2;
-			const nodes = conv_nodes[layerIndex];
-			
-			for (var i = 0; i < nodes.length; i++) {
-				nodes[i] = originalWeights[i];  // Restore each matrix from backup
+			if (layer === 1) {
+				for (let i = 0; i < conv_nodes[0].length; i++) {
+					conv_nodes[0][i] = originalWeights1[i];
+				}
+			} else if (layer === 2) {
+				for (let i = 0; i < conv_nodes[1].length; i++) {
+					for (let j = 0; j < conv_nodes[1][i].length; j++) {
+						conv_nodes[1][i][j] = originalWeights2[i][j];
+					}
+				}
 			}
 			refreshOutput();
 		}
+
 
 
 
