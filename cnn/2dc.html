@@ -244,17 +244,21 @@
 
 		// Function to save the original weights
 		function saveOriginalWeights() {
-			console.log("Saving original weights");
-			for (var i = 0; i < conv_nodes[0].length; i++) {
-				originalWeights.push(structuredClone(conv_nodes[0][i]));
-			}
-			// Store the original weights for the second layer
-			for (var i = 0; i < conv_nodes[1].length; i++) {
-				originalWeights2.push([]);
-				for (var j = 0; j < conv_nodes[1][i].length; j++) {
-					originalWeights2[i].push(structuredClone(conv_nodes[1][i][j]));
-				}
-			}
+
+
+			// Deep copy the first layer (0th index layer)
+			conv_nodes[0].forEach((matrix, index) => {
+				originalWeights.push(structuredClone(matrix));
+			});
+
+			// Deep copy the second layer (1st index layer)
+			conv_nodes[1].forEach((subArray, index) => {
+				originalWeights2.push(subArray.map(matrix => structuredClone(matrix)));
+			});
+
+			// Log the results (optional)
+			console.log("Original weights saved for first layer: ", originalWeights);
+			console.log("Original weights saved for second layer: ", originalWeights2);
 		}
 
 
@@ -305,17 +309,27 @@
 		}
 
 		function changeWeightsToRandom() {
-			for (var i = 0; i < conv_nodes[0].length; i++) {  // Adjust index to start at 0
+			for (var i = 0; i < conv_nodes[0].length; i++) {
 				var matrix = conv_nodes[0][i];
-				for (var row = 0; row < matrix.rows(); row++) {
-					for (var col = 0; col < matrix.cols(); col++) {
-						// Generate random number between -1 and 1
-						matrix.elements[row][col] = Math.random() * 2 - 1;
+				var rows = matrix.rows();
+				var cols = matrix.cols();
+				var newMatrixElements = [];
+
+				for (var row = 0; row < rows; row++) {
+					newMatrixElements.push([]); // Create a new row
+					for (var col = 0; col < cols; col++) {
+						// Generate random number between -1 and 1 and add to the new row
+						newMatrixElements[row].push(Math.random() * 2 - 1);
 					}
-       			}
-   			}
-			refreshOutput();
+				}
+
+				// Use Sylvester's Matrix.create to create a new matrix from the nested list
+				conv_nodes[0][i] = Matrix.create(newMatrixElements);
+			}
+
+			refreshOutput(); // Refresh the output to reflect changes
 		}
+
 
 		// Function to update weights and refresh output
 		function updateWeightsAndRefreshOutput() {
