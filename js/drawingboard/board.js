@@ -69,6 +69,13 @@ DrawingBoard.Board = function(id, opts) {
 	this.restoreWebStorage();
 	this.initDropEvents();
 	this.initDrawEvents();
+	// Event listener to handle tab visibility changes
+    document.addEventListener('visibilitychange', () => {
+        if (document.visibilityState === 'visible') {
+            this.restoreWebStorage();  // Restore the drawing from storage if needed
+            this.redraw();  // Redraw the canvas content
+        }
+    });
 };
 
 
@@ -92,6 +99,13 @@ DrawingBoard.Board.defaultOpts = {
 
 
 DrawingBoard.Board.prototype = {
+
+	redraw: function() {
+		var img = this.getImg();
+		if (img){
+			this.ctx.putImageData(img, 0, 0);
+		}
+	},
 
 	mergeOptions: function(opts) {
 		opts = $.extend({}, DrawingBoard.Board.defaultOpts, opts);
