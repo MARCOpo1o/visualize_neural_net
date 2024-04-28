@@ -232,15 +232,17 @@ function getNNOutput() {
 					}
 				}				
 				var convOut = outputImage[i][j];
-				// featMapArray_1[f][i][j] = sigma(convOut + conv_biases_1.e(f+1));
-   			    //     allNodeInputs[count] = convOut + conv_biases_1.e(f+1);
-				// allNodeOutputs[count] = sigma(convOut + conv_biases_1.e(f+1));
-				// allNodeOutputsRaw[count] = sigma(convOut + conv_biases_1.e(f+1));
+				featMapArray_1[f][i][j] = sigma(convOut + conv_biases_1.e(f+1));
+   			    allNodeInputs[count] = convOut + conv_biases_1.e(f+1);
+				allNodeOutputs[count] = sigma(convOut + conv_biases_1.e(f+1));
+				allNodeOutputsRaw[count] = sigma(convOut + conv_biases_1.e(f+1));
 				//deleting the biased terms to check the effect of biases
-				featMapArray_1[f][i][j] = sigma(convOut);
-				allNodeInputs[count] = convOut ;
-		 		allNodeOutputs[count] = sigma(convOut);
-		 		allNodeOutputsRaw[count] = sigma(convOut);
+				// featMapArray_1[f][i][j] = sigma(convOut);
+				// allNodeInputs[count] = convOut ;
+		 		// allNodeOutputs[count] = sigma(convOut);
+		 		// allNodeOutputsRaw[count] = sigma(convOut);
+
+
 				allNodeNums[count] = count-nPixels-28*28*f+1;
 				count++;
 			}
