@@ -629,9 +629,14 @@
 				  g = greenLookup[colorNum];
 				  b = blueLookup[colorNum];
 			      } else {
-				  r=0.7; 
-				  g=0.7; 
-				  b=0.7;
+				//   r=0.7; 
+				//   g=0.7; 
+				//   b=0.7;
+				    	//white color
+					r = 1;
+					g = 1;
+					b = 1;
+
 			      }
 			      v = hidden_weights_1a[allNodeNums[ind]-1][allNodeNums[ind_below]-1];
 			      colorNum = math.round(v*99);
