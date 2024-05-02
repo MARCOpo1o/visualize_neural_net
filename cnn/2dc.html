@@ -624,7 +624,7 @@
 			      
 			      if (isComputed){
 				  v = allNodeOutputs[ind_below];
-				  
+
 				  console.log(v);
 				  colorNum = math.round(v*99);
 				  r = redLookup[colorNum];
@@ -679,9 +679,11 @@
 			      gw = greenLookup[colorNum];
 			      bw = blueLookup[colorNum];
 			      
-			      colors[ vertCount ] = new THREE.Color( rw,gw,bw );
+			    //   colors[ vertCount ] = new THREE.Color( rw,gw,bw );
+				colors[ vertCount ] = new THREE.Color( r,g,b );
 			      vertCount++;
-			      colors[ vertCount ] = new THREE.Color( rw,gw,bw );
+			    //   colors[ vertCount ] = new THREE.Color( rw,gw,bw );
+				colors[ vertCount ] = new THREE.Color( r,g,b );
 			      vertCount++;
 			  }
 		      } else if (layerNum[interID]==7) {
