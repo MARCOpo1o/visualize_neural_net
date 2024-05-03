@@ -186,13 +186,13 @@
 
 	  //for the image
 	  document.getElementById('toggleImage').addEventListener('click', function() {
-    var img = document.getElementById('myImage');
-    if (img.style.display === 'none') {
-        img.style.display = 'block';
-    } else {
-        img.style.display = 'none';
-    }
-});
+		var img = document.getElementById('myImage');
+		if (img.style.display === 'none') {
+			img.style.display = 'block';
+		} else {
+			img.style.display = 'none';
+		}
+	});
 
 	  //keep track of all line meshes
 	  var lineMeshes = []; //track all lines
@@ -258,8 +258,6 @@
 		// Event listener for the "Toggle Color Mode" button
 		document.getElementById('toggleColorMode').addEventListener('click', () => {
 			useHiddenWeightsColor = !useHiddenWeightsColor;  // Toggle the color mode
-			updateEdgeColors();  // Update colors based on the new mode
-			refreshOutput();  // Refresh the visualization to reflect changes
 			// Update the button text based on the current mode
 			if (useHiddenWeightsColor) {
 				document.getElementById('toggleColorMode').innerText = 'Show Previous Node Output Colors';
