@@ -94,6 +94,8 @@
 	    <div class="info cell">Second guess:</div>
 	    <div id="ans2" class="ans cell"></div>
 	  </div>
+	  <button id="toggleColorMode">[Fully Connected Layers] Toggle Color Mode</button>
+
 	  <button id="layer1SetSame">[Conv layer 1] Set Weights to Same</button>
 	  <button id="layer1Random">[Conv layer 1] Set Weights to Random</button>
 	  <button id="layer1Revert">[Conv layer 1] Revert to Original Weights</button>
@@ -237,6 +239,10 @@
 		var weightsUpdated2 = false;
 		var weightsUpdated3 = false;
 
+		// for changing fully connected edges
+		let useHiddenWeightsColor = false;  // false means using previous node output colors by default
+
+
 
 		// // Initialize drawSquare function
 		// initSquarePool(70);
@@ -248,6 +254,14 @@
 		document.getElementById('layer2SetSame').addEventListener('click', () => updateWeightsAndRefreshOutput(2));
 		document.getElementById('layer2Random').addEventListener('click', () => changeWeightsToRandom(2));
 		document.getElementById('layer2Revert').addEventListener('click', () => revertWeights(2));
+
+		// Event listener for the "Toggle Color Mode" button
+		document.getElementById('toggleColorMode').addEventListener('click', () => {
+			useHiddenWeightsColor = !useHiddenWeightsColor;  // Toggle the color mode
+			updateEdgeColors();  // Update colors based on the new mode
+			refreshOutput();  // Refresh the visualization to reflect changes
+		});
+
 
 
 		// Function to save the original weights
@@ -626,18 +640,15 @@
 				  v = allNodeOutputs[ind_below];
 
 				//   console.log(v);
+
 				  colorNum = math.round(v*99);
 				  r = redLookup[colorNum];
 				  g = greenLookup[colorNum];
 				  b = blueLookup[colorNum];
 			      } else {
-				//   r=0.7; 
-				//   g=0.7; 
-				//   b=0.7;
-				    	//white color
-					r = 1;
-					g = 1;
-					b = 1;
+					r=0.7; 
+					g=0.7; 
+					b=0.7;
 
 			      }
 			      v = hidden_weights_1a[allNodeNums[ind]-1][allNodeNums[ind_below]-1];
@@ -646,11 +657,15 @@
 			      gw = greenLookup[colorNum];
 			      bw = blueLookup[colorNum];
 			      
-			    //   colors[ vertCount ] = new THREE.Color( rw,gw,bw );
-				colors[ vertCount ] = new THREE.Color( 0,g,b );
-			      vertCount++;
-			    //   colors[ vertCount ] = new THREE.Color( rw,gw,bw );
-				colors[ vertCount ] = new THREE.Color( 0,g,b );
+				if (useHiddenWeightsColor) {
+			      colors[ vertCount ] = new THREE.Color( rw,gw,bw );
+				  vertCount++;
+				  colors[ vertCount ] = new THREE.Color( rw,gw,bw );
+				} else {
+			      colors[ vertCount ] = new THREE.Color( r,g,b );
+				  vertCount++;
+				  colors[ vertCount ] = new THREE.Color( r,g,b );
+				}
 			      vertCount++;
 			  }
 		      } else if (layerNum[interID]==6) {
