@@ -69,6 +69,7 @@ body {
 img#myImage {
     width: 700px; /* Make the image scale to the width of its container */
     height: auto; /* Maintain the aspect ratio */
+    display: none   /* Hide the image by default */
 }
 .drawingOutput {
     display:block;
@@ -93,6 +94,21 @@ img#myImage {
     font-size:24px;
     text-align:left;
     padding: 5px 0;
+    background: linear-gradient(62deg, #8EC5FC 0%, #512DA8 100%); /* Purple gradient background */
+    -webkit-background-clip: text; /* Applies the background styling only to the text (Webkit browsers) */
+    background-clip: text;
+    color: transparent; /* Makes the text color transparent to show the gradient */
+    -webkit-text-fill-color: transparent; /* Specific for Webkit browsers */
+}
+.drawingOutput h3 {
+    font-size: 0.7em; /* Smaller font size for headers */
+    color: #333;
+    margin-bottom: 2.5px; /* Less space below headers */
+    background: linear-gradient(62deg, #8EC5FC 0%, #512DA8 100%); /* Purple gradient background */
+    -webkit-background-clip: text; /* Applies the background styling only to the text (Webkit browsers) */
+    background-clip: text;
+    color: transparent; /* Makes the text color transparent to show the gradient */
+    -webkit-text-fill-color: transparent; /* Specific for Webkit browsers */
 }
 .small_instr {
     font-size:12px;
@@ -332,3 +348,153 @@ a {
     color:#06c;
 }
 
+/* Styles for the NSF logo and project ID */
+#nsf-logo {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    width: 200px; /* Adjust width as needed */
+    z-index: 1000;
+}
+
+#project-id {
+    position: fixed;
+    bottom: 30px;
+    right: 250px; /* Adjust according to the logo width */
+    color: #333; /* Adjust text color as needed */
+    font-size: 14px; /* Adjust font size as needed */
+    z-index: 1000;
+}
+.weight-controls {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 5px;
+}
+button {
+    background-color: #f0f0f0;
+    border: 0.5px solid #ccc;
+    padding: 3px 6px; /* Smaller padding to reduce button size */
+    border-radius: 4px;
+    cursor: pointer;
+    margin-right: 5px; /* Smaller margin between buttons */
+    white-space: normal; /* Allow line breaks */
+    text-align: center; /* Center the text */
+    flex-grow: 1; /* Ensure buttons fill the space evenly */
+    font-size: 0.8em; /* Smaller text size within buttons */
+}
+button:last-child {
+    margin-right: 0; /* No margin on the right for the last button */
+}
+button:hover {
+    background-color: #e9e9e9;
+}
+/* Button Style */
+.btn {
+    background: #111;
+    color: #fff;
+    margin: 0.75em; /* Adjusted from 1em to 0.75em */
+    border: none;
+    transition: all 1s;
+    padding: 0.75em 0em 0.75em 2.25em; /* Scaled padding */
+    font-weight: 600;
+    font-size: 1.125em; /* Scaled font size from 1.5em to 1.125em */
+    letter-spacing: 0.0375em; /* Scaled letter spacing */
+    border-radius: 1.5em; /* Scaled border radius */
+    cursor: pointer;
+    position: relative;
+    display: inline-block;
+    height: 0.75em; /* Scaled height */
+    width: 0;
+    max-width: 0;
+}
+
+.btn i {
+    position: absolute;
+    left: 0.5em; /* Scaled position */
+    top: 0.5em; /* Scaled position */
+}
+
+.btn i.fa {
+    font-size: 0.75em; /* Scaled font size for icons */
+}
+
+.btn .text {
+    display: inline-block;
+    opacity: 0;
+    transition: all 0.3s;
+    transition-delay: 0s;
+    min-width: 75px; /* Scaled min-width */
+    transform: translateX(0.375em); /* Scaled translate X */
+}
+
+.btn.expand, .expand-on-hover:hover {
+    padding: 0.75em 0em 0.75em 2.25em; /* Consistently scaled padding */
+    max-width: 7.5em; /* Scaled max-width from 10em */
+    width: auto;
+}
+
+.btn.expand .text, .expand-on-hover:hover .text {
+    opacity: 1;
+    transition-delay: 0.3s;
+    min-width: inherit;
+    transform: translateX(0);
+}
+
+.btn-group {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 10px; /* Spacing between groups of buttons */
+}
+
+  
+  /* colors https://www.grabient.com/ */
+  
+  .pink {
+    background-color: #FAACA8;
+    background-image: linear-gradient(19deg, #FAACA8 0%, #DDD6F3 100%);
+  }
+  
+  .purple {
+    background-color: #8EC5FC;
+    background-image: linear-gradient(62deg, #8EC5FC 0%, #E0C3FC 100%);
+  }
+  
+  .red {
+    background-color: #FFE53B;
+    background-image: linear-gradient(147deg, #FFE53B 0%, #FF2525 74%);
+  }
+  
+  /* icons */
+.plus {
+    height: 1.25em;
+    width: 1.25em;
+    border: 2px solid #fff;
+    display: inline-block;
+    border-radius: 2em;
+    
+
+  &::before, &::after {
+    content: '';
+    position: absolute;
+    height: 2px;
+    width: 60%;
+    top: 50%;
+    left: 20%;
+    margin-top: -1px;
+    background: #fff;
+  }
+  &::before {
+   transform:rotate(0deg);
+  }
+  &::after {
+   transform:rotate(90deg);
+  }
+}
+}
+
+.plus.close {
+    transform: scale(0.875) rotate(45deg); /* Adjusted scale */
+    left: 0.4em; /* Adjusted left position */
+    top: 0.45em; /* Adjusted top position */
+}
+  
