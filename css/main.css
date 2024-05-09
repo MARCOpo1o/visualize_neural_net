@@ -39,12 +39,13 @@ body {
     -ms-transition: opacity 0.5s ease;
     -o-transition: opacity 0.5s ease;
     transition: opacity 0.5s ease;
+    display: flex;
 }
 #canvasContainer:hover {
     opacity:1;
-    background-color: #e6e6e6; /* A shade darker on hover to add interaction feedback */
+    background-color: #00000017; /* A shade darker on hover to add interaction feedback */
 }
-#canvasContainerRight {
+#canvasContainerRight { 
     z-index: 50;
     opacity: 0.5;
     width:auto;
@@ -73,6 +74,8 @@ img#myImage {
 }
 .drawingOutput {
     display:block;
+    width: 100%;  /* Ensure it fills the parent container */
+
 }
 .board {
     width: 282px;
@@ -89,6 +92,8 @@ img#myImage {
     float:right;
     
 }
+
+
 .instructions {
     color: #666666; /* Medium gray for readability and subtlety */
     font-size:24px;
@@ -101,7 +106,7 @@ img#myImage {
     -webkit-text-fill-color: transparent; /* Specific for Webkit browsers */
 }
 .drawingOutput h3 {
-    font-size: 0.7em; /* Smaller font size for headers */
+    font-size: 1em; /* Smaller font size for headers */
     color: #333;
     margin-bottom: 2.5px; /* Less space below headers */
     background: linear-gradient(62deg, #8EC5FC 0%, #512DA8 100%); /* Purple gradient background */
@@ -134,6 +139,18 @@ img#myImage {
     float:right;
     text-align:center;
 }
+.ans1 {
+    flex: 1;
+    font-size: 24px;
+    color: #fff;
+    margin: 0 auto;
+    background-color:#000;
+    width: 28px;
+    height: 28px;
+    border: solid thin #ccc;
+    float:right;
+    text-align: center;
+  }
 #infobox {
     width:300px;
     position:absolute;
@@ -226,6 +243,13 @@ img#myImage {
 }
 .row {
     display: table-row;
+}
+.row1 {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;  /* Fit to parent width */
+    font-size: 0.7em; /* Smaller text if needed */
+    padding: 0; /* Reducing padding may help */
 }
 .cell {
     display: table-cell;
@@ -368,19 +392,19 @@ a {
 .weight-controls {
     display: flex;
     justify-content: space-between;
-    margin-bottom: 5px;
+    margin-bottom: 10px;
 }
 button {
     background-color: #f0f0f0;
     border: 0.5px solid #ccc;
-    padding: 3px 6px; /* Smaller padding to reduce button size */
+    padding: 6px 12px; /* Smaller padding to reduce button size */
     border-radius: 4px;
     cursor: pointer;
-    margin-right: 5px; /* Smaller margin between buttons */
+    margin-right: 10px; /* Smaller margin between buttons */
     white-space: normal; /* Allow line breaks */
     text-align: center; /* Center the text */
     flex-grow: 1; /* Ensure buttons fill the space evenly */
-    font-size: 0.8em; /* Smaller text size within buttons */
+    font-size: 1em; /* Smaller text size within buttons */
 }
 button:last-child {
     margin-right: 0; /* No margin on the right for the last button */
@@ -410,12 +434,12 @@ button:hover {
 
 .btn i {
     position: absolute;
-    left: 0.5em; /* Scaled position */
-    top: 0.5em; /* Scaled position */
+    left: 0.44em; /* Scaled position */
+    top: 0.45em; /* Scaled position */
 }
 
 .btn i.fa {
-    font-size: 0.75em; /* Scaled font size for icons */
+    font-size: 0.5em; /* Scaled font size for icons */
 }
 
 .btn .text {
@@ -424,12 +448,12 @@ button:hover {
     transition: all 0.3s;
     transition-delay: 0s;
     min-width: 75px; /* Scaled min-width */
-    transform: translateX(0.375em); /* Scaled translate X */
+    transform: translateX(0.5em); /* Scaled translate X */
 }
 
 .btn.expand, .expand-on-hover:hover {
     padding: 0.75em 0em 0.75em 2.25em; /* Consistently scaled padding */
-    max-width: 7.5em; /* Scaled max-width from 10em */
+    max-width: 10em; /* Scaled max-width from 10em */
     width: auto;
 }
 
@@ -490,7 +514,6 @@ button:hover {
    transform:rotate(90deg);
   }
 }
-}
 
 .plus.close {
     transform: scale(0.875) rotate(45deg); /* Adjusted scale */
@@ -498,3 +521,24 @@ button:hover {
     top: 0.45em; /* Adjusted top position */
 }
   
+.col {
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    align-items: center; /* Center items if needed */
+  }
+  
+  .left {
+    text-align: left;
+  }
+  
+  .right {
+    text-align: right;  
+  }
+  
+  .info1 {
+    text-align: center; /* Centering text */
+    margin-bottom: 5px;
+    font-size:18px;
+    /* color: #666666; */
+  }
