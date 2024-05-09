@@ -80,44 +80,61 @@
 	<div class="instructions">Draw a one-digit number</div>
 	<div class="board" id="custom-board"></div>
 	<div class="drawingOutput">
-	  <div class="row">
-	    <div class="info">Your number:</div>
-	    <div class="tinyBoard">				
-	      <canvas id="tiny"></canvas>
-	    </div>
-	  </div>
-	  <div class="row">				
-	    <div class="info cell">First guess:</div>
-	    <div id="ans1" class="ans cell"></div>
-	  </div>
-	  <div class="row cell">					
-	    <div class="info cell">Second guess:</div>
-	    <div id="ans2" class="ans cell"></div>
-	  </div>
-	  <button id="toggleColorMode">[Fully Connected Layers] Show Hidden Weights Colors</button>
-
-	  <button id="layer1SetSame">[Conv layer 1] Set Weights to Same</button>
-	  <button id="layer1Random">[Conv layer 1] Set Weights to Random</button>
-	  <button id="layer1Revert">[Conv layer 1] Revert to Original Weights</button>
-	  <button id="layer2SetSame">[Conv layer 2] Set Weights to Same</button>
-	  <button id="layer2Random">[Conv layer 2] Set Weights to Random</button>
-	  <button id="layer2Revert">[Conv layer 2] Revert to Original Weights</button>
+	  <div class="row1">
+		<div class="col left">
+		  <div class="info1">Your Number:</div>
+		  <div class="tinyBoard">
+			<canvas id="tiny"></canvas>
+		  </div>
+		</div>
+		
+		<div class="col middle purple">
+		  <div class="info1">First <br> guess:</div>
+		  <div id="ans1" class="ans"></div>
+		</div>
 	  
+		<div class="col right">  
+		  <div class="info1">Second guess:</div>
+		  <div id="ans2" class="ans"></div>
+		</div>
+	  </div>
+	  
+	  
+	<h3>Fully Connected Layers</h3>
+	  <button id="toggleColorMode">Show Hidden Weights Colors</button>
+
+	  <h3>Conv Layer 1</h3>
+	  <div class="weight-controls">
+		  <button id="layer1SetSame">Identical Weight</button>
+		  <button id="layer1Random">Random Weight</button>
+		  <button id="layer1Revert">Original</button>
+	  </div>
+
+	 <h3>Conv Layer 2</h3>
+	  <div class="weight-controls">
+		  <button id="layer2SetSame">Identical Weight</button>
+		  <button id="layer2Random">Random Weight</button>
+		  <button id="layer2Revert">Original</button>
+	  </div>
 
 	</div>
       </div>
     </div>
 
 
-    <div id="canvasContainerRight">
-      <div id="filterInterface">
-	<div class="instructions">Overall Network Structure</div>
-	<button id="toggleImage">Hide/Show Image</button>
-	</div>	
-	<img id="myImage" src="../images/cnn_2dc.png">	
-      </div>
-	  
-    </div>
+	<div id="canvasContainerRight">
+		<div id="filterInterface">
+			<div class="instructions">Overall Network Structure</div>
+			<div class="btn expand-on-hover purple" id="toggleImage">
+				<i class="plus"></i>
+				<span class="text">Show</span>
+			</div>
+		</div>
+		<img id="myImage" src="../images/cnn_2dc.png">
+	</div>
+
+	<img src="../images/nsf_logo.svg" id="nsf-logo" alt="NSF Logo">
+    <div id="project-id">Project ID: NSF DRL-2314156</div>
     
     <script>
 
@@ -184,15 +201,20 @@
       var inputCtx = inputCanvas.getContext("2d");
       var filterCtx = filterCanvas.getContext("2d");
 
-	  //for the image
-	  document.getElementById('toggleImage').addEventListener('click', function() {
+	document.getElementById('toggleImage').addEventListener('click', function() {
 		var img = document.getElementById('myImage');
-		if (img.style.display === 'none') {
+		var buttonText = document.querySelector('#toggleImage .text'); // Correctly defining the variable to select the text element within the button
+
+		if (img.style.display === 'none' || img.style.display === '') {
 			img.style.display = 'block';
+			buttonText.textContent = 'Hide'; // Change button text to "Hide"
 		} else {
 			img.style.display = 'none';
+			buttonText.textContent = 'Show'; // Change button text to "Show"
 		}
 	});
+
+
 
 	  //keep track of all line meshes
 	  var lineMeshes = []; //track all lines
@@ -220,8 +242,9 @@
 	  color: "#fff",
 	  size: 30,
 	  controls: [
-	      { Navigation: { back: false, forward: false } },
-	      { DrawingMode: { filler: false } }
+		{ DrawingMode: { filler: false } },
+	      { Navigation: { back: false, forward: false } }
+	      
 	  ],
 	  controlsPosition: "bottom right",
 	  webStorage: 'session',
@@ -260,9 +283,9 @@
 			useHiddenWeightsColor = !useHiddenWeightsColor;  // Toggle the color mode
 			// Update the button text based on the current mode
 			if (useHiddenWeightsColor) {
-				document.getElementById('toggleColorMode').innerText = '[Fully Connected Layers] Show Previous Node Output Colors';
+				document.getElementById('toggleColorMode').innerText = 'Show Node Output Colors';
 			} else {
-				document.getElementById('toggleColorMode').innerText = '[Fully Connected Layers] Show Hidden Weights Colors';
+				document.getElementById('toggleColorMode').innerText = 'Show Hidden Weights Colors';
 			}
 		});
 

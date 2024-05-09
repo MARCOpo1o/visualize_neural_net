@@ -53,10 +53,24 @@
 .drawing-board-control-drawingmode > button { margin-right: 2px; }
 .drawing-board-control-drawingmode > button:last-child { margin-right: 0; }
 
-.drawing-board-control-drawingmode-pencil-button { overflow: hidden; *text-indent: -9999px; background-image: url('../images/pencil64.png'); background-position: 50% 50%; background-repeat: no-repeat; }
+.drawing-board-control-drawingmode-pencil-button { 
+    overflow: hidden; 
+    *text-indent: -9999px; 
+    background-image: url('../images/pencilNew.png'); 
+    background-position: center; 
+    background-repeat: no-repeat; 
+    background-size: contain;
+}
 .drawing-board-control-drawingmode-pencil-button:before { content: ""; display: block; width: 0; height: 100%; }
 
-.drawing-board-control-drawingmode-eraser-button { overflow: hidden; *text-indent: -9999px; background-image: url('../images/eraser64.png'); background-position: 50% 50%; background-repeat: no-repeat; }
+.drawing-board-control-drawingmode-eraser-button { 
+    overflow: hidden; 
+    *text-indent: -9999px; 
+    background-image: url('../images/eraserNew.png'); 
+    background-position: center; 
+    background-repeat: no-repeat;
+    background-size: contain; 
+}
 
 .drawing-board-control-drawingmode-eraser-button:before { content: ""; display: block; width: 0; height: 100%; }
 
@@ -85,4 +99,11 @@
 
 .drawing-board-control-download-button { overflow: hidden; *text-indent: -9999px; background-image: url('../images/play.png'); background-position: 50% 50%; background-repeat: no-repeat; }
 .drawing-board-control-download-button:before { content: ""; display: block; width: 0; height: 100%; }
-.drawing-board-control-navigation-reset{overflow: hidden; *text-indent: -9999px; background-image: url('../images/clear64.png'); background-position: 50% 50%; background-repeat: no-repeat; }
+.drawing-board-control-navigation-reset{
+    overflow: hidden; 
+    *text-indent: -9999px; 
+    background-image: url('../images/clearNew.png'); 
+    background-position: center; 
+    background-repeat: no-repeat; 
+    background-size: contain;
+}
