@@ -1,20 +1,50 @@
-# An Interactive Node-Link Visualization of Convolutional Neural Networks (with all connection shown)
-![alt text](images/2dc.png)
+# An Interactive Node-Link Visualization of Convolutional Neural Networks
+![Visualization](images/2dc_.png)
 
 ## Introduction
-This is a project to showcase what each layer of neuron is highlighting. This project is aimed to display deeper feature map layers' effect on the output.
+This project showcases what each layer of neurons is highlighting in a convolutional neural network (CNN). The aim is to display the effects of deeper feature map layers on the output.
 
 ## Motivation
-This project is sponsored by National Science Foundation (NSF) and the goal is to provide underprivileged high school students with AI education. Through understanding of how neural network works, students can spark their interest in Math and Computer Science. 
+Sponsored by the National Science Foundation (NSF), this project is part of a 3-year initiative to bring AI education to underrepresented high schools in Tennessee. By helping students understand how neural networks work, we hope to spark their interest in math and computer science.
 
-## How to use
-Go to the [live demo](https://marcopo1o.github.io/visualize_neural_net/) and draw a digit on the canvas. The network will then show you the activation of each layer of neuron. 
+## How to Use
+Visit the [live demo](https://marcopo1o.github.io/visualize_neural_net/) and draw a digit on the canvas. The network will then show you the activation of each layer of neurons.
 
-1. 2d visualization of a convolutional network with all edges connected:
+## Features and Updates
+### 1. **Full Layer Connections:** 
+Hovering over a node shows connections from that node back to the input layer, displaying the full path through the network, providing a clearer understanding of how features are propagated through the network.
+![Full Layer Connections](images/connections.png)
+### 2. **Randomize Weights:** 
+Added buttons to randomize weights in the two convolution layers. This allows users to explore the effect of pre-trained weights on outputs. Users can also make all weights identical and revert changes. This is applied to both convolution layers. The following example is for the first convolution layer.
+![weight_buttons](images/weight_change.png)
 
-   <a href="https://marcopo1o.github.io/visualize_neural_net/cnn/2dc.html" rel="cnn_2d">![Alt text](images/2dc_im.png)</a>
+#### Original Weights
+![Original Weights](images/layer_1_original.png)
 
+#### Identical Weights
+![Identical Weights](images/layer_1_same.png)
 
-## Citation:
-  
-    `A. W. Harley, "An Interactive Node-Link Visualization of Convolutional Neural Networks," in ISVC, pages 867-877, 2015`
+#### Randomized Weights
+![Randomize Weights](images/layer_1_random.png)
+
+### 3. **Enhanced Output Layer:** 
+Enlarged and labeled the output layer for better visibility.
+![output](images/output.png)
+
+### 4. **Fully Connected Layers:** 
+Edges can switch between displaying hidden weights and the output from the previous layer.
+![button show weight](images/button_hidden.png)
+![fully connected layer showing hidden weights](images/fcl_hidden.png)
+![button show node output](images/button_pre.png)
+![fully connected layer showing node output](images/fcl_pre.png)
+
+### 5. **Overall Network Structure:** 
+Added an option to show an image of the entire CNN network structure used in this visualization.
+![network structure](images/structure.png)
+
+## Acknowledgments
+This project builds on code by Adam Harley. I would like to thank Professor Pengyu Hong from Brandeis University for his continuous mentorship and guidance, Zhengyang Zhou (PhD candidate at Brandeis University), and other members of Professor Hong's group for their help in testing the website. Special thanks to Kanh (Andrew) Nguyen for introducing me to this opportunity.
+
+## Citation
+A. W. Harley, "An Interactive Node-Link Visualization of Convolutional Neural Networks," in ISVC, pages 867-877, 2015
+
