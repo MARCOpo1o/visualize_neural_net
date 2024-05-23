@@ -2,10 +2,10 @@
 ![Visualization](images/2dc_.png)
 
 ## Introduction
-This project showcases what each layer of neurons is highlighting in a convolutional neural network (CNN). The aim is to display the effects of deeper feature map layers on the output.
+Project ID: `NSF DRL-2314156` This project showcases what each layer of neurons is highlighting in a convolutional neural network (CNN). The aim is to display the effects of deeper feature map layers on the output.
 
 ## Motivation
-Sponsored by the National Science Foundation (NSF), this project is part of a 3-year initiative to bring AI education to underrepresented high schools in Tennessee. By helping students understand how neural networks work, we hope to spark their interest in math and computer science.
+Sponsored by the National Science Foundation (NSF), this project is part of a 3-year initiative to bring AI education to underrepresented high schools in Tennessee. The project is done by Professor Pengyu Hong (Brandeis University) and his research group. We hope to use this visualization tool to spark interests in coding and linear algebra within those students. I work on the visualization of Convolutional Neural Network and will be used for teaching. 
 
 ## How to Use
 Visit the [live demo](https://marcopo1o.github.io/visualize_neural_net/) and draw a digit on the canvas. The network will then show you the activation of each layer of neurons.
